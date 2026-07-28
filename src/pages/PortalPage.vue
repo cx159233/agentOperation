@@ -15,12 +15,9 @@
       <div class="relative max-w-[1280px] mx-auto px-[40px] pt-[120px] pb-[72px]">
         <div class="grid grid-cols-12 gap-[48px] items-center">
           <div class="col-span-7">
-            <div class="inline-flex items-center gap-[8px] px-[12px] py-[5px] rounded-full bg-white/[0.06] border border-white/[0.10] text-[12px] font-medium mb-[28px]">
-              <span class="w-[6px] h-[6px] rounded-full bg-[#3B82F6] animate-pulse" />
-              江苏省医保局统筹建设 · 三类角色协同
-            </div>
             <h1 class="text-[56px] font-bold leading-[1.1] tracking-[-0.8px]">
-              <span class="block" style="background: linear-gradient(90deg, #FFFFFF 0%, #B4D0FF 50%, #06B6D4 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">江苏医保 AI 服务管理平台</span>
+              <span class="block" style="background: linear-gradient(90deg, #FFFFFF 0%, #B4D0FF 50%, #06B6D4 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">江苏医保</span>
+              <span class="block" style="background: linear-gradient(90deg, #FFFFFF 0%, #B4D0FF 50%, #06B6D4 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">AI 服务管理平台</span>
             </h1>
             <p class="mt-[24px] text-[16px] text-white/65 leading-[1.85] max-w-[580px]">
               统一管理医疗机构、AI开发者、运营管理三方协同，覆盖模型、智能体、数据资源、知识资源、平台工具的全生命周期管理与计量计费。
@@ -114,7 +111,8 @@
           <div
             v-for="(cat, idx) in serviceCategories"
             :key="cat.id"
-            class="group relative bg-white border border-border-soft rounded-[12px] p-[24px] block overflow-hidden transition-all duration-300 hover:border-transparent hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1"
+            class="group relative bg-white border border-border-soft rounded-[12px] p-[24px] block overflow-hidden transition-all duration-300 hover:border-transparent hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 cursor-pointer"
+            @click="goToPlaza(`/org-workbench/model-plaza?category=${encodeURIComponent(cat.id)}`)"
           >
             <!-- 悬浮背景渐变 -->
             <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" :style="{ background: `linear-gradient(135deg, ${cat.color}08 0%, transparent 100%)` }" />
@@ -147,7 +145,7 @@
           </div>
         </div>
         <div class="grid grid-cols-4 gap-[16px]">
-          <ServiceCard v-for="item in featuredServices" :key="item.id" :item="item" />
+          <ServiceCard v-for="item in featuredServices" :key="item.id" :item="item" @click="goToPlaza(`/org-workbench/model-plaza/${item.id}`)" />
         </div>
       </div>
     </section>
@@ -207,6 +205,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { message } from 'ant-design-vue';
 import {
   RobotOutlined, AppstoreOutlined, SafetyCertificateOutlined, CalculatorOutlined,
   BarChartOutlined, AuditOutlined, MedicineBoxOutlined, ScanOutlined,
@@ -214,8 +214,12 @@ import {
   WalletOutlined, InfoCircleOutlined, ArrowRightOutlined,
 } from '@ant-design/icons-vue';
 import { capabilityGroups, serviceCategories } from '../data';
+import { useAuthStore } from '../stores/auth';
 import type { ServiceCategory } from '../types';
 import ServiceCard from '../components/capability/ServiceCard.vue';
+
+const router = useRouter();
+const auth = useAuthStore();
 
 const heroStats = [
   { label: '上架 AI 服务', value: '256+' },
@@ -259,4 +263,16 @@ const useCases = [
   { title: '智能导诊', desc: '基于症状的智能导诊与健康助手，引导患者合理就医。', icon: BulbOutlined, tags: ['导诊', '健康助手'], iconBg: '#FEF3E7', iconColor: '#F59E0B' },
   { title: '健康筛查', desc: '面向体检中心与基层医疗的多病种一扫多查与慢病管理。', icon: ThunderboltOutlined, tags: ['多病种', '慢病'], iconBg: '#FEE7EB', iconColor: '#EF4444' },
 ];
+
+function goToPlaza(target: string) {
+  if (!auth.isAuthenticated) {
+    router.push({ path: '/login', query: { redirect: target } });
+    return;
+  }
+  if (auth.role !== 'org') {
+    message.warning('仅支持机构用户查看详情');
+    return;
+  }
+  router.push(target);
+}
 </script>

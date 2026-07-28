@@ -127,6 +127,14 @@ watch(
   },
 );
 
+watch(
+  () => route.query.category,
+  (cat) => {
+    if (cat) selected.value['能力分类'] = cat as string;
+  },
+  { immediate: true },
+);
+
 function isActive(label: string, opt: string): boolean {
   return selected.value[label] === opt;
 }
