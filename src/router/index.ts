@@ -3,7 +3,7 @@ import { useAuthStore, roleHomePath } from '../stores/auth';
 import type { AuthRole } from '../types';
 
 const router = createRouter({
-  history: createWebHashHistory('/agentOperation/'),
+  history: createWebHashHistory('/'),
   routes: [
     { path: '/', redirect: '/portal' },
 
