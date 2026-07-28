@@ -25,13 +25,6 @@
             <p class="mt-[24px] text-[16px] text-white/65 leading-[1.85] max-w-[580px]">
               统一管理医疗机构、AI开发者、运营管理三方协同，覆盖模型、智能体、数据资源、知识资源、平台工具的全生命周期管理与计量计费。
             </p>
-            <div class="mt-[36px] flex gap-[12px]">
-              <router-link to="/service-hall">
-                <a-button size="large" class="!h-[48px] !w-[148px] !bg-[#165DFF] !border-[#165DFF] !text-white !font-semibold hover:!bg-[#4080FF] !shadow-lg !shadow-[#165DFF]/30">
-                  进入服务市场
-                </a-button>
-              </router-link>
-            </div>
 
             <!-- Hero 底部数据条 -->
             <div class="mt-[56px] grid grid-cols-3 gap-[32px] max-w-[560px] pt-[32px] border-t border-white/[0.08]">
@@ -116,15 +109,11 @@
             <h2 class="text-[36px] font-bold text-text-primary tracking-[-0.4px] leading-[1.2]">五类 AI 能力分类</h2>
             <p class="text-[14px] text-text-secondary mt-[10px]">按开发主体与风险属性分类管理，实施差异化准入与计量策略</p>
           </div>
-          <router-link to="/service-hall" class="text-[13px] text-primary font-medium hover:opacity-80 flex items-center gap-[4px]">
-            查看全部服务 <ArrowRightOutlined class="text-[11px]" />
-          </router-link>
         </div>
         <div class="grid grid-cols-5 gap-[16px]">
-          <router-link
+          <div
             v-for="(cat, idx) in serviceCategories"
             :key="cat.id"
-            :to="{ path: '/service-hall', query: { category: cat.id } }"
             class="group relative bg-white border border-border-soft rounded-[12px] p-[24px] block overflow-hidden transition-all duration-300 hover:border-transparent hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1"
           >
             <!-- 悬浮背景渐变 -->
@@ -142,7 +131,7 @@
                 查看服务 <ArrowRightOutlined class="text-[10px]" />
               </div>
             </div>
-          </router-link>
+          </div>
         </div>
       </div>
     </section>
@@ -156,12 +145,9 @@
             <h2 class="text-[36px] font-bold text-text-primary tracking-[-0.4px] leading-[1.2]">精选 AI 服务</h2>
             <p class="text-[14px] text-text-secondary mt-[10px]">平台热门 AI 模型与智能体，已通过合规审核并稳定运行</p>
           </div>
-          <router-link to="/service-hall" class="text-[13px] text-primary font-medium hover:opacity-80 flex items-center gap-[4px]">
-            查看全部 <ArrowRightOutlined class="text-[11px]" />
-          </router-link>
         </div>
         <div class="grid grid-cols-4 gap-[16px]">
-          <ServiceCard v-for="item in featuredServices" :key="item.id" :item="item" @click="goDetail(item.id)" />
+          <ServiceCard v-for="item in featuredServices" :key="item.id" :item="item" />
         </div>
       </div>
     </section>
@@ -221,7 +207,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
 import {
   RobotOutlined, AppstoreOutlined, SafetyCertificateOutlined, CalculatorOutlined,
   BarChartOutlined, AuditOutlined, MedicineBoxOutlined, ScanOutlined,
@@ -231,8 +216,6 @@ import {
 import { capabilityGroups, serviceCategories } from '../data';
 import type { ServiceCategory } from '../types';
 import ServiceCard from '../components/capability/ServiceCard.vue';
-
-const router = useRouter();
 
 const heroStats = [
   { label: '上架 AI 服务', value: '256+' },
@@ -276,8 +259,4 @@ const useCases = [
   { title: '智能导诊', desc: '基于症状的智能导诊与健康助手，引导患者合理就医。', icon: BulbOutlined, tags: ['导诊', '健康助手'], iconBg: '#FEF3E7', iconColor: '#F59E0B' },
   { title: '健康筛查', desc: '面向体检中心与基层医疗的多病种一扫多查与慢病管理。', icon: ThunderboltOutlined, tags: ['多病种', '慢病'], iconBg: '#FEE7EB', iconColor: '#EF4444' },
 ];
-
-function goDetail(id: string) {
-  router.push(`/service-hall/${id}`);
-}
 </script>

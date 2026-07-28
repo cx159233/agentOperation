@@ -38,6 +38,7 @@ export const roleSidebarMenus: Record<AuthRole, RoleSidebarMenu[]> = {
       path: '/org-workbench/subscriptions',
       icon: 'service',
       children: [
+        { label: '模型广场', path: '/org-workbench/model-plaza', icon: 'service' },
         { label: '服务订阅', path: '/org-workbench/subscriptions', icon: 'table' },
         { label: '配额管理', path: '/org-workbench/quota', icon: 'setting' },
       ],

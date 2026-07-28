@@ -26,20 +26,6 @@
 
     <!-- 右侧用户区 -->
     <div class="ml-auto flex items-center gap-[12px]">
-      <!-- 搜索框 -->
-      <div class="w-[280px]">
-        <div class="relative">
-          <SearchOutlined class="absolute left-[10px] top-1/2 -translate-y-1/2 text-[13px] text-text-tertiary pointer-events-none" />
-          <input
-            v-model="searchKeyword"
-            type="text"
-            placeholder="搜索 AI 服务、能力、场景..."
-            class="w-full h-[32px] pl-[30px] pr-[12px] rounded-[6px] bg-bg text-text-primary placeholder-text-tertiary text-[12px] outline-none border border-transparent transition focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary-50"
-            @keyup.enter="onSearch"
-          />
-        </div>
-      </div>
-
       <template v-if="auth.isAuthenticated">
         <a-dropdown>
           <div class="flex items-center gap-[8px] cursor-pointer px-[10px] py-[5px] rounded-[6px] hover:bg-bg-soft">
@@ -68,31 +54,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { RobotOutlined, SearchOutlined, DownOutlined } from '@ant-design/icons-vue';
+import { RobotOutlined, DownOutlined } from '@ant-design/icons-vue';
 import { useAuthStore, roleHomePath } from '../../stores/auth';
 
 const route = useRoute();
 const router = useRouter();
 const auth = useAuthStore();
 
-const searchKeyword = ref('');
-
 const navItems = [
   { label: '门户首页', path: '/portal' },
-  { label: 'AI服务市场', path: '/service-hall' },
 ];
 
 function isActive(path: string) {
   if (path === '/portal') return route.path === '/portal';
-  if (path === '/service-hall') return route.path.startsWith('/service-hall');
   return false;
-}
-
-function onSearch() {
-  if (!searchKeyword.value.trim()) return;
-  router.push({ path: '/service-hall', query: { keyword: searchKeyword.value.trim() } });
 }
 
 function goWorkspace() {

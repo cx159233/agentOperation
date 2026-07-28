@@ -2,9 +2,9 @@
   <div class="p-[20px]">
     <!-- 顶部返回条 -->
     <div class="mb-[14px]">
-      <router-link to="/service-hall" class="inline-flex items-center gap-[6px] text-[13px] font-semibold text-primary hover:opacity-80">
+      <router-link to="/org-workbench/model-plaza" class="inline-flex items-center gap-[6px] text-[13px] font-semibold text-primary hover:opacity-80">
         <ArrowLeftOutlined class="text-[14px]" />
-        <span>返回 AI 服务市场</span>
+        <span>返回模型广场</span>
       </router-link>
     </div>
 
@@ -191,7 +191,7 @@
       <a-tabs>
         <a-tab-pane key="category" :tab="`同类（${service.category}）`">
           <div class="grid grid-cols-3 gap-[10px]">
-            <router-link v-for="rel in relatedByCategory" :key="rel.id" :to="`/service-hall/${rel.id}`" class="block rounded-[8px] border border-border-soft p-[10px] hover:border-primary hover:shadow-card transition">
+            <router-link v-for="rel in relatedByCategory" :key="rel.id" :to="`/org-workbench/model-plaza/${rel.id}`" class="block rounded-[8px] border border-border-soft p-[10px] hover:border-primary hover:shadow-card transition">
               <div class="text-[12px] font-semibold text-text-primary">{{ rel.title }}</div>
               <div class="text-[11px] text-text-tertiary mt-[2px]">{{ rel.unit }}</div>
               <div class="mt-[4px] flex items-center gap-[4px]">
@@ -203,7 +203,7 @@
         </a-tab-pane>
         <a-tab-pane key="scene" :tab="`同场景`">
           <div class="grid grid-cols-3 gap-[10px]">
-            <router-link v-for="rel in relatedByScene" :key="rel.id" :to="`/service-hall/${rel.id}`" class="block rounded-[8px] border border-border-soft p-[10px] hover:border-primary hover:shadow-card transition">
+            <router-link v-for="rel in relatedByScene" :key="rel.id" :to="`/org-workbench/model-plaza/${rel.id}`" class="block rounded-[8px] border border-border-soft p-[10px] hover:border-primary hover:shadow-card transition">
               <div class="text-[12px] font-semibold text-text-primary">{{ rel.title }}</div>
               <div class="text-[11px] text-text-tertiary mt-[2px]">{{ rel.unit }}</div>
               <div class="mt-[4px] flex items-center gap-[4px]">
@@ -215,7 +215,7 @@
         </a-tab-pane>
         <a-tab-pane key="developer" :tab="`同开发者`">
           <div class="grid grid-cols-3 gap-[10px]">
-            <router-link v-for="rel in relatedByDeveloper" :key="rel.id" :to="`/service-hall/${rel.id}`" class="block rounded-[8px] border border-border-soft p-[10px] hover:border-primary hover:shadow-card transition">
+            <router-link v-for="rel in relatedByDeveloper" :key="rel.id" :to="`/org-workbench/model-plaza/${rel.id}`" class="block rounded-[8px] border border-border-soft p-[10px] hover:border-primary hover:shadow-card transition">
               <div class="text-[12px] font-semibold text-text-primary">{{ rel.title }}</div>
               <div class="text-[11px] text-text-tertiary mt-[2px]">{{ rel.category }}</div>
               <div class="mt-[4px] flex items-center gap-[4px]">

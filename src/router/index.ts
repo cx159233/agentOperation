@@ -14,8 +14,6 @@ const router = createRouter({
       children: [
         { path: 'portal', name: 'Portal', component: () => import('../pages/PortalPage.vue'), meta: { title: '门户首页' } },
         { path: 'login', name: 'Login', component: () => import('../pages/LoginPage.vue'), meta: { title: '登录' } },
-        { path: 'service-hall', name: 'ServiceHall', component: () => import('../pages/ServiceHallPage.vue'), meta: { title: 'AI服务市场' } },
-        { path: 'service-hall/:id', name: 'ServiceDetail', component: () => import('../pages/ServiceDetailPage.vue'), meta: { title: '服务详情' } },
         { path: 'onboarding', name: 'Onboarding', component: () => import('../pages/DeveloperOnboardingPage.vue'), meta: { title: '开发者入驻' } },
       ],
     },
@@ -27,6 +25,8 @@ const router = createRouter({
       meta: { requiresAuth: true, role: 'org' },
       children: [
         { path: '', name: 'OrgWorkbench', component: () => import('../pages/org/OrgWorkbenchIndexPage.vue'), meta: { title: '工作台总览' } },
+        { path: 'model-plaza', name: 'ModelPlaza', component: () => import('../pages/ServiceHallPage.vue'), meta: { title: '模型广场' } },
+        { path: 'model-plaza/:id', name: 'ModelPlazaDetail', component: () => import('../pages/ServiceDetailPage.vue'), meta: { title: '服务详情' } },
         { path: 'subscriptions', name: 'OrgSubscriptions', component: () => import('../pages/org/SubscriptionsPage.vue'), meta: { title: '服务订阅管理' } },
         { path: 'quota', name: 'OrgQuota', component: () => import('../pages/org/QuotaPage.vue'), meta: { title: '用量配额管理' } },
         { path: 'billing', redirect: '/org-workbench/bills' },

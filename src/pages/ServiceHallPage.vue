@@ -8,7 +8,7 @@
       <div class="absolute inset-0 opacity-[0.06] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px); background-size: 56px 56px;" />
       <div class="relative flex items-start justify-between">
         <div class="flex-1">
-          <div class="text-[22px] font-semibold tracking-[-0.4px]">AI 服务市场</div>
+          <div class="text-[22px] font-semibold tracking-[-0.4px]">模型广场</div>
           <div class="mt-[6px] text-[13px] text-white/70 max-w-[680px]">集中展示经统一评审准入后上架的 AI 模型与智能体，支撑合规 AI 服务规范上架、按需选购和统一词元计费</div>
           <div class="mt-[14px] flex items-center gap-[8px]">
             <span class="px-[10px] py-[3px] rounded-[4px] bg-white/10 border border-white/15 text-[11px] font-medium">能力分类管理</span>
@@ -178,6 +178,6 @@ const totalCount = computed(() => capabilityGroups.reduce((sum, g) => sum + g.co
 const onlineCount = computed(() => capabilityGroups.reduce((sum, g) => sum + g.columns.reduce((s, c) => s + c.items.filter((i) => i.status === '已上线使用').length, 0), 0));
 
 function goDetail(id: string) {
-  router.push(`/service-hall/${id}`);
+  router.push(`/org-workbench/model-plaza/${id}`);
 }
 </script>

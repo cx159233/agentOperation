@@ -562,6 +562,6 @@ function confirmRenew() {
 }
 
 function goToServiceHall() {
-  router.push('/service-hall');
+  router.push('/org-workbench/model-plaza');
 }
 </script>
