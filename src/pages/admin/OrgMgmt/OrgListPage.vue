@@ -72,10 +72,10 @@
           <a-input v-model:value="editModal.record.orgType" />
         </a-form-item>
         <a-form-item label="联系人">
-          <a-input v-model:value="editModal.record.contact" />
+          <a-input v-model:value="editModal.record.contactName" />
         </a-form-item>
         <a-form-item label="联系电话">
-          <a-input v-model:value="editModal.record.phone" />
+          <a-input v-model:value="editModal.record.contactPhone" />
         </a-form-item>
       </a-form>
     </a-modal>
