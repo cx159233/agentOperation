@@ -43,8 +43,8 @@
                 </div>
                 <div class="space-y-[10px]">
                   <div v-for="f in heroFeatures" :key="f.title" class="flex items-start gap-[12px] p-[12px] rounded-[10px] hover:bg-white/[0.04] transition-all duration-300 group">
-                    <div class="w-[36px] h-[36px] rounded-[10px] grid place-items-center shrink-0 transition-transform duration-300 group-hover:scale-110" :style="{ background: f.bg }">
-                      <component :is="f.icon" class="text-[18px]" :style="{ color: f.color }" />
+                    <div class="w-[36px] h-[36px] rounded-[10px] grid place-items-center shrink-0 transition-transform duration-300 group-hover:scale-110" :style="{ background: f.bg, boxShadow: `0 0 18px ${f.color}40, inset 0 0 8px ${f.color}20` }">
+                      <component :is="f.icon" class="text-[18px]" :style="{ color: f.color, filter: `drop-shadow(0 0 4px ${f.color}aa)` }" />
                     </div>
                     <div class="flex-1">
                       <div class="text-[14px] font-semibold leading-none">{{ f.title }}</div>
@@ -85,8 +85,8 @@
             <!-- 顶部渐变条 -->
             <div class="absolute top-0 left-[28px] right-[28px] h-[3px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" :style="{ background: `linear-gradient(90deg, ${cap.accent} 0%, transparent 100%)` }" />
             <div class="flex items-start justify-between mb-[20px]">
-              <div class="w-[52px] h-[52px] rounded-[12px] grid place-items-center transition-transform duration-300 group-hover:scale-110" :style="{ background: cap.iconBg }">
-                <component :is="cap.icon" class="text-[26px]" :style="{ color: cap.accent }" />
+              <div class="w-[52px] h-[52px] rounded-[12px] grid place-items-center transition-transform duration-300 group-hover:scale-110" :style="{ background: cap.iconBg, boxShadow: `0 0 22px ${cap.accent}40, inset 0 0 10px ${cap.accent}20` }">
+                <component :is="cap.icon" class="text-[26px]" :style="{ color: cap.accent, filter: `drop-shadow(0 0 5px ${cap.accent}aa)` }" />
               </div>
               <div class="font-num text-[40px] font-bold leading-none" :style="{ color: cap.accent + '15' }">{{ String(idx + 1).padStart(2, '0') }}</div>
             </div>
@@ -118,8 +118,8 @@
             <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" :style="{ background: `linear-gradient(135deg, ${cat.color}08 0%, transparent 100%)` }" />
             <div class="relative">
               <div class="flex items-center justify-between mb-[18px]">
-                <div class="w-[44px] h-[44px] rounded-[10px] grid place-items-center transition-transform duration-300 group-hover:scale-110" :style="{ background: cat.color + '14' }">
-                  <component :is="catIcons[cat.id]" class="text-[22px]" :style="{ color: cat.color }" />
+                <div class="w-[44px] h-[44px] rounded-[10px] grid place-items-center transition-transform duration-300 group-hover:scale-110" :style="{ background: cat.color + '14', boxShadow: `0 0 18px ${cat.color}35, inset 0 0 8px ${cat.color}20` }">
+                  <component :is="catIcons[cat.id]" class="text-[22px]" :style="{ color: cat.color, filter: `drop-shadow(0 0 4px ${cat.color}aa)` }" />
                 </div>
                 <span class="font-num text-[12px] font-semibold opacity-30 group-hover:opacity-100 transition-opacity" :style="{ color: cat.color }">0{{ idx + 1 }}</span>
               </div>
@@ -161,8 +161,8 @@
         <div class="grid grid-cols-3 gap-[20px]">
           <div v-for="uc in useCases" :key="uc.title" class="group relative bg-white border border-border-soft rounded-[12px] p-[24px] transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
             <div class="flex items-center gap-[12px] mb-[14px]">
-              <div class="w-[40px] h-[40px] rounded-[10px] grid place-items-center transition-transform duration-300 group-hover:scale-110" :style="{ background: uc.iconBg }">
-                <component :is="uc.icon" class="text-[20px]" :style="{ color: uc.iconColor }" />
+              <div class="w-[40px] h-[40px] rounded-[10px] grid place-items-center transition-transform duration-300 group-hover:scale-110" :style="{ background: uc.iconBg, boxShadow: `0 0 18px ${uc.iconColor}35, inset 0 0 8px ${uc.iconColor}20` }">
+                <component :is="uc.icon" class="text-[20px]" :style="{ color: uc.iconColor, filter: `drop-shadow(0 0 4px ${uc.iconColor}aa)` }" />
               </div>
               <span class="text-[16px] font-semibold text-text-primary">{{ uc.title }}</span>
             </div>
@@ -208,9 +208,9 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import {
-  RobotOutlined, AppstoreOutlined, SafetyCertificateOutlined, CalculatorOutlined,
-  BarChartOutlined, AuditOutlined, MedicineBoxOutlined, ScanOutlined,
-  FileTextOutlined, ThunderboltOutlined, BulbOutlined,
+  RobotOutlined, ApiOutlined, DeploymentUnitOutlined, RadarChartOutlined, AimOutlined,
+  SafetyCertificateOutlined, CalculatorOutlined, AuditOutlined,
+  MedicineBoxOutlined, ScanOutlined, FileTextOutlined, ThunderboltOutlined, BulbOutlined,
   WalletOutlined, InfoCircleOutlined, ArrowRightOutlined,
 } from '@ant-design/icons-vue';
 import { capabilityGroups, serviceCategories } from '../data';
@@ -228,26 +228,26 @@ const heroStats = [
 ];
 
 const heroFeatures = [
-  { title: '五类能力分类', desc: '通用基础 / 医保自研 / 基金监管 / 共建垂直 / 市场生态', icon: MedicineBoxOutlined, bg: 'linear-gradient(135deg, rgba(6,182,212,0.20) 0%, rgba(6,182,212,0.08) 100%)', color: '#22D3EE' },
-  { title: '统一对接入口', desc: 'API 与 SDK 一键接入，全省机构可订阅', icon: ThunderboltOutlined, bg: 'linear-gradient(135deg, rgba(245,158,11,0.20) 0%, rgba(245,158,11,0.08) 100%)', color: '#FBBF24' },
+  { title: '五类能力分类', desc: '通用基础 / 医保自研 / 基金监管 / 共建垂直 / 市场生态', icon: ThunderboltOutlined, bg: 'linear-gradient(135deg, rgba(6,182,212,0.20) 0%, rgba(6,182,212,0.08) 100%)', color: '#22D3EE' },
+  { title: '统一对接入口', desc: 'API 与 SDK 一键接入，全省机构可订阅', icon: ApiOutlined, bg: 'linear-gradient(135deg, rgba(245,158,11,0.20) 0%, rgba(245,158,11,0.08) 100%)', color: '#FBBF24' },
   { title: '安全合规底座', desc: '网信办备案 + 医疗器械证 + 算法备案', icon: SafetyCertificateOutlined, bg: 'linear-gradient(135deg, rgba(16,185,129,0.20) 0%, rgba(16,185,129,0.08) 100%)', color: '#34D399' },
 ];
 
 const capabilities = [
-  { title: '统一纳管', desc: '将各类模型、智能体、数据资源、知识资源、平台工具纳入统一目录体系，形成清晰的服务分类与业务档案。', icon: AppstoreOutlined, accent: '#165DFF', iconBg: '#E8F3FF' },
+  { title: '统一纳管', desc: '将各类模型、智能体、数据资源、知识资源、平台工具纳入统一目录体系，形成清晰的服务分类与业务档案。', icon: DeploymentUnitOutlined, accent: '#165DFF', iconBg: '#E8F3FF' },
   { title: '三级审核', desc: '按临床应用风险实行差异化审核：高风险全流程、中风险简化测试、低风险备案上架。', icon: SafetyCertificateOutlined, accent: '#16A34A', iconBg: '#E7F7EE' },
   { title: '词元计量', desc: '将不同类型 AI 服务转化为统一可核算的词元消耗，支撑使用可计量、成本可核算。', icon: CalculatorOutlined, accent: '#06B6D4', iconBg: '#E0F7FA' },
   { title: '多方分润', desc: '医保结算分润、运营服务费、AI 厂商收益分成、平台运维费，形成多方分润闭环。', icon: WalletOutlined, accent: '#F59E0B', iconBg: '#FEF3E7' },
-  { title: '运行监测', desc: '接入机构、上架服务、调用总量、活跃用户、调用趋势和异常预警综合监测。', icon: BarChartOutlined, accent: '#7C3AED', iconBg: '#F1E7FE' },
+  { title: '运行监测', desc: '接入机构、上架服务、调用总量、活跃用户、调用趋势和异常预警综合监测。', icon: RadarChartOutlined, accent: '#7C3AED', iconBg: '#F1E7FE' },
   { title: '安全审计', desc: '服务调用、权限变更、材料审核、额度调整、账单确认等关键行为纳入审计管理。', icon: AuditOutlined, accent: '#EF4444', iconBg: '#FEE7EB' },
 ];
 
 const catIcons: Record<ServiceCategory, any> = {
   通用基础大模型: RobotOutlined,
-  医保自研专属大模型: MedicineBoxOutlined,
+  医保自研专属大模型: ThunderboltOutlined,
   医保基金监管共建模型: SafetyCertificateOutlined,
   省头部医疗机构共建垂直模型: ScanOutlined,
-  市场化合规生态AI产品: AppstoreOutlined,
+  市场化合规生态AI产品: ApiOutlined,
 };
 
 const featuredServices = computed(() => {
@@ -256,7 +256,7 @@ const featuredServices = computed(() => {
 });
 
 const useCases = [
-  { title: '医保监管', desc: '高值耗材比对、检查检验比对、电子处方合规审查，识别违规风险。', icon: SafetyCertificateOutlined, tags: ['高值耗材', '检查检验', '处方审查'], iconBg: '#F1E7FE', iconColor: '#7C3AED' },
+  { title: '医保监管', desc: '高值耗材比对、检查检验比对、电子处方合规审查，识别违规风险。', icon: AimOutlined, tags: ['高值耗材', '检查检验', '处方审查'], iconBg: '#F1E7FE', iconColor: '#7C3AED' },
   { title: '临床辅助', desc: '影像辅助诊断、心电分析、医嘱辅助判断，提升临床决策效率。', icon: MedicineBoxOutlined, tags: ['影像', '心电', '医嘱'], iconBg: '#E8F3FF', iconColor: '#165DFF' },
   { title: '疾病筛查', desc: '肺结节、眼底、肝癌等专科疾病早期筛查，支持大规模人群随访。', icon: ScanOutlined, tags: ['肺结节', '眼底', '肝癌'], iconBg: '#E0F7FA', iconColor: '#06B6D4' },
   { title: '电子病历', desc: '病历辅助生成、规范稽核、全结构化录入，减轻医师文书负担。', icon: FileTextOutlined, tags: ['生成', '稽核', '结构化'], iconBg: '#E7F7EE', iconColor: '#16A34A' },
