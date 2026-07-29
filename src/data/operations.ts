@@ -1,5 +1,7 @@
 // 运营管理数据
 
+import type { OrgSubAccountRef } from './orgWorkbench';
+
 export type ListingService = {
   id: string;
   name: string;
@@ -574,6 +576,558 @@ export const subscriptionAuditRecords: SubscriptionAuditRecord[] = [
     auditLogs: [
       { action: '提交申请', status: '审核中', auditAt: '2024-07-08 11:00' },
       { action: '审核驳回', status: '已驳回', auditAt: '2024-07-09 10:15', auditor: '李工', opinion: '机构信用评级不足，需补充担保材料后重新申请' },
+    ],
+  },
+];
+
+// ============================ 服务开通台账 ============================
+
+export type GrantLevel = 'org' | 'department' | 'person';
+
+export type Grant = {
+  id: string;
+  level: GrantLevel;
+  target: string;
+  targetId?: string;
+  department?: string;
+  role?: string;
+  grantedAt: string;
+};
+
+export type ProvisionedService = {
+  id: string;
+  orgName: string;
+  name: string;
+  category: string;
+  billingMethod: string;
+  validUntil: string;
+  scope: string;
+  status: '正常' | '即将到期' | '已到期';
+  quota: string;
+  used: string;
+  ratio: number;
+  alertThreshold: number;
+  endpoint: string;
+  accessKey: string;
+  secretKey: string;
+  subAccounts: OrgSubAccountRef[];
+  provisionedAt: string;
+  packageName: string;
+  discountPrice: string;
+  contactName: string;
+  contactPhone: string;
+  auditor: string;
+  auditOpinion: string;
+  submittedAt: string;
+  callExample: string;
+  payloadExample: string;
+  auditLogs: SubscriptionAuditLog[];
+  workbenchMode: 'direct' | 'entry';
+  overrideUrl?: string;
+  grants: Grant[];
+};
+
+export const provisionedServices: ProvisionedService[] = [
+  {
+    id: 'ps-001',
+    orgName: '常州市人民医院',
+    name: 'Deepseek标准对话模型（V4）',
+    category: '通用基础大模型',
+    billingMethod: '按Token',
+    validUntil: '2027-06-30',
+    scope: '全院',
+    status: '正常',
+    quota: '8,000万词元',
+    used: '5,420万词元',
+    ratio: 67.8,
+    alertThreshold: 80,
+    endpoint: 'https://api.jsyb-ai.cn/v1/llm/deepseek-v4/chat',
+    accessKey: 'AK_JSYB_2026_0018A3',
+    secretKey: 'SK_9f3a7c4e1b2d8a5f6c0e4b7a9d1c3f2e',
+    subAccounts: [
+      { name: '门诊办公室', code: 'DEPT_OP', quota: '2,000万词元', used: '1,280万词元', ratio: 64.0 },
+      { name: '信息科', code: 'DEPT_IT', quota: '3,000万词元', used: '2,140万词元', ratio: 71.3 },
+      { name: '住院部', code: 'DEPT_IP', quota: '3,000万词元', used: '2,000万词元', ratio: 66.7 },
+    ],
+    provisionedAt: '2026-01-15 10:00',
+    packageName: '标准包',
+    discountPrice: '¥ 180,000',
+    contactName: '张三',
+    contactPhone: '138-XXXX-1234',
+    auditor: '李四',
+    auditOpinion: '资质齐全，准予通过',
+    submittedAt: '2026-01-12 10:30',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "model": "deepseek-v4",
+  "messages": [
+    { "role": "system", "content": "你是医保政策咨询助手" },
+    { "role": "user", "content": "门诊慢特病报销比例是多少？" }
+  ],
+  "temperature": 0.3,
+  "max_tokens": 1024
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2026-01-12 10:30' },
+      { action: '审核通过', status: '已通过', auditAt: '2026-01-15 10:00', auditor: '李四', opinion: '资质齐全，准予通过' },
+    ],
+    workbenchMode: 'direct',
+    overrideUrl: 'https://workspace.jsyb-ai.cn/czrmh/deepseek-v4',
+    grants: [
+      { id: 'g-001-1', level: 'org', target: '常州市人民医院', grantedAt: '2026-01-15 10:00' },
+      { id: 'g-001-2', level: 'department', target: '信息科', grantedAt: '2026-01-15 10:05' },
+      { id: 'g-001-3', level: 'person', target: '李医生', targetId: 'm-006', department: '门诊办', role: '医生', grantedAt: '2026-01-16 09:00' },
+    ],
+  },
+  {
+    id: 'ps-002',
+    orgName: '常州市人民医院',
+    name: '肺结节CT图像辅助检测',
+    category: '省头部医疗机构共建垂直模型',
+    billingMethod: '按检查例次',
+    validUntil: '2026-08-20',
+    scope: '放射科',
+    status: '即将到期',
+    quota: '800例/月',
+    used: '642例',
+    ratio: 80.3,
+    alertThreshold: 80,
+    endpoint: 'https://api.jsyb-ai.cn/v1/medical/lung-nodule-detect',
+    accessKey: 'AK_JSYB_2026_0039C7',
+    secretKey: 'SK_7c2e9b4f1a8d3e6c0b5f2a9e4d1c7b3f',
+    subAccounts: [
+      { name: '放射科', code: 'DEPT_RAD', quota: '800例/月', used: '642例', ratio: 80.3 },
+    ],
+    provisionedAt: '2025-08-20 16:30',
+    packageName: '垂直模型包',
+    discountPrice: '¥ 96,000',
+    contactName: '张三',
+    contactPhone: '138-XXXX-1234',
+    auditor: '李四',
+    auditOpinion: '共建模型已通过合规审查',
+    submittedAt: '2025-08-15 14:20',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "studyInstanceUID": "1.2.840.113619.2.55.3.604688119.971",
+  "seriesUID": "1.2.840.113619.2.55.3.604688119.972",
+  "modality": "CT",
+  "sliceThickness": 1.25,
+  "kvp": 120
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2025-08-15 14:20' },
+      { action: '审核通过', status: '已通过', auditAt: '2025-08-20 16:30', auditor: '李四', opinion: '共建模型已通过合规审查' },
+    ],
+    workbenchMode: 'entry',
+    grants: [
+      { id: 'g-002-1', level: 'org', target: '常州市人民医院', grantedAt: '2025-08-20 16:30' },
+      { id: 'g-002-2', level: 'department', target: '放射科', grantedAt: '2025-08-20 16:35' },
+      { id: 'g-002-3', level: 'person', target: '赵技师', targetId: 'm-008', department: '放射科', role: '技师', grantedAt: '2025-08-21 08:00' },
+    ],
+  },
+  {
+    id: 'ps-003',
+    orgName: '常州市人民医院',
+    name: '高值耗材智能比对智能体',
+    category: '医保基金监管共建模型',
+    billingMethod: '按调用次数',
+    validUntil: '2026-06-08',
+    scope: '医保办',
+    status: '已到期',
+    quota: '1,500次/月',
+    used: '1,580次',
+    ratio: 105.3,
+    alertThreshold: 100,
+    endpoint: 'https://api.jsyb-ai.cn/v1/agent/pci-consumable-audit/run',
+    accessKey: 'AK_JSYB_2025_0094J3',
+    secretKey: 'SK_8e2b5c1f9a4d7e3b6c0a2f5d8e1b4c9a',
+    subAccounts: [
+      { name: '医保办', code: 'DEPT_MI', quota: '1,500次/月', used: '1,580次', ratio: 105.3 },
+    ],
+    provisionedAt: '2025-06-08 11:00',
+    packageName: '监管包',
+    discountPrice: '¥ 54,000',
+    contactName: '张三',
+    contactPhone: '138-XXXX-1234',
+    auditor: '李工',
+    auditOpinion: '同意开通，注意配额上限',
+    submittedAt: '2025-06-02 09:45',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "agentId": "pci-audit-v1",
+  "patientId": "P-2024-0815",
+  "procedureCode": "PCI-DES-01",
+  "consumables": [
+    { "code": "C-STENT-001", "qty": 2, "price": 8500 },
+    { "code": "C-BALLOON-002", "qty": 1, "price": 4200 }
+  ]
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2025-06-02 09:45' },
+      { action: '审核通过', status: '已通过', auditAt: '2025-06-08 11:00', auditor: '李工', opinion: '同意开通，注意配额上限' },
+    ],
+    workbenchMode: 'entry',
+    grants: [
+      { id: 'g-003-1', level: 'org', target: '常州市人民医院', grantedAt: '2025-06-08 11:00' },
+      { id: 'g-003-2', level: 'department', target: '医保办', grantedAt: '2025-06-08 11:05' },
+    ],
+  },
+  {
+    id: 'ps-004',
+    orgName: '南京鼓楼医院',
+    name: '电子病历辅助生成智能体',
+    category: '市场化合规生态AI产品',
+    billingMethod: '按Token',
+    validUntil: '2027-05-10',
+    scope: '全院',
+    status: '正常',
+    quota: '6,000万词元',
+    used: '4,180万词元',
+    ratio: 69.7,
+    alertThreshold: 80,
+    endpoint: 'https://api.jsyb-ai.cn/v1/agent/emr-generator/run',
+    accessKey: 'AK_JSYB_2026_0053E8',
+    secretKey: 'SK_9a4d1c7b3e8f2a5c0b6e1d4f7a2c9b3e',
+    subAccounts: [
+      { name: '住院部', code: 'DEPT_IP', quota: '4,000万词元', used: '3,080万词元', ratio: 77.0 },
+      { name: '门诊办公室', code: 'DEPT_OP', quota: '2,000万词元', used: '1,100万词元', ratio: 55.0 },
+    ],
+    provisionedAt: '2026-05-10 14:00',
+    packageName: '生态包',
+    discountPrice: '¥ 120,000',
+    contactName: '王主任',
+    contactPhone: '139-XXXX-6789',
+    auditor: '李四',
+    auditOpinion: '业务场景明确，已审批通过',
+    submittedAt: '2026-05-06 11:20',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "agentId": "emr-generator-v2",
+  "patientId": "P-2024-0815",
+  "visitType": "inpatient",
+  "inputs": {
+    "chiefComplaint": "反复咳嗽伴胸闷3天",
+    "vitalSigns": { "temp": 37.2, "bp": "130/85", "hr": 86 }
+  }
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2026-05-06 11:20' },
+      { action: '审核通过', status: '已通过', auditAt: '2026-05-10 14:00', auditor: '李四', opinion: '业务场景明确，已审批通过' },
+    ],
+    workbenchMode: 'entry',
+    grants: [
+      { id: 'g-004-1', level: 'org', target: '南京鼓楼医院', grantedAt: '2026-05-10 14:00' },
+      { id: 'g-004-2', level: 'department', target: '住院部', grantedAt: '2026-05-10 14:05' },
+    ],
+  },
+  {
+    id: 'ps-005',
+    orgName: '南京鼓楼医院',
+    name: '远程心电AI诊断',
+    category: '省头部医疗机构共建垂直模型',
+    billingMethod: '按检查例次',
+    validUntil: '2026-09-15',
+    scope: '心内科+急诊',
+    status: '即将到期',
+    quota: '500例/月',
+    used: '428例',
+    ratio: 85.6,
+    alertThreshold: 85,
+    endpoint: 'https://api.jsyb-ai.cn/v1/medical/ecg-analysis',
+    accessKey: 'AK_JSYB_2025_0041D2',
+    secretKey: 'SK_2b8e5c1f9a4d7e3b6c0a2f5d8e1b4c9a',
+    subAccounts: [
+      { name: '心内科', code: 'DEPT_CAR', quota: '300例/月', used: '268例', ratio: 89.3 },
+      { name: '急诊科', code: 'DEPT_EMG', quota: '200例/月', used: '160例', ratio: 80.0 },
+    ],
+    provisionedAt: '2025-09-15 09:30',
+    packageName: '垂直模型包',
+    discountPrice: '¥ 88,000',
+    contactName: '王主任',
+    contactPhone: '139-XXXX-6789',
+    auditor: '李四',
+    auditOpinion: '符合共建条件',
+    submittedAt: '2025-09-10 16:40',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "ecgFileUrl": "https://oss.jsyb-ai.cn/ecg/P-2024-0815-001.xml",
+  "leads": 12,
+  "durationSec": 10,
+  "samplingRate": 500
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2025-09-10 16:40' },
+      { action: '审核通过', status: '已通过', auditAt: '2025-09-15 09:30', auditor: '李四', opinion: '符合共建条件' },
+    ],
+    workbenchMode: 'direct',
+    grants: [
+      { id: 'g-005-1', level: 'org', target: '南京鼓楼医院', grantedAt: '2025-09-15 09:30' },
+      { id: 'g-005-2', level: 'department', target: '心内科', grantedAt: '2025-09-15 09:35' },
+      { id: 'g-005-3', level: 'person', target: '陈医生', targetId: 'm-007', department: '心内科', role: '医生', grantedAt: '2025-09-16 08:00' },
+    ],
+  },
+  {
+    id: 'ps-006',
+    orgName: '东南大学附属中大医院',
+    name: 'BGE检索重排序模型',
+    category: '通用基础大模型',
+    billingMethod: '按Token',
+    validUntil: '2027-04-18',
+    scope: '信息科',
+    status: '正常',
+    quota: '2,000万词元',
+    used: '820万词元',
+    ratio: 41.0,
+    alertThreshold: 80,
+    endpoint: 'https://api.jsyb-ai.cn/v1/llm/bge-rerank/search',
+    accessKey: 'AK_JSYB_2026_0082H6',
+    secretKey: 'SK_1f4d8e3b9c2a5e7c0b6a2f5d8e1b4c9a',
+    subAccounts: [
+      { name: '信息科', code: 'DEPT_IT', quota: '2,000万词元', used: '820万词元', ratio: 41.0 },
+    ],
+    provisionedAt: '2026-04-18 10:15',
+    packageName: '标准包',
+    discountPrice: '¥ 36,000',
+    contactName: '赵主任',
+    contactPhone: '135-XXXX-3456',
+    auditor: '李工',
+    auditOpinion: '通过',
+    submittedAt: '2026-04-14 09:30',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "model": "bge-reranker-large",
+  "query": "门诊慢特病备案流程",
+  "documents": ["doc-001", "doc-002", "doc-003"],
+  "topN": 5
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2026-04-14 09:30' },
+      { action: '审核通过', status: '已通过', auditAt: '2026-04-18 10:15', auditor: '李工', opinion: '通过' },
+    ],
+    workbenchMode: 'entry',
+    grants: [
+      { id: 'g-006-1', level: 'org', target: '东南大学附属中大医院', grantedAt: '2026-04-18 10:15' },
+    ],
+  },
+  {
+    id: 'ps-007',
+    orgName: '东南大学附属中大医院',
+    name: '山海知医5.0大模型',
+    category: '医保自研专属大模型',
+    billingMethod: '按Token',
+    validUntil: '2027-07-01',
+    scope: '门诊+住院',
+    status: '正常',
+    quota: '5,000万词元',
+    used: '3,820万词元',
+    ratio: 76.4,
+    alertThreshold: 80,
+    endpoint: 'https://api.jsyb-ai.cn/v1/llm/shanzhi-medical/chat',
+    accessKey: 'AK_JSYB_2025_0027B1',
+    secretKey: 'SK_4e8b1c6f2a9d3b5e7c0a4f1d8e2b6c9a',
+    subAccounts: [
+      { name: '门诊办公室', code: 'DEPT_OP', quota: '2,500万词元', used: '2,080万词元', ratio: 83.2 },
+      { name: '住院部', code: 'DEPT_IP', quota: '2,500万词元', used: '1,740万词元', ratio: 69.6 },
+    ],
+    provisionedAt: '2025-07-01 15:20',
+    packageName: '专属包',
+    discountPrice: '¥ 220,000',
+    contactName: '赵主任',
+    contactPhone: '135-XXXX-3456',
+    auditor: '周十七',
+    auditOpinion: '同意开通',
+    submittedAt: '2025-06-25 10:30',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "model": "shanzhi-medical-5.0",
+  "messages": [
+    { "role": "user", "content": "患者男58岁，COPD急性加重，请生成入院记录首程" }
+  ],
+  "context": { "patientId": "P-2024-0815", "visitType": "inpatient" }
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2025-06-25 10:30' },
+      { action: '审核通过', status: '已通过', auditAt: '2025-07-01 15:20', auditor: '周十七', opinion: '同意开通' },
+    ],
+    workbenchMode: 'entry',
+    grants: [
+      { id: 'g-007-1', level: 'org', target: '东南大学附属中大医院', grantedAt: '2025-07-01 15:20' },
+    ],
+  },
+  {
+    id: 'ps-008',
+    orgName: '江苏省人民医院',
+    name: 'AI健康助手',
+    category: '市场化合规生态AI产品',
+    billingMethod: '按Token',
+    validUntil: '2027-07-05',
+    scope: '门诊大厅+互联网医院',
+    status: '正常',
+    quota: '2,000万词元',
+    used: '820万词元',
+    ratio: 41.0,
+    alertThreshold: 80,
+    endpoint: 'https://api.jsyb-ai.cn/v1/agent/health-assistant/chat',
+    accessKey: 'AK_JSYB_2026_0079G4',
+    secretKey: 'SK_5c2e9b4f1a8d3e7c0b6a2f5d8e1b4c9a',
+    subAccounts: [
+      { name: '门诊大厅', code: 'DEPT_LOBBY', quota: '1,200万词元', used: '520万词元', ratio: 43.3 },
+      { name: '互联网医院', code: 'DEPT_INH', quota: '800万词元', used: '300万词元', ratio: 37.5 },
+    ],
+    provisionedAt: '2026-07-05 09:00',
+    packageName: '生态包',
+    discountPrice: '¥ 48,000',
+    contactName: '孙主任',
+    contactPhone: '136-XXXX-9012',
+    auditor: '李四',
+    auditOpinion: '通过，注意门诊高峰期并发',
+    submittedAt: '2026-07-02 14:10',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "agentId": "health-assistant-v3",
+  "sessionKey": "lobby-kiosk-007",
+  "messages": [
+    { "role": "user", "content": "我最近总头晕，应该挂哪个科？" }
+  ]
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2026-07-02 14:10' },
+      { action: '审核通过', status: '已通过', auditAt: '2026-07-05 09:00', auditor: '李四', opinion: '通过，注意门诊高峰期并发' },
+    ],
+    workbenchMode: 'entry',
+    grants: [
+      { id: 'g-008-1', level: 'org', target: '江苏省人民医院', grantedAt: '2026-07-05 09:00' },
+      { id: 'g-008-2', level: 'department', target: '门诊大厅', grantedAt: '2026-07-05 09:05' },
+      { id: 'g-008-3', level: 'person', target: '李医生', targetId: 'm-006', department: '门诊办', role: '医生', grantedAt: '2026-07-05 09:10' },
+    ],
+  },
+  {
+    id: 'ps-009',
+    orgName: '江苏省人民医院',
+    name: '病历文书规范稽核智能体',
+    category: '市场化合规生态AI产品',
+    billingMethod: '按调用次数',
+    validUntil: '2026-08-25',
+    scope: '医务科',
+    status: '即将到期',
+    quota: '3,000次/月',
+    used: '1,820次',
+    ratio: 60.7,
+    alertThreshold: 80,
+    endpoint: 'https://api.jsyb-ai.cn/v1/agent/emr-audit/run',
+    accessKey: 'AK_JSYB_2025_0067F1',
+    secretKey: 'SK_3e8b1c4f9a2d7e5b0c6a1f4d8e3b9c2a',
+    subAccounts: [
+      { name: '医务科', code: 'DEPT_MA', quota: '3,000次/月', used: '1,820次', ratio: 60.7 },
+    ],
+    provisionedAt: '2025-08-25 11:30',
+    packageName: '生态包',
+    discountPrice: '¥ 72,000',
+    contactName: '孙主任',
+    contactPhone: '136-XXXX-9012',
+    auditor: '李工',
+    auditOpinion: '通过',
+    submittedAt: '2025-08-20 11:00',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "agentId": "emr-audit-v1",
+  "emrId": "EMR-2024-0715-0892",
+  "auditScope": ["首程", "入院记录", "出院小结"],
+  "rulesetVersion": "2024-Q2"
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2025-08-20 11:00' },
+      { action: '审核通过', status: '已通过', auditAt: '2025-08-25 11:30', auditor: '李工', opinion: '通过' },
+    ],
+    workbenchMode: 'entry',
+    grants: [
+      { id: 'g-009-1', level: 'org', target: '江苏省人民医院', grantedAt: '2025-08-25 11:30' },
+      { id: 'g-009-2', level: 'department', target: '医务科', grantedAt: '2025-08-25 11:35' },
+    ],
+  },
+  {
+    id: 'ps-010',
+    orgName: '南京市第一医院',
+    name: '山海知医5.0大模型',
+    category: '医保自研专属大模型',
+    billingMethod: '按Token',
+    validUntil: '2027-07-14',
+    scope: '全院',
+    status: '正常',
+    quota: '5,000万词元',
+    used: '2,640万词元',
+    ratio: 52.8,
+    alertThreshold: 80,
+    endpoint: 'https://api.jsyb-ai.cn/v1/llm/shanzhi-medical/chat',
+    accessKey: 'AK_JSYB_2026_0028C5',
+    secretKey: 'SK_6a9c3e7d1b5f4a2c8e0d3b6a9c1f4e7d',
+    subAccounts: [
+      { name: '门诊办公室', code: 'DEPT_OP', quota: '2,500万词元', used: '1,320万词元', ratio: 52.8 },
+      { name: '住院部', code: 'DEPT_IP', quota: '2,500万词元', used: '1,320万词元', ratio: 52.8 },
+    ],
+    provisionedAt: '2026-07-14 16:30',
+    packageName: '医联体包',
+    discountPrice: '¥ 680,000',
+    contactName: '王主任',
+    contactPhone: '139-XXXX-5678',
+    auditor: '李四',
+    auditOpinion: '资质齐全，准予通过',
+    submittedAt: '2026-07-12 09:15',
+    callExample: `curl -X POST ${'${ENDPOINT}'} \\
+  -H "Authorization: Bearer ${'${AK}'}:${'${SK}'}" \\
+  -H "X-Sub-Account: ${'${DEPT_CODE}'}" \\
+  -H "Content-Type: application/json" \\
+  -d '${'${PAYLOAD}'}'`,
+    payloadExample: `{
+  "model": "shanzhi-medical-5.0",
+  "messages": [
+    { "role": "user", "content": "患者男58岁，COPD急性加重，请生成入院记录首程" }
+  ],
+  "context": { "patientId": "P-2024-0815", "visitType": "inpatient" }
+}`,
+    auditLogs: [
+      { action: '提交申请', status: '审核中', auditAt: '2026-07-12 09:15' },
+      { action: '审核通过', status: '已通过', auditAt: '2026-07-14 16:30', auditor: '李四', opinion: '资质齐全，准予通过' },
+    ],
+    workbenchMode: 'entry',
+    grants: [
+      { id: 'g-010-1', level: 'org', target: '南京市第一医院', grantedAt: '2026-07-14 16:30' },
     ],
   },
 ];

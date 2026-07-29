@@ -1,6 +1,6 @@
 // 机构子账户/成员管理数据
 
-export type MemberRole = '管理员' | '调用员' | '审核员' | '财务';
+export type MemberRole = '管理员' | '调用员' | '审核员' | '财务' | '医生' | '技师';
 
 export type MemberStatus = '启用' | '禁用';
 
@@ -77,7 +77,7 @@ export const orgMembers: OrgMember[] = [
     id: 'm-005',
     name: '王十二',
     account: 'wang.shier',
-    role: '调用员',
+    role: '技师',
     department: '放射科',
     services: ['肺结节CT图像辅助检测', '骨密度CT影像辅助'],
     apiKey: 'sk-org-********************g7h8',
@@ -86,6 +86,45 @@ export const orgMembers: OrgMember[] = [
     lastLogin: '2024-07-17 08:15',
     createdAt: '2024-05-12 10:30',
   },
+  {
+    id: 'm-006',
+    name: '李医生',
+    account: 'li.yisheng',
+    role: '医生',
+    department: '门诊办',
+    services: ['AI健康助手', '山海知医5.0大模型'],
+    apiKey: 'sk-org-********************i9j0',
+    apiKeyStatus: '正常',
+    status: '启用',
+    lastLogin: '2024-07-16 14:20',
+    createdAt: '2024-02-15 09:00',
+  },
+  {
+    id: 'm-007',
+    name: '陈医生',
+    account: 'chen.yisheng',
+    role: '医生',
+    department: '心内科',
+    services: ['远程心电AI诊断'],
+    apiKey: 'sk-org-********************k1l2',
+    apiKeyStatus: '正常',
+    status: '启用',
+    lastLogin: '2024-07-15 10:45',
+    createdAt: '2024-03-20 13:30',
+  },
+  {
+    id: 'm-008',
+    name: '赵技师',
+    account: 'zhao.jishi',
+    role: '技师',
+    department: '放射科',
+    services: ['肺结节CT图像辅助检测', '肺癌AI筛查'],
+    apiKey: 'sk-org-********************m3n4',
+    apiKeyStatus: '正常',
+    status: '启用',
+    lastLogin: '2024-07-17 07:50',
+    createdAt: '2024-04-10 11:15',
+  },
 ];
 
 export const memberRoleOptions: { label: string; value: MemberRole }[] = [
@@ -93,4 +132,6 @@ export const memberRoleOptions: { label: string; value: MemberRole }[] = [
   { label: '调用员（可调用授权范围内的服务）', value: '调用员' },
   { label: '审核员（可审核调用记录与异常）', value: '审核员' },
   { label: '财务（可查看账单与用量明细）', value: '财务' },
+  { label: '医生（可调用授权范围内的临床AI服务）', value: '医生' },
+  { label: '技师（可调用影像/检验类AI服务）', value: '技师' },
 ];

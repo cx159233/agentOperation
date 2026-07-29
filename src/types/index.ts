@@ -34,6 +34,8 @@ export type CapabilityCardData = {
   iconType: 'brain' | 'document' | 'lungs' | 'eye' | 'robot' | 'stethoscope' | 'cloud' | 'scan' | 'file' | 'assistant' | 'bar-chart' | 'shield-check';
   iconTone: 'blue' | 'cyan' | 'green' | 'orange' | 'purple' | 'rose';
   status?: '已上线使用' | '对接测试中' | '对接上线中';
+  /** 业务系统跳转地址，上架时填写，开通时可被覆盖 */
+  entryUrl?: string;
 };
 
 export type CapabilityColumn = { title: string; items: CapabilityCardData[] };

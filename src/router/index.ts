@@ -75,6 +75,7 @@ const router = createRouter({
         { path: 'operations/service-access', name: 'OperationsServiceAccess', component: () => import('../pages/admin/operations/ServiceAccessPage.vue'), meta: { title: '服务上架审核' } },
         { path: 'operations/org-access', name: 'OperationsOrgAccess', component: () => import('../pages/admin/operations/OrgAccessPage.vue'), meta: { title: '机构入驻审核' } },
         { path: 'operations/subscription-audit', name: 'OperationsSubscriptionAudit', component: () => import('../pages/admin/operations/SubscriptionAuditPage.vue'), meta: { title: '服务订阅审核' } },
+        { path: 'operations/service-provisioning', name: 'OperationsServiceProvisioning', component: () => import('../pages/admin/operations/ServiceProvisioningPage.vue'), meta: { title: '服务开通管理' } },
         { path: 'operations/monitoring', name: 'OperationsMonitoring', component: () => import('../pages/admin/operations/MonitoringPage.vue'), meta: { title: '调用日志' } },
         { path: 'operations/quality', name: 'OperationsQuality', component: () => import('../pages/admin/operations/QualityPage.vue'), meta: { title: '质量考核管理' } },
         { path: 'operations/audit', redirect: '/admin/operations/audit/operation' },

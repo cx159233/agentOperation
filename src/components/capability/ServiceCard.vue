@@ -32,7 +32,7 @@
 
     <div class="mt-auto flex items-center justify-between">
       <span class="text-[11px] text-text-tertiary">{{ item.unit || '未知机构' }}</span>
-      <button class="opacity-0 group-hover:opacity-100 text-[12px] font-medium text-primary hover:text-primary-dark transition-all duration-200 flex items-center gap-[2px]">
+      <button v-if="!hideDetail" class="opacity-0 group-hover:opacity-100 text-[12px] font-medium text-primary hover:text-primary-dark transition-all duration-200 flex items-center gap-[2px]">
         查看详情 <RightOutlined class="text-[10px]" />
       </button>
     </div>
@@ -57,7 +57,7 @@ import {
 import type { CapabilityCardData } from '../../types';
 import { serviceCategories } from '../../data';
 
-const props = defineProps<{ item: CapabilityCardData }>();
+const props = defineProps<{ item: CapabilityCardData; hideDetail?: boolean }>();
 defineEmits<{ (e: 'click'): void }>();
 
 const iconMap: Record<string, any> = {
