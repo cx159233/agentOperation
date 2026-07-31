@@ -106,7 +106,7 @@ const loading = ref(false);
 const roleOptions: { value: AuthRole; label: string; desc: string; icon: any; account: string; password: string }[] = [
   { value: 'org', label: '机构用户', desc: '医疗机构', icon: HomeOutlined, account: 'org@dongtai-hosp', password: 'demo123456' },
   { value: 'developer', label: '开发者', desc: 'AI 厂商', icon: CodeOutlined, account: 'dev@deepseek', password: 'demo123456' },
-  { value: 'admin', label: '运营管理', desc: '平台管理', icon: SafetyCertificateOutlined, account: 'admin@jscnylab', password: 'demo123456' },
+  { value: 'admin', label: '运营管理', desc: '医保局及指定运营单位', icon: SafetyCertificateOutlined, account: 'admin@jscnylab', password: 'demo123456' },
 ];
 
 const demoCreds = computed(() => roleOptions.find((r) => r.value === form.value.role)!);

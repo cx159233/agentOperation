@@ -6,7 +6,7 @@
         <CloudOutlined class="text-[16px] text-white" />
       </div>
       <div class="leading-none">
-        <div class="text-[15px] font-semibold tracking-[-0.2px] text-text-primary">AI与智能体服务管理平台</div>
+        <div class="text-[15px] font-semibold tracking-[-0.2px] text-text-primary">{{ platformTitle }}</div>
       </div>
     </div>
 
@@ -67,11 +67,16 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { computed } from 'vue';
 import { BellOutlined, DatabaseOutlined, DownOutlined, SettingOutlined, LogoutOutlined, RollbackOutlined, CloudOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { useAuthStore } from '../../stores/auth';
 
 const router = useRouter();
 const auth = useAuthStore();
+
+const platformTitle = computed(() =>
+  auth.role === 'admin' ? '模型与智能体运营管理平台' : '模型与智能体运营服务平台',
+);
 
 // 演示用户切换列表
 const demoUsers = [

@@ -51,20 +51,46 @@
               <a-form-item label="产品名称" required>
                 <a-input v-model:value="form.name" placeholder="如：肺结节CT图像辅助检测软件" :maxlength="40" show-count />
               </a-form-item>
+              <a-form-item label="模型代码" required>
+                <a-input v-model:value="form.modelCode" placeholder="如：LUNG-NUD-CT-001" :maxlength="30" show-count />
+              </a-form-item>
               <a-form-item label="版本号" required>
                 <a-input v-model:value="form.version" placeholder="如：v2.4.0" />
               </a-form-item>
-              <a-form-item label="能力分类" required>
-                <a-select v-model:value="form.category" :options="categoryOptions" placeholder="请选择分类" />
+              <a-form-item label="研发单位" required>
+                <a-select
+                  v-model:value="form.unit"
+                  :options="unitOptions"
+                  :field-names="{ label: 'label', value: 'value' }"
+                  show-search
+                  :filter-option="filterUnit"
+                  placeholder="请选择研发单位"
+                  allow-clear
+                />
               </a-form-item>
-              <a-form-item label="风险等级" required>
-                <a-select v-model:value="form.riskLevel" :options="riskOptions" placeholder="请选择风险等级" />
+              <a-form-item label="能力分类">
+                <a-select v-model:value="form.category" :options="categoryOptions" placeholder="请选择分类" allow-clear />
               </a-form-item>
-              <a-form-item label="计费方式" required>
-                <a-select v-model:value="form.billingMethod" :options="billingOptions" placeholder="请选择计费方式" />
+              <a-form-item label="风险等级">
+                <a-select v-model:value="form.riskLevel" :options="riskOptions" placeholder="请选择风险等级" allow-clear />
+              </a-form-item>
+              <a-form-item label="计费方式">
+                <a-select v-model:value="form.billingMethod" :options="billingOptions" placeholder="请选择计费方式" allow-clear />
+              </a-form-item>
+              <a-form-item label="支持的检查模态">
+                <a-select
+                  v-model:value="form.modalities"
+                  mode="tags"
+                  placeholder="输入或选择检查模态，如：CT / MRI / X光"
+                  :token-separators="[',']"
+                  :options="modalityOptions"
+                />
               </a-form-item>
               <a-form-item label="使用范围建议">
                 <a-input v-model:value="form.scope" placeholder="如：放射科 / 体检中心" />
+              </a-form-item>
+              <a-form-item label="接入状态" required>
+                <a-select v-model:value="form.accessStatus" :options="statusOptions" placeholder="请选择接入状态" />
               </a-form-item>
             </div>
           </a-form>
@@ -73,7 +99,7 @@
         <!-- 2. 服务描述 -->
         <section id="sec-desc" class="cloud-card p-[20px] mb-[14px]">
           <div class="flex items-center gap-[8px] mb-[16px]">
-            <div class="w-[4px] h-[16px] bg-secondary rounded-full" />
+            <div class="w-[4px] h-[16px] bg-primary rounded-full" />
             <span class="text-[14px] font-semibold text-text-primary">服务描述</span>
             <span class="text-[11px] text-text-tertiary">向客户与审核方说明服务能力</span>
           </div>
@@ -96,7 +122,7 @@
         <!-- 3. 资质材料 -->
         <section id="sec-qual" class="cloud-card p-[20px] mb-[14px]">
           <div class="flex items-center gap-[8px] mb-[16px]">
-            <div class="w-[4px] h-[16px] bg-warning rounded-full" />
+            <div class="w-[4px] h-[16px] bg-primary rounded-full" />
             <span class="text-[14px] font-semibold text-text-primary">资质材料</span>
             <span class="text-[11px] text-text-tertiary">按风险等级要求上传，PDF / JPG / PNG，单文件 ≤ 10MB</span>
           </div>
@@ -134,7 +160,7 @@
         <!-- 4. 接入信息 -->
         <section id="sec-api" class="cloud-card p-[20px] mb-[14px]">
           <div class="flex items-center gap-[8px] mb-[16px]">
-            <div class="w-[4px] h-[16px] bg-success rounded-full" />
+            <div class="w-[4px] h-[16px] bg-primary rounded-full" />
             <span class="text-[14px] font-semibold text-text-primary">接入信息</span>
             <span class="text-[11px] text-text-tertiary">客户订阅后将凭此信息调用服务</span>
           </div>
@@ -232,7 +258,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { ArrowLeftOutlined, UploadOutlined, CheckCircleOutlined } from '@ant-design/icons-vue';
 import { developerServices } from '../../data/developerCenter';
-import { serviceCategories } from '../../data';
+import { serviceCategories, capabilityGroups } from '../../data';
 
 const route = useRoute();
 const router = useRouter();
@@ -252,11 +278,15 @@ const activeSection = ref('sec-basic');
 
 const form = ref({
   name: '',
+  modelCode: '',
   version: '',
+  unit: '',
   category: '' as string,
   riskLevel: '' as string,
   billingMethod: '' as string,
+  modalities: [] as string[],
   scope: '',
+  accessStatus: '对接测试中' as string,
   summary: '',
   scenarios: '',
   capabilities: [] as string[],
@@ -287,6 +317,20 @@ const billingOptions = [
   { label: '按检查例次', value: '按检查例次' },
   { label: '按调用次数', value: '按调用次数' },
 ];
+const statusOptions = [
+  { label: '已上线使用', value: '已上线使用' },
+  { label: '对接上线中', value: '对接上线中' },
+  { label: '对接测试中', value: '对接测试中' },
+  { label: '停止使用', value: '停止使用' },
+];
+const modalityOptions = ['CT', 'MRI', 'X光', '超声', 'PET', '病理', '心电图', '眼底影像'].map((m) => ({ label: m, value: m }));
+const unitOptions = computed(() => {
+  const allModels = capabilityGroups.flatMap((g) => g.columns.flatMap((c) => c.items));
+  return Array.from(new Set(allModels.map((m) => m.unit).filter(Boolean))).map((u) => ({ label: u, value: u }));
+});
+function filterUnit(input: string, option: any) {
+  return (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+}
 const methodOptions = ['POST', 'GET', 'PUT'].map((m) => ({ label: m, value: m }));
 const authOptions = ['Bearer Token (AK/SK)', 'API Key', 'OAuth 2.0'].map((a) => ({ label: a, value: a }));
 
@@ -364,10 +408,14 @@ onMounted(() => {
     const svc = developerServices.find((s) => s.id === route.query.id);
     if (svc) {
       form.value.name = svc.name;
+      form.value.modelCode = svc.id?.toUpperCase() ?? '';
       form.value.version = svc.version;
+      form.value.unit = svc.unit ?? '';
       form.value.category = svc.category;
       form.value.riskLevel = svc.riskLevel;
       form.value.billingMethod = svc.billingMethod;
+      form.value.modalities = [];
+      form.value.accessStatus = svc.status === '已上架' ? '已上线使用' : '对接测试中';
       form.value.status = svc.status;
       form.value.scope = '全院';
       form.value.summary = `${svc.name} 核心能力服务`;
@@ -416,10 +464,10 @@ function onBack() {
 
 function validate(): string | null {
   if (!form.value.name) return '请填写产品名称';
+  if (!form.value.modelCode) return '请填写模型代码';
   if (!form.value.version) return '请填写版本号';
-  if (!form.value.category) return '请选择能力分类';
-  if (!form.value.riskLevel) return '请选择风险等级';
-  if (!form.value.billingMethod) return '请选择计费方式';
+  if (!form.value.unit) return '请选择研发单位';
+  if (!form.value.accessStatus) return '请选择接入状态';
   if (!form.value.summary) return '请填写一句话简介';
   if (!form.value.scenarios) return '请填写适用场景';
   if (form.value.capabilities.length === 0) return '请填写核心能力标签';

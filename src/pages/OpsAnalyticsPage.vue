@@ -1,6 +1,6 @@
 <template>
   <div class="p-[20px]">
-    <PageHeader title="运行监测分析" description="业务分析视角：服务调用热度、质量评价与场景应用多维分析" />
+    <PageHeader title="运行成效分析" description="业务分析视角：服务调用热度、质量评价与场景应用多维分析" />
 
     <!-- 三栏统计 -->
     <section class="grid grid-cols-4 gap-[14px] mb-[14px]">

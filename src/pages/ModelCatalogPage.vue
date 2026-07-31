@@ -50,6 +50,15 @@
                 <span class="font-medium text-text-primary">{{ record.title }}</span>
               </div>
             </template>
+            <template v-else-if="column.dataIndex === 'code'">
+              <span class="font-num text-[12px] text-text-secondary">{{ record.code || record.id?.toUpperCase() }}</span>
+            </template>
+            <template v-else-if="column.dataIndex === 'modalities'">
+              <div v-if="(record.modalities ?? []).length" class="flex flex-wrap gap-[4px]">
+                <a-tag v-for="m in record.modalities" :key="m" class="!m-0 !text-[11px]">{{ m }}</a-tag>
+              </div>
+              <span v-else class="text-[11px] text-text-tertiary">—</span>
+            </template>
             <template v-else-if="column.dataIndex === 'category'">
               <a-tag :color="categoryColorMap[record.category]" class="!m-0 !text-[11px]">{{ record.category }}</a-tag>
             </template>
@@ -65,8 +74,11 @@
                 <a-divider type="vertical" class="!mx-[2px]" />
                 <a-button type="link" size="small" class="!p-0" @click="onEdit(record)">编辑</a-button>
                 <a-divider type="vertical" class="!mx-[2px]" />
-                <a-popconfirm :title="`确认${record.status === '已上线使用' ? '下架' : '上架'}该模型？`" @confirm="onToggleStatus(record)">
+                <a-popconfirm v-if="record.status !== '停止使用'" :title="`确认${record.status === '已上线使用' ? '下架' : '上架'}该模型？`" @confirm="onToggleStatus(record)">
                   <a-button type="link" size="small" class="!p-0" :class="record.status === '已上线使用' ? '!text-danger' : ''">{{ record.status === '已上线使用' ? '下架' : '上架' }}</a-button>
+                </a-popconfirm>
+                <a-popconfirm v-else title="确认重新上架该模型？" @confirm="onToggleStatus(record)">
+                  <a-button type="link" size="small" class="!p-0">启用</a-button>
                 </a-popconfirm>
               </a-space>
               <a-space v-else size="small">
@@ -81,50 +93,31 @@
     </section>
 
     <!-- 查看抽屉 -->
-    <a-drawer v-model:open="viewDrawer.visible" title="模型编目详情" :width="560" placement="right">
+    <a-drawer v-model:open="viewDrawer.visible" title="模型编目详情" :width="720" placement="right">
       <template v-if="viewDrawer.record">
         <div class="rounded-[8px] bg-bg-soft border border-border-soft p-[14px] mb-[16px]">
-          <div class="flex gap-[6px] mb-[8px] flex-wrap">
-            <a-tag :color="categoryColorMap[viewDrawer.record.category]" class="!m-0 !text-[11px]">{{ viewDrawer.record.category }}</a-tag>
-            <a-tag :color="riskColor(viewDrawer.record.riskLevel)" class="!m-0 !text-[11px]">风险：{{ viewDrawer.record.riskLevel }}</a-tag>
+          <div class="flex items-center justify-between gap-[8px] flex-wrap mb-[4px]">
+            <div class="text-[16px] font-semibold text-text-primary">{{ viewDrawer.record.title }}</div>
             <a-badge :status="statusBadge(viewDrawer.record.status)" :text="viewDrawer.record.status" />
           </div>
-          <div class="text-[16px] font-semibold text-text-primary">{{ viewDrawer.record.title }}</div>
-          <div class="text-[11px] text-text-tertiary mt-[4px]">服务ID：{{ viewDrawer.record.id }}</div>
+          <div class="text-[11px] text-text-tertiary">模型代码：{{ viewDrawer.record.code || viewDrawer.record.id?.toUpperCase() }}</div>
         </div>
-        <a-descriptions :column="1" bordered size="small">
+        <a-descriptions :column="2" bordered size="small">
           <a-descriptions-item label="研发单位">{{ viewDrawer.record.unit }}</a-descriptions-item>
-          <a-descriptions-item label="能力分类">{{ viewDrawer.record.category }}</a-descriptions-item>
-          <a-descriptions-item label="风险等级">{{ viewDrawer.record.riskLevel }}</a-descriptions-item>
-          <a-descriptions-item label="计费方式">{{ viewDrawer.record.billingMethod }}</a-descriptions-item>
+          <a-descriptions-item label="能力分类">{{ viewDrawer.record.category || '-' }}</a-descriptions-item>
+          <a-descriptions-item label="风险等级">{{ viewDrawer.record.riskLevel || '-' }}</a-descriptions-item>
+          <a-descriptions-item label="计费方式">{{ viewDrawer.record.billingMethod || '-' }}</a-descriptions-item>
           <a-descriptions-item label="接入状态">{{ viewDrawer.record.status }}</a-descriptions-item>
-          <a-descriptions-item label="标签">
-            <a-tag v-for="t in (viewDrawer.record.tags ?? [])" :key="t" class="!m-0 !mr-[4px] !text-[11px]">{{ t }}</a-tag>
+          <a-descriptions-item label="支持的检查模态" :span="2">
+            <template v-if="(viewDrawer.record.modalities ?? []).length">
+              <a-tag v-for="m in viewDrawer.record.modalities" :key="m" class="!m-0 !mr-[4px] !text-[11px]">{{ m }}</a-tag>
+            </template>
+            <span v-else class="text-[12px] text-text-tertiary">-</span>
           </a-descriptions-item>
-          <a-descriptions-item label="接入端点">https://api.jsyb-ai.cn/v1/llm/{{ viewDrawer.record.id }}/invoke</a-descriptions-item>
+          <a-descriptions-item label="接入端点" :span="2">https://api.jsyb-ai.cn/v1/llm/{{ viewDrawer.record.id }}/invoke</a-descriptions-item>
           <a-descriptions-item label="创建时间">2024-03-15 10:00</a-descriptions-item>
           <a-descriptions-item label="最近更新">2024-07-12 14:30</a-descriptions-item>
         </a-descriptions>
-
-        <a-divider />
-
-        <div class="text-[13px] font-semibold text-text-primary mb-[10px]">资质材料</div>
-        <div class="space-y-[6px]">
-          <div class="flex items-center justify-between rounded-[6px] border border-border-soft p-[10px]">
-            <div class="flex items-center gap-[8px]">
-              <FileTextOutlined class="text-[14px] text-text-tertiary" />
-              <span class="text-[12px] text-text-primary">医疗器械注册证</span>
-            </div>
-            <a-tag color="success" class="!m-0 !text-[10px]">有效</a-tag>
-          </div>
-          <div class="flex items-center justify-between rounded-[6px] border border-border-soft p-[10px]">
-            <div class="flex items-center gap-[8px]">
-              <FileTextOutlined class="text-[14px] text-text-tertiary" />
-              <span class="text-[12px] text-text-primary">网信办算法备案</span>
-            </div>
-            <a-tag color="success" class="!m-0 !text-[10px]">有效</a-tag>
-          </div>
-        </div>
 
         <a-divider />
 
@@ -158,58 +151,15 @@
       </template>
     </a-drawer>
 
-    <!-- 新增/编辑弹窗 -->
-    <a-modal v-model:open="formModal.visible" :title="formModal.mode === 'create' ? '新增模型编目' : `编辑 - ${formModal.record?.title ?? ''}`" @ok="confirmForm" :ok-text="formModal.mode === 'create' ? '提交' : '保存'" cancel-text="取消" :width="560">
-      <a-form layout="vertical">
-        <a-form-item label="模型名称" required>
-          <a-input v-model:value="formModal.title" placeholder="如：肺结节CT图像辅助检测" />
-        </a-form-item>
-        <a-form-item label="研发单位" required>
-          <a-input v-model:value="formModal.unit" placeholder="如：北京汇医慧影医疗科技有限公司" />
-        </a-form-item>
-        <div class="grid grid-cols-2 gap-[12px]">
-          <a-form-item label="能力分类" required>
-            <a-select v-model:value="formModal.category" placeholder="请选择分类">
-              <a-select-option v-for="c in categoryOptions" :key="c" :value="c">{{ c }}</a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item label="风险等级" required>
-            <a-select v-model:value="formModal.riskLevel" placeholder="请选择风险等级">
-              <a-select-option value="高风险">高风险</a-select-option>
-              <a-select-option value="中风险">中风险</a-select-option>
-              <a-select-option value="低风险">低风险</a-select-option>
-            </a-select>
-          </a-form-item>
-        </div>
-        <div class="grid grid-cols-2 gap-[12px]">
-          <a-form-item label="计费方式" required>
-            <a-select v-model:value="formModal.billingMethod" placeholder="请选择计费方式">
-              <a-select-option value="按Token">按Token</a-select-option>
-              <a-select-option value="按检查例次">按检查例次</a-select-option>
-              <a-select-option value="按调用次数">按调用次数</a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item label="接入状态" required>
-            <a-select v-model:value="formModal.status" placeholder="请选择状态">
-              <a-select-option value="已上线使用">已上线使用</a-select-option>
-              <a-select-option value="对接上线中">对接上线中</a-select-option>
-              <a-select-option value="对接测试中">对接测试中</a-select-option>
-            </a-select>
-          </a-form-item>
-        </div>
-        <a-form-item label="标签">
-          <a-select v-model:value="formModal.tags" mode="tags" placeholder="输入标签后回车" :token-separators="[',']" />
-        </a-form-item>
-        <a-alert type="info" show-icon message="新增编目需平台审核通过后生效；编辑已上架模型将触发版本评审流程" />
-      </a-form>
-    </a-modal>
+    <!-- 新增/编辑跳转至独立页面 -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
-import { PlusOutlined, RobotOutlined, FileTextOutlined } from '@ant-design/icons-vue';
+import { PlusOutlined, RobotOutlined } from '@ant-design/icons-vue';
 import { capabilityGroups, filters, recommendationRanks } from '../data';
 import type { CapabilityCardData, RiskLevel } from '../types';
 import type { FilterOption } from '../types';
@@ -219,13 +169,14 @@ import FilterDimensions from '../components/common/FilterDimensions.vue';
 import ResourceRanking from '../components/common/ResourceRanking.vue';
 import { useAuthStore } from '../stores/auth';
 
+const router = useRouter();
 const auth = useAuthStore();
 const isAdmin = computed(() => auth.role === 'admin');
 
 const filterDims: FilterOption[] = [
   ...filters.map((f) => ({ label: f.label, options: f.options, defaultValue: f.defaultValue })),
   { label: '计费方式', defaultValue: '全部', options: ['全部', '按Token', '按检查例次', '按调用次数'] },
-  { label: '接入状态', defaultValue: '全部', options: ['全部', '已上线使用', '对接上线中', '对接测试中'] },
+  { label: '接入状态', defaultValue: '全部', options: ['全部', '已上线使用', '对接上线中', '对接测试中', '停止使用'] },
 ];
 
 const selectedFilters = ref<Record<string, string>>(
@@ -273,10 +224,12 @@ const catalogStats = computed(() => {
 
 const columns = [
   { title: '模型名称', dataIndex: 'title', key: 'title' },
-  { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 240 },
-  { title: '能力分类', dataIndex: 'category', key: 'category', width: 200 },
+  { title: '模型代码', dataIndex: 'code', key: 'code', width: 160 },
+  { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 220 },
+  { title: '能力分类', dataIndex: 'category', key: 'category', width: 180 },
   { title: '风险等级', dataIndex: 'riskLevel', key: 'riskLevel', width: 100 },
   { title: '计费方式', dataIndex: 'billingMethod', key: 'billingMethod', width: 120 },
+  { title: '支持的检查模态', dataIndex: 'modalities', key: 'modalities', width: 200 },
   { title: '状态', dataIndex: 'status', key: 'status', width: 120 },
   { title: '操作', dataIndex: 'action', key: 'action', width: 200 },
 ];
@@ -300,6 +253,7 @@ function statusBadge(status?: string) {
   if (status === '已上线使用') return 'success';
   if (status === '对接测试中') return 'processing';
   if (status === '对接上线中') return 'warning';
+  if (status === '停止使用') return 'error';
   return 'default';
 }
 
@@ -350,106 +304,18 @@ function onApplyAccess(record: CapabilityCardData) {
   message.success(`已提交「${record.title}」的使用申请，等待平台审批`);
 }
 
-// 新增/编辑弹窗
-const formModal = ref<{
-  visible: boolean;
-  mode: 'create' | 'edit';
-  record: CapabilityCardData | null;
-  title: string;
-  unit: string;
-  category: string;
-  riskLevel: RiskLevel | undefined;
-  billingMethod: string;
-  status: string | undefined;
-  tags: string[];
-}>({
-  visible: false,
-  mode: 'create',
-  record: null,
-  title: '',
-  unit: '',
-  category: '',
-  riskLevel: undefined,
-  billingMethod: '',
-  status: undefined,
-  tags: [],
-});
-
 function onCreate() {
-  formModal.value = {
-    visible: true,
-    mode: 'create',
-    record: null,
-    title: '',
-    unit: '',
-    category: '',
-    riskLevel: undefined,
-    billingMethod: '',
-    status: '对接测试中',
-    tags: [],
-  };
+  router.push('/admin/model-catalog/edit');
 }
 
 function onEdit(record: CapabilityCardData) {
-  formModal.value = {
-    visible: true,
-    mode: 'edit',
-    record,
-    title: record.title,
-    unit: record.unit,
-    category: record.category,
-    riskLevel: record.riskLevel,
-    billingMethod: record.billingMethod ?? '',
-    status: record.status,
-    tags: [...(record.tags ?? [])],
-  };
-}
-
-function confirmForm() {
-  const m = formModal.value;
-  if (!m.title || !m.unit || !m.category || !m.riskLevel || !m.billingMethod || !m.status) {
-    message.warning('请完整填写编目信息');
-    return;
-  }
-  if (m.mode === 'create') {
-    const newId = `model-${Date.now()}`;
-    allModels.value.unshift({
-      id: newId,
-      title: m.title,
-      unit: m.unit,
-      category: m.category as any,
-      riskLevel: m.riskLevel,
-      billingMethod: m.billingMethod as any,
-      status: m.status as any,
-      tags: m.tags,
-      description: '',
-      iconType: 'brain',
-      iconTone: 'blue',
-    });
-    message.success(`模型「${m.title}」已新增，等待平台审核`);
-  } else if (m.record) {
-    const idx = allModels.value.findIndex((x) => x.id === m.record!.id);
-    if (idx >= 0) {
-      allModels.value[idx] = {
-        ...allModels.value[idx],
-        title: m.title,
-        unit: m.unit,
-        category: m.category as any,
-        riskLevel: m.riskLevel,
-        billingMethod: m.billingMethod as any,
-        status: m.status as any,
-        tags: m.tags,
-      };
-    }
-    message.success(`模型「${m.title}」信息已更新`);
-  }
-  formModal.value.visible = false;
+  router.push(`/admin/model-catalog/edit?id=${record.id}`);
 }
 
 function onToggleStatus(record: CapabilityCardData) {
   if (record.status === '已上线使用') {
-    record.status = '对接测试中';
-    message.success(`${record.title} 已下架`);
+    record.status = '停止使用';
+    message.success(`${record.title} 已停止使用`);
   } else {
     record.status = '已上线使用';
     message.success(`${record.title} 已上架`);

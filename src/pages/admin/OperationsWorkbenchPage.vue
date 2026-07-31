@@ -200,7 +200,7 @@ const todos = [
   { id: 't1', title: '服务准入待审核', count: 12, module: '服务准入管理 · 资质核验 8 项', path: '/admin/operations/service-access' },
   { id: 't2', title: '机构准入待审核', count: 4, module: '机构准入管理 · 资质核验中', path: '/admin/operations/org-access' },
   { id: 't3', title: '异常对账待处置', count: 8, module: '异常对账管理 · 核验中 3 条', path: '/admin/reconciliation/exceptions' },
-  { id: 't4', title: '质量考核待复核', count: 5, module: '质量考核管理 · 投诉待处理', path: '/admin/operations/quality' },
+  { id: 't4', title: '质量考核待复核', count: 5, module: '质量评价管理 · 投诉待处理', path: '/admin/operations/quality' },
 ];
 
 const totalTodos = computed(() => todos.reduce((sum, t) => sum + t.count, 0));

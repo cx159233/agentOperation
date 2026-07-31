@@ -44,7 +44,7 @@ export const roleSidebarMenus: Record<AuthRole, RoleSidebarMenu[]> = {
       ],
     },
     {
-      label: '词元费用中心',
+      label: '词元经济管理',
       path: '/org-workbench/bills',
       icon: 'wallet',
       children: [
@@ -80,7 +80,7 @@ export const roleSidebarMenus: Record<AuthRole, RoleSidebarMenu[]> = {
       ],
     },
     {
-      label: '词元费用中心',
+      label: '结算中心',
       path: '/developer-center/revenue',
       icon: 'wallet',
       children: [
@@ -92,11 +92,18 @@ export const roleSidebarMenus: Record<AuthRole, RoleSidebarMenu[]> = {
   admin: [
     { label: '工作台', path: '/admin/workbench', icon: 'dashboard' },
     {
-      label: '资产编目管理',
+      label: '服务目录管理',
       path: '/admin/model-catalog',
-      icon: 'fund',
+      icon: 'service',
       children: [
         { label: '模型资源', path: '/admin/model-catalog' },
+      ],
+    },
+    {
+      label: '资产统筹管理',
+      path: '/admin/resource/data',
+      icon: 'fund',
+      children: [
         { label: '数据资源', path: '/admin/resource/data' },
         { label: '知识体系', path: '/admin/resource/knowledge' },
         { label: '平台工具', path: '/admin/resource/tools' },
@@ -113,7 +120,7 @@ export const roleSidebarMenus: Record<AuthRole, RoleSidebarMenu[]> = {
       ],
     },
     {
-      label: '词元费用中心',
+      label: '词元经济管理',
       path: '/admin/billing',
       icon: 'reconciliation',
       children: [
@@ -124,13 +131,13 @@ export const roleSidebarMenus: Record<AuthRole, RoleSidebarMenu[]> = {
       ],
     },
     {
-      label: '运行监控中心',
+      label: '服务运行监管',
       path: '/admin/operations/quality',
       icon: 'monitor',
       children: [
         { label: '服务开通管理', path: '/admin/operations/service-provisioning' },
-        { label: '质量考核管理', path: '/admin/operations/quality' },
-        { label: '运行监测分析', path: '/admin/ops-analytics' },
+        { label: '质量评价管理', path: '/admin/operations/quality' },
+        { label: '运行成效分析', path: '/admin/ops-analytics' },
       ],
     },
     { label: '安全审计中心', path: '/admin/operations/audit/operation', icon: 'audit', children: [
@@ -139,7 +146,7 @@ export const roleSidebarMenus: Record<AuthRole, RoleSidebarMenu[]> = {
       { label: '登录日志', path: '/admin/operations/audit/login' },
     ]},
     {
-      label: '机构管理',
+      label: '机构协同管理',
       path: '/admin/org-mgmt',
       icon: 'org',
       children: [
@@ -439,7 +446,7 @@ export const operationModules: OperationModule[] = [
   { title: '服务准入管理', description: '三级差异化审核流程，资质核验、技术测评、临床验收全流程留痕', items: ['待审核 12 项', '资质核验 8 项', '临床验收 5 项'], tone: 'primary' },
   { title: '上架下架管理', description: '服务上架、暂停、恢复和退出统一管理，资质到期/质量下降自动触发退出', items: ['在售 256 项', '暂停 3 项', '退出预警 2 项'], tone: 'cyan' },
   { title: '运行监测管理', description: '接入机构、上架服务、调用总量、活跃用户、调用趋势和异常预警实时监测', items: ['调用趋势正常', '异常预警 3 条', '热门服务 TOP10'], tone: 'success' },
-  { title: '质量考核管理', description: '准确性、稳定性、响应时效、用户反馈、投诉情况和合规记录综合评价', items: ['准确率 96.8%', '平均时延 280ms', '满意度 98.1%'], tone: 'warning' },
+  { title: '质量评价管理', description: '准确性、稳定性、响应时效、用户反馈、投诉情况和合规记录综合评价', items: ['准确率 96.8%', '平均时延 280ms', '满意度 98.1%'], tone: 'warning' },
   { title: '安全审计管理', description: '服务调用、权限变更、材料审核、额度调整、账单确认等关键行为留痕审计', items: ['今日日志 18,230 条', '异常操作 3 条', '加密存储已开启'], tone: 'danger' },
 ];
 

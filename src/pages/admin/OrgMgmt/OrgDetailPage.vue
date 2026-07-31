@@ -3,10 +3,10 @@
     <div class="flex items-center gap-[8px] mb-[14px]">
       <a-button type="text" class="!px-[6px] !text-text-secondary" @click="onBack">
         <template #icon><ArrowLeftOutlined /></template>
-        返回机构管理
+        返回机构协同管理
       </a-button>
       <a-divider type="vertical" class="!mx-[4px]" />
-      <span class="text-[12px] text-text-tertiary">机构管理 / {{ orgInfo?.orgName }} / 用户列表</span>
+      <span class="text-[12px] text-text-tertiary">机构协同管理 / {{ orgInfo?.orgName }} / 用户列表</span>
     </div>
 
     <section class="cloud-card p-[0] overflow-hidden">

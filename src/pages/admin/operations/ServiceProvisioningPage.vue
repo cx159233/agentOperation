@@ -98,27 +98,64 @@
     <a-modal v-model:open="provisionModal.visible" :title="provisionModal.step === 1 ? '服务开通 · 选择模型' : '服务开通'" :width="880" :footer="null" :mask-closable="false">
       <!-- Step 1: 选模型 -->
       <template v-if="provisionModal.step === 1">
-        <div class="flex items-center gap-[10px] mb-[12px]">
-          <a-input v-model:value="provisionModal.keyword" style="width: 260px" placeholder="按模型名称搜索" allow-clear>
+        <div class="grid grid-cols-3 gap-[10px] mb-[12px]">
+          <a-input v-model:value="provisionModal.keyword" placeholder="按模型名称搜索" allow-clear>
             <template #prefix><SearchOutlined /></template>
           </a-input>
-          <a-select v-model:value="provisionModal.category" style="width: 200px" placeholder="能力分类">
+          <a-select v-model:value="provisionModal.category" placeholder="能力分类" allow-clear>
             <a-select-option v-for="opt in categoryOptions" :key="opt" :value="opt">{{ opt }}</a-select-option>
           </a-select>
+          <a-select v-model:value="provisionModal.riskLevel" placeholder="风险等级" allow-clear>
+            <a-select-option value="高风险">高风险</a-select-option>
+            <a-select-option value="中风险">中风险</a-select-option>
+            <a-select-option value="低风险">低风险</a-select-option>
+          </a-select>
+          <a-select v-model:value="provisionModal.billingMethod" placeholder="计费方式" allow-clear>
+            <a-select-option value="按Token">按 Token</a-select-option>
+            <a-select-option value="按检查例次">按检查例次</a-select-option>
+            <a-select-option value="按调用次数">按调用次数</a-select-option>
+          </a-select>
+          <a-select v-model:value="provisionModal.unit" placeholder="研发单位" allow-clear show-search :filter-option="filterUnitOpt">
+            <a-select-option v-for="u in unitOptions" :key="u" :value="u">{{ u }}</a-select-option>
+          </a-select>
+          <a-select v-model:value="provisionModal.status" placeholder="接入状态" allow-clear>
+            <a-select-option value="已上线使用">已上线使用</a-select-option>
+            <a-select-option value="对接上线中">对接上线中</a-select-option>
+            <a-select-option value="对接测试中">对接测试中</a-select-option>
+            <a-select-option value="停止使用">停止使用</a-select-option>
+          </a-select>
         </div>
-        <div class="max-h-[460px] overflow-y-auto pr-[4px]">
-          <div class="grid grid-cols-3 gap-[12px]">
-            <div
-              v-for="item in filteredModels"
-              :key="item.id"
-              class="rounded-[8px] border-[2px] cursor-pointer transition-all p-[2px]"
-              :class="provisionModal.selectedId === item.id ? 'border-primary shadow-md shadow-primary/10' : 'border-transparent hover:border-primary/30'"
-              @click="provisionModal.selectedId = item.id"
-            >
-              <ServiceCard :item="item" hide-detail />
-            </div>
-          </div>
-          <a-empty v-if="filteredModels.length === 0" description="未找到匹配的模型" class="py-[60px]" />
+        <div class="max-h-[420px] overflow-y-auto pr-[4px]">
+          <a-table
+            :columns="modelColumns"
+            :data-source="filteredModels"
+            :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50'], showTotal: (t: number) => `共 ${t} 项` }"
+            size="middle"
+            :row-key="(r: any) => r.id"
+            :row-selection="{ type: 'radio', selectedRowKeys: provisionModal.selectedId ? [provisionModal.selectedId] : [], onChange: onModelSelect }"
+            :custom-row="modelRowEvents"
+          >
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.dataIndex === 'title'">
+                <div class="flex items-center gap-[8px]">
+                  <div class="w-[24px] h-[24px] rounded-[6px] bg-primary-50 grid place-items-center">
+                    <RobotOutlined class="text-[13px] text-primary" />
+                  </div>
+                  <span class="font-medium text-text-primary">{{ record.title }}</span>
+                </div>
+              </template>
+              <template v-else-if="column.dataIndex === 'category'">
+                <a-tag :color="categoryColorMap[record.category]" class="!m-0 !text-[11px]">{{ record.category }}</a-tag>
+              </template>
+              <template v-else-if="column.dataIndex === 'riskLevel'">
+                <a-tag :color="riskTagColor(record.riskLevel)" class="!m-0 !text-[11px]">{{ record.riskLevel }}</a-tag>
+              </template>
+              <template v-else-if="column.dataIndex === 'status'">
+                <a-badge :status="modelStatusBadge(record.status)" :text="record.status" />
+              </template>
+            </template>
+          </a-table>
+          <a-empty v-if="filteredModels.length === 0" description="未找到匹配的模型" class="py-[40px]" />
         </div>
         <div class="mt-[14px] flex justify-end gap-[8px]">
           <a-button @click="provisionModal.visible = false">取消</a-button>
@@ -133,19 +170,19 @@
           <div class="text-[11px] text-text-secondary mt-[2px]">{{ selectedModel.category }} · {{ selectedModel.billingMethod }} · {{ selectedModel.riskLevel }}</div>
         </div>
         <a-form layout="vertical">
-          <a-form-item label="机构名称" required>
-            <a-select v-model:value="provisionModal.orgName" placeholder="请选择机构" show-search allow-clear>
-              <a-select-option v-for="o in orgOptions" :key="o" :value="o">{{ o }}</a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item label="订阅周期" required>
-            <a-radio-group v-model:value="provisionModal.period">
-              <a-radio-button value="1年">1 年</a-radio-button>
-              <a-radio-button value="2年">2 年（9.5 折）</a-radio-button>
-              <a-radio-button value="3年">3 年（9 折）</a-radio-button>
-            </a-radio-group>
-          </a-form-item>
           <div class="grid grid-cols-2 gap-[12px]">
+            <a-form-item label="机构名称" required>
+              <a-select v-model:value="provisionModal.orgName" placeholder="请选择机构" show-search allow-clear>
+                <a-select-option v-for="o in orgOptions" :key="o" :value="o">{{ o }}</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="订阅周期" required>
+              <a-radio-group v-model:value="provisionModal.period">
+                <a-radio-button value="1年">1 年</a-radio-button>
+                <a-radio-button value="2年">2 年（9.5 折）</a-radio-button>
+                <a-radio-button value="3年">3 年（9 折）</a-radio-button>
+              </a-radio-group>
+            </a-form-item>
             <a-form-item label="使用范围" required>
               <a-select v-model:value="provisionModal.scope" placeholder="请选择使用范围">
                 <a-select-option value="全院">全院</a-select-option>
@@ -180,17 +217,6 @@
               <a-input v-model:value="provisionModal.contactPhone" placeholder="请输入手机号" />
             </a-form-item>
           </div>
-          <a-form-item label="工作台展示方式" required>
-            <a-radio-group v-model:value="provisionModal.workbenchMode">
-              <a-radio-button value="entry">工作台入口</a-radio-button>
-              <a-radio-button value="direct">直接跳转</a-radio-button>
-            </a-radio-group>
-            <div class="text-[11px] text-text-tertiary mt-[4px]">工作台入口：在工作台展示卡片，点击后跳转；直接跳转：不展示卡片，从侧边栏/快捷入口直奔业务系统</div>
-          </a-form-item>
-          <a-form-item label="跳转地址">
-            <a-input v-model:value="provisionModal.overrideUrl" :placeholder="`默认使用服务级地址：${selectedModel.entryUrl ?? '未配置'}`" />
-            <div class="text-[11px] text-text-tertiary mt-[4px]">留空则使用服务级默认地址，填写后将覆盖该机构的跳转地址</div>
-          </a-form-item>
           <a-form-item required>
             <a-checkbox v-model:checked="provisionModal.agreed">
               我已阅读并同意 <a class="text-primary">《AI 服务接入协议》</a> 与 <a class="text-primary">《数据安全使用承诺书》</a>
@@ -208,15 +234,14 @@
     <!-- 详情抽屉 -->
     <a-drawer v-model:open="drawer.visible" title="服务开通详情" :width="760" placement="right">
       <template v-if="drawer.record">
+        <div class="rounded-[8px] bg-bg p-[12px] mb-[16px]">
+          <div class="text-[14px] font-semibold text-text-primary">{{ drawer.record.name }}</div>
+          <div class="text-[11px] text-text-secondary mt-[4px]">{{ drawer.record.category }} · {{ drawer.record.billingMethod }} · 有效期至 {{ drawer.record.validUntil }}</div>
+          <div class="mt-[6px]"><a-badge :status="statusBadge(drawer.record.status)" :text="drawer.record.status" /></div>
+        </div>
         <a-tabs v-model:activeKey="drawer.activeTab">
           <!-- Tab1 调用说明 -->
           <a-tab-pane key="call" tab="调用说明">
-            <div class="rounded-[8px] bg-bg p-[12px] mb-[16px]">
-              <div class="text-[14px] font-semibold text-text-primary">{{ drawer.record.name }}</div>
-              <div class="text-[11px] text-text-secondary mt-[4px]">{{ drawer.record.category }} · {{ drawer.record.billingMethod }} · 有效期至 {{ drawer.record.validUntil }}</div>
-              <div class="mt-[6px]"><a-badge :status="statusBadge(drawer.record.status)" :text="drawer.record.status" /></div>
-            </div>
-
             <div class="text-[13px] font-semibold text-text-primary mb-[10px]">接入凭证</div>
             <a-descriptions :column="1" bordered size="small">
               <a-descriptions-item label="API 端点">
@@ -382,7 +407,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 import { message } from 'ant-design-vue';
-import { DownloadOutlined, PlusOutlined, AppstoreOutlined, ClockCircleOutlined, ExclamationCircleOutlined, RiseOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { DownloadOutlined, PlusOutlined, AppstoreOutlined, ClockCircleOutlined, ExclamationCircleOutlined, RiseOutlined, SearchOutlined, RobotOutlined } from '@ant-design/icons-vue';
 import dayjs, { type Dayjs } from 'dayjs';
 import { provisionedServices } from '../../../data/operations';
 import type { ProvisionedService, Grant, GrantLevel } from '../../../data/operations';
@@ -393,7 +418,6 @@ import PageHeader from '../../../components/common/PageHeader.vue';
 import FilterBar from '../../../components/common/FilterBar.vue';
 import ColumnSettings from '../../../components/common/ColumnSettings.vue';
 import StatCard from '../../../components/common/StatCard.vue';
-import ServiceCard from '../../../components/capability/ServiceCard.vue';
 
 const services = reactive(provisionedServices);
 
@@ -524,13 +548,57 @@ function onViewDetail(record: any) {
 
 // ===================== 代开通弹窗 =====================
 const allModels = computed(() => capabilityGroups.flatMap((g) => g.columns.flatMap((c) => c.items)));
-const categoryOptions = computed(() => ['全部', ...Array.from(new Set(allModels.value.map((m) => m.category)))]);
+const categoryOptions = computed(() => Array.from(new Set(allModels.value.map((m) => m.category))));
+const unitOptions = computed(() => Array.from(new Set(allModels.value.map((m) => m.unit).filter(Boolean))));
+const modelColumns = [
+  { title: '模型名称', dataIndex: 'title', key: 'title' },
+  { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 200 },
+  { title: '能力分类', dataIndex: 'category', key: 'category', width: 160 },
+  { title: '风险等级', dataIndex: 'riskLevel', key: 'riskLevel', width: 90 },
+  { title: '计费方式', dataIndex: 'billingMethod', key: 'billingMethod', width: 110 },
+  { title: '接入状态', dataIndex: 'status', key: 'status', width: 110 },
+];
+const categoryColorMap: Record<string, string> = {
+  通用基础大模型: 'blue',
+  医保自研专属大模型: 'cyan',
+  医保基金监管共建模型: 'purple',
+  省头部医疗机构共建垂直模型: 'green',
+  市场化合规生态AI产品: 'orange',
+};
+function riskTagColor(level?: string): 'error' | 'warning' | 'success' | 'default' {
+  if (level === '高风险') return 'error';
+  if (level === '中风险') return 'warning';
+  if (level === '低风险') return 'success';
+  return 'default';
+}
+function modelStatusBadge(status?: string) {
+  if (status === '已上线使用') return 'success';
+  if (status === '对接测试中') return 'processing';
+  if (status === '对接上线中') return 'warning';
+  if (status === '停止使用') return 'error';
+  return 'default';
+}
+function filterUnitOpt(input: string, option: any) {
+  return (option?.children?.[0]?.children ?? option?.value ?? '').toLowerCase().includes(input.toLowerCase());
+}
+function onModelSelect(selectedKeys: string[]) {
+  provisionModal.value.selectedId = selectedKeys[0] ?? '';
+}
+const modelRowEvents = (record: any) => ({
+  onClick: () => {
+    provisionModal.value.selectedId = record.id;
+  },
+});
 
 const provisionModal = ref<{
   visible: boolean;
   step: 1 | 2;
   keyword: string;
-  category: string;
+  category: string | undefined;
+  riskLevel: string | undefined;
+  billingMethod: string | undefined;
+  unit: string | undefined;
+  status: string | undefined;
   selectedId: string;
   orgName: string;
   period: string;
@@ -559,6 +627,10 @@ const provisionModal = ref<{
   purpose: '',
   contactName: '',
   contactPhone: '',
+  riskLevel: undefined,
+  billingMethod: undefined,
+  unit: undefined,
+  status: undefined,
   workbenchMode: 'entry',
   overrideUrl: '',
   agreed: false,
@@ -567,7 +639,11 @@ const provisionModal = ref<{
 const filteredModels = computed(() => {
   const kw = provisionModal.value.keyword.trim().toLowerCase();
   return allModels.value.filter((m) => {
-    if (provisionModal.value.category !== '全部' && m.category !== provisionModal.value.category) return false;
+    if (provisionModal.value.category && m.category !== provisionModal.value.category) return false;
+    if (provisionModal.value.riskLevel && m.riskLevel !== provisionModal.value.riskLevel) return false;
+    if (provisionModal.value.billingMethod && m.billingMethod !== provisionModal.value.billingMethod) return false;
+    if (provisionModal.value.unit && m.unit !== provisionModal.value.unit) return false;
+    if (provisionModal.value.status && m.status !== provisionModal.value.status) return false;
     if (kw && !m.title.toLowerCase().includes(kw)) return false;
     return true;
   });
@@ -591,7 +667,11 @@ function onOpenProvision() {
     visible: true,
     step: 1,
     keyword: '',
-    category: '全部',
+    category: undefined,
+    riskLevel: undefined,
+    billingMethod: undefined,
+    unit: undefined,
+    status: undefined,
     selectedId: '',
     orgName: '',
     period: '1年',
@@ -613,6 +693,7 @@ function goToStep2() {
     message.warning('请先选择一个模型');
     return;
   }
+  provisionModal.value.overrideUrl = selectedModel.value?.entryUrl ?? '';
   provisionModal.value.step = 2;
 }
 

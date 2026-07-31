@@ -61,6 +61,7 @@ const router = createRouter({
         { path: '', redirect: '/admin/workbench' },
         { path: 'workbench', name: 'OperationsWorkbench', component: () => import('../pages/admin/OperationsWorkbenchPage.vue'), meta: { title: '运营工作台' } },
         { path: 'model-catalog', name: 'ModelCatalog', component: () => import('../pages/ModelCatalogPage.vue'), meta: { title: '模型资源' } },
+        { path: 'model-catalog/edit', name: 'ModelCatalogEdit', component: () => import('../pages/admin/ModelCatalogEditPage.vue'), meta: { title: '模型编目编辑' } },
         { path: 'resource/data', name: 'DataResource', component: () => import('../pages/DataResourcePage.vue'), meta: { title: '数据资源' } },
         { path: 'resource/knowledge', name: 'KnowledgeSystem', component: () => import('../pages/KnowledgeSystemPage.vue'), meta: { title: '知识体系' } },
         { path: 'resource/tools', name: 'PlatformTools', component: () => import('../pages/PlatformToolsPage.vue'), meta: { title: '平台工具' } },
@@ -77,12 +78,12 @@ const router = createRouter({
         { path: 'operations/subscription-audit', name: 'OperationsSubscriptionAudit', component: () => import('../pages/admin/operations/SubscriptionAuditPage.vue'), meta: { title: '服务订阅审核' } },
         { path: 'operations/service-provisioning', name: 'OperationsServiceProvisioning', component: () => import('../pages/admin/operations/ServiceProvisioningPage.vue'), meta: { title: '服务开通管理' } },
         { path: 'operations/monitoring', name: 'OperationsMonitoring', component: () => import('../pages/admin/operations/MonitoringPage.vue'), meta: { title: '调用日志' } },
-        { path: 'operations/quality', name: 'OperationsQuality', component: () => import('../pages/admin/operations/QualityPage.vue'), meta: { title: '质量考核管理' } },
+        { path: 'operations/quality', name: 'OperationsQuality', component: () => import('../pages/admin/operations/QualityPage.vue'), meta: { title: '质量评价管理' } },
         { path: 'operations/audit', redirect: '/admin/operations/audit/operation' },
         { path: 'operations/audit/operation', name: 'OperationLogs', component: () => import('../pages/admin/operations/AuditPage.vue'), meta: { title: '操作日志' } },
         { path: 'operations/audit/login', name: 'LoginLogs', component: () => import('../pages/admin/operations/LoginLogPage.vue'), meta: { title: '登录日志' } },
         // 数据分析
-        { path: 'ops-analytics', name: 'OpsAnalytics', component: () => import('../pages/OpsAnalyticsPage.vue'), meta: { title: '运行监测分析' } },
+        { path: 'ops-analytics', name: 'OpsAnalytics', component: () => import('../pages/OpsAnalyticsPage.vue'), meta: { title: '运行成效分析' } },
         // 机构管理
         { path: 'developer-mgmt', name: 'DeveloperMgmt', component: () => import('../pages/DeveloperMgmtPage.vue'), meta: { title: '开发者管理' } },
         { path: 'user-mgmt', name: 'UserMgmt', component: () => import('../pages/UserMgmtPage.vue'), meta: { title: '用户管理' } },
