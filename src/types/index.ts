@@ -31,11 +31,18 @@ export type CapabilityCardData = {
   billingMethod?: string;
   /** 服务提供机构 */
   provider?: string;
+  /** 模型代码 */
+  code?: string;
+  /** 内部标识 */
+  internalId?: string;
+  /** 支持的检查模态 */
+  modalities?: string[];
   iconType: 'brain' | 'document' | 'lungs' | 'eye' | 'robot' | 'stethoscope' | 'cloud' | 'scan' | 'file' | 'assistant' | 'bar-chart' | 'shield-check';
   iconTone: 'blue' | 'cyan' | 'green' | 'orange' | 'purple' | 'rose';
-  status?: '已上线使用' | '对接测试中' | '对接上线中';
+  status?: '已上线使用' | '对接测试中' | '对接上线中' | '已下架';
   /** 业务系统跳转地址，上架时填写，开通时可被覆盖 */
   entryUrl?: string;
+  createdAt?: string;
 };
 
 export type CapabilityColumn = { title: string; items: CapabilityCardData[] };
@@ -186,7 +193,7 @@ export type AccessReviewLevel = {
 // ============================ 重构新增类型 ============================
 
 /** 用户角色 */
-export type AuthRole = 'org' | 'developer' | 'admin';
+export type AuthRole = 'org' | 'developer' | 'admin' | 'endUser';
 
 /** 登录用户信息 */
 export type UserInfo = {

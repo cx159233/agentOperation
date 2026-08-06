@@ -206,7 +206,7 @@
                 <a-input-number v-model:value="form.unitPrice" addon-after="元" :min="0" :step="0.01" style="width: 100%" />
               </a-form-item>
               <a-form-item label="计量单位" required>
-                <a-input v-model:value="form.unit" :placeholder="unitPlaceholder" />
+                <a-input v-model:value="form.billingUnit" :placeholder="unitPlaceholder" />
               </a-form-item>
               <a-form-item label="试用额度">
                 <a-input v-model:value="form.trialQuota" placeholder="如：500 次调用" />
@@ -299,7 +299,7 @@ const form = ref({
   requestExample: '',
   responseExample: '',
   unitPrice: 0,
-  unit: '',
+  billingUnit: '',
   trialQuota: '',
   billingNote: '',
   agree: false,
@@ -427,7 +427,7 @@ onMounted(() => {
       form.value.authType = 'Bearer Token (AK/SK)';
       form.value.qps = 50;
       form.value.unitPrice = svc.billingMethod === '按Token' ? 0.004 : 0.5;
-      form.value.unit = svc.billingMethod === '按Token' ? '千词元' : svc.billingMethod === '按检查例次' ? '例' : '次';
+      form.value.billingUnit = svc.billingMethod === '按Token' ? '千词元' : svc.billingMethod === '按检查例次' ? '例' : '次';
       form.value.trialQuota = '500 次';
       form.value.billingNote = '';
       form.value.agree = true;
@@ -473,7 +473,7 @@ function validate(): string | null {
   if (form.value.capabilities.length === 0) return '请填写核心能力标签';
   if (!form.value.apiEndpoint) return '请填写 API 端点';
   if (!form.value.unitPrice || form.value.unitPrice <= 0) return '请填写有效单价';
-  if (!form.value.unit) return '请填写计量单位';
+  if (!form.value.billingUnit) return '请填写计量单位';
   const missingDocs = qualificationDocs.value.filter((d) => d.required && !form.value.uploads[d.key]);
   if (missingDocs.length > 0) return `请上传资质材料：${missingDocs.map((d) => d.label).join('、')}`;
   if (!form.value.agree) return '请勾选并同意上架协议';

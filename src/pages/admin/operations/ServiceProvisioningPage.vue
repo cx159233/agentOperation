@@ -1,6 +1,6 @@
 <template>
   <div class="p-[20px]">
-    <PageHeader title="服务开通管理" description="查看全量机构已开通服务的额度、凭证与审核溯源信息，支持管理员代开通" />
+    <PageHeader title="服务开通列表" description="查看全量机构已开通服务的额度、凭证与审核溯源信息，支持管理员代开通" />
 
     <!-- KPI -->
     <section class="grid grid-cols-4 gap-[14px] mb-[14px]">
@@ -52,11 +52,11 @@
         <a-table :columns="visibleColumns" :data-source="filteredData" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 条` }" size="middle">
           <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'orgName'">
-              <span class="font-semibold text-text-primary">{{ record.orgName }}</span>
+              <span>{{ record.orgName }}</span>
             </template>
             <template v-else-if="column.dataIndex === 'name'">
-              <div class="font-semibold text-text-primary">{{ record.name }}</div>
-              <div class="text-[11px] text-text-tertiary mt-[2px]">{{ record.category }}</div>
+              <span class="font-semibold text-text-primary">{{ record.name }}</span>
+              <div class="text-[12px] text-text-tertiary mt-[2px] font-num">{{ record.internalId || '--' }}</div>
             </template>
             <template v-else-if="column.dataIndex === 'usage'">
               <div class="flex items-center gap-[8px]">
@@ -66,16 +66,16 @@
               <div class="text-[11px] text-text-tertiary mt-[2px]">{{ record.used }} / {{ record.quota }}</div>
             </template>
             <template v-else-if="column.dataIndex === 'subAccounts'">
-              <span class="font-num text-[12px] text-text-primary">{{ record.subAccounts.length }} 个</span>
+              <span class="font-num">{{ record.subAccounts.length }} 个</span>
             </template>
             <template v-else-if="column.dataIndex === 'provisionedAt'">
-              <span class="font-num text-[12px] text-text-primary">{{ record.provisionedAt }}</span>
+              <span class="font-num whitespace-nowrap">{{ record.provisionedAt }}</span>
             </template>
             <template v-else-if="column.dataIndex === 'validUntil'">
-              <span class="font-num text-[12px] text-text-primary">{{ record.validUntil }}</span>
+              <span class="font-num whitespace-nowrap">{{ record.validUntil }}</span>
             </template>
             <template v-else-if="column.dataIndex === 'status'">
-              <div class="whitespace-nowrap"><a-badge :status="statusBadge(record.status)" :text="record.status" /></div>
+              <a-badge :status="statusBadge(record.status)" :text="record.status" />
             </template>
             <template v-else-if="column.dataIndex === 'workbenchMode'">
               <a-tag :color="record.workbenchMode === 'direct' ? 'blue' : 'cyan'" class="!m-0 !text-[11px]">{{ record.workbenchMode === 'direct' ? '直接跳转' : '工作台入口' }}</a-tag>
@@ -137,12 +137,8 @@
           >
             <template #bodyCell="{ column, record }">
               <template v-if="column.dataIndex === 'title'">
-                <div class="flex items-center gap-[8px]">
-                  <div class="w-[24px] h-[24px] rounded-[6px] bg-primary-50 grid place-items-center">
-                    <RobotOutlined class="text-[13px] text-primary" />
-                  </div>
-                  <span class="font-medium text-text-primary">{{ record.title }}</span>
-                </div>
+                <span class="font-semibold text-text-primary">{{ record.title }}</span>
+                <div class="text-[12px] text-text-tertiary mt-[2px] font-num">{{ record.internalId || '--' }}</div>
               </template>
               <template v-else-if="column.dataIndex === 'category'">
                 <a-tag :color="categoryColorMap[record.category]" class="!m-0 !text-[11px]">{{ record.category }}</a-tag>
@@ -232,12 +228,22 @@
     </a-modal>
 
     <!-- 详情抽屉 -->
-    <a-drawer v-model:open="drawer.visible" title="服务开通详情" :width="760" placement="right">
+    <a-drawer v-model:open="drawer.visible" title="服务开通详情" :width="860" placement="right">
       <template v-if="drawer.record">
-        <div class="rounded-[8px] bg-bg p-[12px] mb-[16px]">
-          <div class="text-[14px] font-semibold text-text-primary">{{ drawer.record.name }}</div>
-          <div class="text-[11px] text-text-secondary mt-[4px]">{{ drawer.record.category }} · {{ drawer.record.billingMethod }} · 有效期至 {{ drawer.record.validUntil }}</div>
-          <div class="mt-[6px]"><a-badge :status="statusBadge(drawer.record.status)" :text="drawer.record.status" /></div>
+        <div class="drawer-header-row">
+          <div class="drawer-header-icon">
+            <img v-if="drawer.record.logo" :src="drawer.record.logo" class="w-full h-full object-cover rounded-[10px]" alt="" />
+            <RobotOutlined v-else class="text-[28px] text-white" />
+          </div>
+          <div class="drawer-header-info">
+            <div class="drawer-header-title-row">
+              <span class="drawer-header-title">{{ drawer.record.name }}</span>
+              <a-badge :status="statusBadge(drawer.record.status)" :text="drawer.record.status" />
+            </div>
+            <div class="drawer-header-sub">
+              <span>资产标识：{{ drawer.record.internalId || '--' }}</span>
+            </div>
+          </div>
         </div>
         <a-tabs v-model:activeKey="drawer.activeTab">
           <!-- Tab1 调用说明 -->
@@ -727,6 +733,12 @@ function confirmProvision() {
     id: `ps-${Date.now()}`,
     orgName: m.orgName,
     name: model.title,
+    code: model.code || model.id?.toUpperCase(),
+    unit: model.unit,
+    purpose: m.purpose || '-',
+    orgCreditCode: '--',
+    unitCreditCode: '--',
+    entryUrl: model.entryUrl || '',
     category: model.category,
     billingMethod: model.billingMethod ?? '按Token',
     validUntil: now.add(m.period === '3年' ? 3 : m.period === '2年' ? 2 : 1, 'year').format('YYYY-MM-DD'),
@@ -760,8 +772,8 @@ function confirmProvision() {
   ]
 }`,
     auditLogs: [
-      { action: '提交申请', status: '审核中', auditAt: now.format('YYYY-MM-DD HH:mm') },
-      { action: '审核通过', status: '已通过', auditAt: now.format('YYYY-MM-DD HH:mm'), auditor: '李四（代开通）', opinion: '管理员代开通，即时生效' },
+      { action: '提交申请', status: '审核中', submittedAt: now.format('YYYY-MM-DD HH:mm'), submitter: '当前用户', auditAt: now.format('YYYY-MM-DD HH:mm') },
+      { action: '审核通过', status: '已通过', submittedAt: now.format('YYYY-MM-DD HH:mm'), submitter: '当前用户', auditAt: now.format('YYYY-MM-DD HH:mm'), auditor: '李四（代开通）', opinion: '管理员代开通，即时生效' },
     ],
     workbenchMode: m.workbenchMode,
     overrideUrl: m.overrideUrl.trim() || undefined,
@@ -911,3 +923,46 @@ function onOpenGrant(record: any) {
   };
 }
 </script>
+
+<style scoped>
+/* 抽屉头部样式 */
+.drawer-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0 8px;
+  margin-bottom: 8px;
+}
+.drawer-header-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #165DFF 0%, #4096ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.drawer-header-info {
+  flex: 1;
+  min-width: 0;
+}
+.drawer-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.drawer-header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+.drawer-header-sub {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+</style>

@@ -7,12 +7,14 @@ const roleUsers: Record<AuthRole, UserInfo> = {
   org: { name: '张三', orgName: '常州市人民医院', avatarText: '张', roleLabel: '机构用户' },
   admin: { name: '李四', orgName: '江苏省医保局', avatarText: '李', roleLabel: '运营管理' },
   developer: { name: '王五', orgName: '智联AI科技有限公司', avatarText: '王', roleLabel: '开发者' },
+  endUser: { name: '赵医生', orgName: '常州市人民医院', avatarText: '赵', roleLabel: '终端用户' },
 };
 
 export const roleHomePath: Record<AuthRole, string> = {
   org: '/org-workbench',
   admin: '/admin/workbench',
   developer: '/developer-center',
+  endUser: '/terminal-user',
 };
 
 type PersistedState = { role: AuthRole; userInfo: UserInfo };

@@ -7,6 +7,7 @@ const DEVELOPER_NAME = '常州市第二人民医院';
 export type DeveloperService = {
   id: string;
   name: string;
+  unit?: string;
   category: string;
   riskLevel: '高风险' | '中风险' | '低风险';
   billingMethod: string;

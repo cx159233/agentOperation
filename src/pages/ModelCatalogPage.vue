@@ -1,13 +1,6 @@
 <template>
   <div class="p-[20px]">
-    <PageHeader title="模型资源" description="将各类模型、智能体纳入统一目录体系，按能力分类与风险等级差异化纳管" badge="能力分类">
-      <template #actions>
-        <a-button v-if="isAdmin" type="primary" @click="onCreate">
-          <template #icon><PlusOutlined /></template>
-          新增编目
-        </a-button>
-      </template>
-    </PageHeader>
+    <PageHeader title="模型/智能体" description="将各类模型、智能体纳入统一目录体系，按能力分类与风险等级差异化纳管" badge="能力分类" />
 
     <!-- 顶部统计 -->
     <section class="grid grid-cols-4 gap-[14px] mb-[14px]">
@@ -29,29 +22,50 @@
       class="mb-[14px]"
     />
 
-    <!-- 筛选条件 -->
-    <FilterDimensions
-      :filters="filterDims"
-      :selected="selectedFilters"
-      class="mb-[14px]"
-      @select="(label, value) => (selectedFilters[label] = value)"
-    />
-
     <!-- 模型编目表格 -->
     <section class="cloud-card p-[0] overflow-hidden">
+      <FilterBar class="!rounded-none !border-0 !mb-0 !p-[16px]" @search="onSearch" @reset="onReset">
+        <template #actions>
+          <a-button v-if="isAdmin" type="primary" @click="onCreate">
+            <template #icon><PlusOutlined /></template>
+            新增编目
+          </a-button>
+        </template>
+        <a-input v-model:value="filter.name" style="width: 200px" placeholder="模型名称" allow-clear />
+        <a-select v-model:value="filter.category" style="width: 200px" placeholder="能力分类" allow-clear>
+          <a-select-option v-for="c in categoryOptions" :key="c" :value="c">{{ c }}</a-select-option>
+        </a-select>
+        <a-select v-model:value="filter.riskLevel" style="width: 140px" placeholder="风险等级" allow-clear>
+          <a-select-option value="高风险">高风险</a-select-option>
+          <a-select-option value="中风险">中风险</a-select-option>
+          <a-select-option value="低风险">低风险</a-select-option>
+        </a-select>
+        <a-select v-model:value="filter.billingMethod" style="width: 140px" placeholder="计费方式" allow-clear>
+          <a-select-option value="按Token">按 Token</a-select-option>
+          <a-select-option value="按检查例次">按检查例次</a-select-option>
+          <a-select-option value="按调用次数">按调用次数</a-select-option>
+        </a-select>
+        <a-select v-model:value="filter.status" style="width: 140px" placeholder="接入状态" allow-clear>
+          <a-select-option value="已上线使用">已上线使用</a-select-option>
+          <a-select-option value="对接上线中">对接上线中</a-select-option>
+          <a-select-option value="对接测试中">对接测试中</a-select-option>
+          <a-select-option value="已下架">已下架</a-select-option>
+        </a-select>
+        <template #suffix>
+          <ColumnSettings v-model="hiddenKeys" :columns="columns" />
+        </template>
+      </FilterBar>
+      <div class="border-t border-[#e8e8e8] mx-[16px]"></div>
+
       <div class="px-[16px] py-[16px]">
-        <a-table :columns="columns" :data-source="filteredModels" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 项` }" size="middle" :row-key="(r: any) => r.id">
+        <a-table :columns="visibleColumns" :data-source="filteredModels" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 项` }" size="middle" :row-key="(r: any) => r.id">
           <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'title'">
-              <div class="flex items-center gap-[8px]">
-                <div class="w-[28px] h-[28px] rounded-[6px] bg-primary-50 grid place-items-center">
-                  <RobotOutlined class="text-[14px] text-primary" />
-                </div>
-                <span class="font-medium text-text-primary">{{ record.title }}</span>
-              </div>
+              <span class="font-semibold text-text-primary">{{ record.title }}</span>
+              <div class="text-[12px] text-text-tertiary mt-[2px] font-num">{{ record.internalId || '--' }}</div>
             </template>
             <template v-else-if="column.dataIndex === 'code'">
-              <span class="font-num text-[12px] text-text-secondary">{{ record.code || record.id?.toUpperCase() }}</span>
+              <span class="font-num">{{ record.code || record.id?.toUpperCase() }}</span>
             </template>
             <template v-else-if="column.dataIndex === 'modalities'">
               <div v-if="(record.modalities ?? []).length" class="flex flex-wrap gap-[4px]">
@@ -74,8 +88,8 @@
                 <a-divider type="vertical" class="!mx-[2px]" />
                 <a-button type="link" size="small" class="!p-0" @click="onEdit(record)">编辑</a-button>
                 <a-divider type="vertical" class="!mx-[2px]" />
-                <a-popconfirm v-if="record.status !== '停止使用'" :title="`确认${record.status === '已上线使用' ? '下架' : '上架'}该模型？`" @confirm="onToggleStatus(record)">
-                  <a-button type="link" size="small" class="!p-0" :class="record.status === '已上线使用' ? '!text-danger' : ''">{{ record.status === '已上线使用' ? '下架' : '上架' }}</a-button>
+                <a-popconfirm v-if="record.status !== '已下架'" :title="`确认${record.status === '已上线使用' ? '已下架' : '上架'}该模型？`" @confirm="onToggleStatus(record)">
+                  <a-button type="link" size="small" class="!p-0" :class="record.status === '已上线使用' ? '!text-danger' : ''">{{ record.status === '已上线使用' ? '已下架' : '上架' }}</a-button>
                 </a-popconfirm>
                 <a-popconfirm v-else title="确认重新上架该模型？" @confirm="onToggleStatus(record)">
                   <a-button type="link" size="small" class="!p-0">启用</a-button>
@@ -93,15 +107,25 @@
     </section>
 
     <!-- 查看抽屉 -->
-    <a-drawer v-model:open="viewDrawer.visible" title="模型编目详情" :width="720" placement="right">
+    <a-drawer v-model:open="viewDrawer.visible" title="模型编目详情" :width="860" placement="right">
       <template v-if="viewDrawer.record">
-        <div class="rounded-[8px] bg-bg-soft border border-border-soft p-[14px] mb-[16px]">
-          <div class="flex items-center justify-between gap-[8px] flex-wrap mb-[4px]">
-            <div class="text-[16px] font-semibold text-text-primary">{{ viewDrawer.record.title }}</div>
-            <a-badge :status="statusBadge(viewDrawer.record.status)" :text="viewDrawer.record.status" />
+        <div class="drawer-header-row">
+          <div class="drawer-header-icon">
+            <img v-if="viewDrawer.record.logo" :src="viewDrawer.record.logo" class="w-full h-full object-cover rounded-[10px]" alt="" />
+            <RobotOutlined v-else class="text-[28px] text-white" />
           </div>
-          <div class="text-[11px] text-text-tertiary">模型代码：{{ viewDrawer.record.code || viewDrawer.record.id?.toUpperCase() }}</div>
+          <div class="drawer-header-info">
+            <div class="drawer-header-title-row">
+              <span class="drawer-header-title">{{ viewDrawer.record.title }}</span>
+              <a-badge :status="statusBadge(viewDrawer.record.status)" :text="viewDrawer.record.status" />
+            </div>
+            <div class="drawer-header-sub">
+              <span>资产标识：{{ viewDrawer.record.internalId || '--' }}</span>
+            </div>
+          </div>
         </div>
+        <div class="border-b border-[#f0f0f0] mb-[16px]"></div>
+
         <a-descriptions :column="2" bordered size="small">
           <a-descriptions-item label="研发单位">{{ viewDrawer.record.unit }}</a-descriptions-item>
           <a-descriptions-item label="能力分类">{{ viewDrawer.record.category || '-' }}</a-descriptions-item>
@@ -119,35 +143,6 @@
           <a-descriptions-item label="最近更新">2024-07-12 14:30</a-descriptions-item>
         </a-descriptions>
 
-        <a-divider />
-
-        <!-- 关联资产视图 -->
-        <div class="flex items-center gap-[8px] mb-[10px]">
-          <div class="w-[3px] h-[14px] bg-primary rounded-full" />
-          <span class="text-[13px] font-semibold text-text-primary">关联资产视图</span>
-        </div>
-        <div class="text-[11px] text-text-tertiary mb-[10px]">该模型依赖的数据、知识、工具资源</div>
-        <div class="grid grid-cols-1 gap-[8px] mb-[14px]">
-          <div v-for="dep in modelDependencies" :key="dep.type" class="rounded-[6px] border border-border-soft p-[10px]">
-            <div class="flex items-center gap-[6px] mb-[6px]">
-              <a-tag :color="dep.color" class="!m-0 !text-[10px]">{{ dep.type }}</a-tag>
-              <span class="text-[11px] text-text-tertiary">共 {{ dep.items.length }} 项</span>
-            </div>
-            <div class="flex flex-wrap gap-[4px]">
-              <a-tag v-for="item in dep.items" :key="item" class="!m-0 !text-[11px]">{{ item }}</a-tag>
-            </div>
-          </div>
-        </div>
-
-        <!-- 被服务引用 -->
-        <div class="text-[13px] font-semibold text-text-primary mb-[10px]">被服务引用</div>
-        <div class="text-[11px] text-text-tertiary mb-[10px]">该模型被以下智能体 / 服务调用</div>
-        <div class="rounded-[6px] border border-border-soft p-[10px]">
-          <div class="flex flex-wrap gap-[4px]">
-            <a-tag v-for="svc in modelReferencedBy" :key="svc" color="blue" class="!m-0 !text-[11px]">{{ svc }}</a-tag>
-            <span v-if="modelReferencedBy.length === 0" class="text-[11px] text-text-tertiary">暂无被服务引用记录</span>
-          </div>
-        </div>
       </template>
     </a-drawer>
 
@@ -160,12 +155,12 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { PlusOutlined, RobotOutlined } from '@ant-design/icons-vue';
-import { capabilityGroups, filters, recommendationRanks } from '../data';
+import { capabilityGroups, recommendationRanks } from '../data';
 import type { CapabilityCardData, RiskLevel } from '../types';
-import type { FilterOption } from '../types';
 import PageHeader from '../components/common/PageHeader.vue';
 import StatCard from '../components/common/StatCard.vue';
-import FilterDimensions from '../components/common/FilterDimensions.vue';
+import FilterBar from '../components/common/FilterBar.vue';
+import ColumnSettings from '../components/common/ColumnSettings.vue';
 import ResourceRanking from '../components/common/ResourceRanking.vue';
 import { useAuthStore } from '../stores/auth';
 
@@ -173,39 +168,30 @@ const router = useRouter();
 const auth = useAuthStore();
 const isAdmin = computed(() => auth.role === 'admin');
 
-const filterDims: FilterOption[] = [
-  ...filters.map((f) => ({ label: f.label, options: f.options, defaultValue: f.defaultValue })),
-  { label: '计费方式', defaultValue: '全部', options: ['全部', '按Token', '按检查例次', '按调用次数'] },
-  { label: '接入状态', defaultValue: '全部', options: ['全部', '已上线使用', '对接上线中', '对接测试中', '停止使用'] },
-];
+const filter = ref({ name: '', category: undefined as string | undefined, riskLevel: undefined as string | undefined, billingMethod: undefined as string | undefined, status: undefined as string | undefined });
+const applied = ref({ name: '', category: undefined as string | undefined, riskLevel: undefined as string | undefined, billingMethod: undefined as string | undefined, status: undefined as string | undefined });
 
-const selectedFilters = ref<Record<string, string>>(
-  Object.fromEntries(filterDims.map((f) => [f.label, '全部'])),
-);
+function onSearch() {
+  applied.value = { ...filter.value };
+}
+function onReset() {
+  filter.value = { name: '', category: undefined, riskLevel: undefined, billingMethod: undefined, status: undefined };
+  applied.value = { name: '', category: undefined, riskLevel: undefined, billingMethod: undefined, status: undefined };
+}
 
 const hotRanks = recommendationRanks.hot.map((i) => ({ id: i.id || '', name: i.name, value: i.heat }));
 const latestRanks = recommendationRanks.latest.map((i) => ({ id: i.id || '', name: i.name, value: i.date || '' }));
 
 const allModels = ref<CapabilityCardData[]>(capabilityGroups.flatMap((g) => g.columns.flatMap((c) => c.items)));
 
-const tagBasedKeys = ['产品品类', '应用场景', '资源类别'];
-
 const filteredModels = computed(() => {
+  const f = applied.value;
   return allModels.value.filter((m) => {
-    for (const [label, value] of Object.entries(selectedFilters.value)) {
-      if (!value || value === '全部') continue;
-      if (label === '能力分类') {
-        if (m.category !== value) return false;
-      } else if (label === '风险等级') {
-        if (m.riskLevel !== value) return false;
-      } else if (label === '计费方式') {
-        if (m.billingMethod !== value) return false;
-      } else if (label === '接入状态') {
-        if (m.status !== value) return false;
-      } else if (tagBasedKeys.includes(label)) {
-        if (!(m.tags ?? []).includes(value) && !m.title.includes(value)) return false;
-      }
-    }
+    if (f.name && !m.title.includes(f.name)) return false;
+    if (f.category && m.category !== f.category) return false;
+    if (f.riskLevel && m.riskLevel !== f.riskLevel) return false;
+    if (f.billingMethod && m.billingMethod !== f.billingMethod) return false;
+    if (f.status && m.status !== f.status) return false;
     return true;
   });
 });
@@ -218,7 +204,7 @@ const catalogStats = computed(() => {
     { label: '编目总数', value: total, unit: '项', tone: 'primary' as const },
     { label: '已上线', value: listed, unit: '项', tone: 'success' as const },
     { label: '对接中', value: testing, unit: '项', tone: 'warning' as const },
-    { label: '已下架', value: 0, unit: '项', tone: 'default' as const },
+    { label: '已已下架', value: 0, unit: '项', tone: 'default' as const },
   ];
 });
 
@@ -233,6 +219,9 @@ const columns = [
   { title: '状态', dataIndex: 'status', key: 'status', width: 120 },
   { title: '操作', dataIndex: 'action', key: 'action', width: 200 },
 ];
+
+const hiddenKeys = ref<string[]>([]);
+const visibleColumns = computed(() => columns.filter((c) => !hiddenKeys.value.includes(c.key)));
 
 const categoryOptions = ['通用基础大模型', '医保自研专属大模型', '医保基金监管共建模型', '省头部医疗机构共建垂直模型', '市场化合规生态AI产品'];
 
@@ -253,48 +242,12 @@ function statusBadge(status?: string) {
   if (status === '已上线使用') return 'success';
   if (status === '对接测试中') return 'processing';
   if (status === '对接上线中') return 'warning';
-  if (status === '停止使用') return 'error';
+  if (status === '已下架') return 'error';
   return 'default';
 }
 
 // 查看抽屉
 const viewDrawer = ref<{ visible: boolean; record: CapabilityCardData | null }>({ visible: false, record: null });
-
-// 模型依赖资产映射（按模型 ID 查询依赖的数据/知识/工具）
-const modelDependencyMap: Record<string, Array<{ type: string; color: string; items: string[] }>> = {
-  'lungnodule-ct': [
-    { type: '数据资源', color: 'cyan', items: ['原发性肺癌主题数据资源', '肺癌早筛参保人群数据集'] },
-    { type: '知识体系', color: 'purple', items: ['临床诊疗规范合集', '医保版术语编码标准库'] },
-    { type: '平台工具', color: 'orange', items: ['医学影像脱敏工具', '模型效果评估工具', '模型一键部署工具'] },
-  ],
-  'deepseek-v4': [
-    { type: '数据资源', color: 'cyan', items: ['医保基金监管案例数据集', '医保智能审核规则数据集'] },
-    { type: '知识体系', color: 'purple', items: ['医保支付政策细则库', '医保经办规程手册'] },
-    { type: '平台工具', color: 'orange', items: ['大模型轻量化微调框架', '医疗合规检测工具'] },
-  ],
-  'emr-assist-agent': [
-    { type: '数据资源', color: 'cyan', items: ['门诊慢特病管理数据集'] },
-    { type: '知识体系', color: 'purple', items: ['临床诊疗规范合集', '医疗服务价格规范库'] },
-    { type: '平台工具', color: 'orange', items: ['病历文本清洗工具', '可视化工作流编排器', 'MCP协议连接器'] },
-  ],
-};
-
-// 模型被服务引用映射
-const modelReferencedByMap: Record<string, string[]> = {
-  'deepseek-v4': ['医保政策问答机器人', 'AI健康助手', '智能导诊助手'],
-  'lungnodule-ct': ['肺结节CT辅助检测服务', '影像报告辅助生成'],
-  'emr-assist-agent': ['电子病历辅助生成服务', '病历文书稽核智能体'],
-};
-
-const modelDependencies = computed(() => {
-  if (!viewDrawer.value.record) return [];
-  return modelDependencyMap[viewDrawer.value.record.id] ?? [];
-});
-
-const modelReferencedBy = computed(() => {
-  if (!viewDrawer.value.record) return [];
-  return modelReferencedByMap[viewDrawer.value.record.id] ?? [];
-});
 
 function onView(record: CapabilityCardData) {
   viewDrawer.value = { visible: true, record };
@@ -314,11 +267,53 @@ function onEdit(record: CapabilityCardData) {
 
 function onToggleStatus(record: CapabilityCardData) {
   if (record.status === '已上线使用') {
-    record.status = '停止使用';
-    message.success(`${record.title} 已停止使用`);
+    record.status = '已下架';
+    message.success(`${record.title} 已已下架`);
   } else {
     record.status = '已上线使用';
     message.success(`${record.title} 已上架`);
   }
 }
 </script>
+
+<style scoped>
+.drawer-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0 16px;
+  margin-bottom: 16px;
+}
+.drawer-header-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #165DFF 0%, #4096ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.drawer-header-info {
+  flex: 1;
+  min-width: 0;
+}
+.drawer-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.drawer-header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+.drawer-header-sub {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+</style>

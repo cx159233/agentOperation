@@ -1,6 +1,6 @@
 <template>
   <div class="p-[20px]">
-    <PageHeader title="周期账单" description="按账期与机构维度，对账单进行确认、批量确认与多方分润管理" />
+    <PageHeader title="周期账单管理" description="按账期与机构维度，对账单进行确认、批量确认与多方分润管理" />
 
     <section class="cloud-card p-[0] overflow-hidden mb-[14px]">
       <div class="px-[16px] py-[16px] flex items-center justify-between">

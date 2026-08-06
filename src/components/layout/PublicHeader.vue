@@ -40,6 +40,14 @@
             <a-menu>
               <a-menu-item @click="goWorkspace">进入工作台</a-menu-item>
               <a-menu-divider />
+              <div class="px-[8px] py-[6px] text-[11px] text-text-tertiary">点击切换演示用户</div>
+              <a-menu-item v-for="user in demoUsers" :key="user.role" :class="{ 'is-active': auth.role === user.role }" @click="switchUser(user)">
+                <div class="flex items-center gap-[8px]">
+                  <span>{{ user.orgName }}</span>
+                  <a-tag class="!text-[10px] !leading-[18px] !m-0" :color="auth.role === user.role ? 'blue' : 'default'">{{ user.roleLabel }}</a-tag>
+                </div>
+              </a-menu-item>
+              <a-menu-divider />
               <a-menu-item @click="onLogout">退出登录</a-menu-item>
             </a-menu>
           </template>
@@ -71,8 +79,30 @@ function isActive(path: string) {
   return false;
 }
 
+const demoUsers = [
+  { role: 'org' as const, orgName: '常州市人民医院', roleLabel: '机构' },
+  { role: 'developer' as const, orgName: '智联AI科技', roleLabel: '开发者' },
+  { role: 'admin' as const, orgName: '江苏省医保局', roleLabel: '管理员' },
+  { role: 'endUser' as const, orgName: '常州市人民医院', roleLabel: '终端用户' },
+];
+
 function goWorkspace() {
   if (auth.role) router.push(roleHomePath[auth.role]);
+}
+
+function switchUser(user: { role: 'org' | 'developer' | 'admin' | 'endUser'; orgName: string; roleLabel: string }) {
+  if (user.role === 'endUser') {
+    const href = router.resolve('/terminal-user').href;
+    window.open(href, '_blank');
+    return;
+  }
+  auth.switchRole(user.role);
+  const defaultRoutes: Record<string, string> = {
+    org: '/org-workbench',
+    developer: '/developer-center',
+    admin: '/admin/workbench',
+  };
+  router.push(defaultRoutes[user.role]);
 }
 
 function onLogout() {

@@ -3,34 +3,42 @@
     <PageHeader title="服务上架审核" description="针对模型上架数据的审核，支持多版本审核记录与快照，按风险等级执行差异化审核流程" />
 
     <!-- 三级审核流程 -->
-    <section class="mb-[14px] bg-surface rounded-[8px] p-[18px]">
-      <div class="flex items-center justify-between mb-[16px]">
+    <section class="mb-[14px] overflow-hidden rounded-[10px] relative bg-gradient-to-br from-[#f0f5ff] via-white to-[#e6efff]">
+      <!-- 装饰光晕 -->
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 0% 0%, rgba(22,93,255,0.08) 0%, transparent 40%), radial-gradient(circle at 100% 100%, rgba(22,93,255,0.06) 0%, transparent 40%);"></div>
+      <!-- 装饰圆形 -->
+      <div class="absolute -top-[40px] -right-[40px] w-[120px] h-[120px] rounded-full bg-primary/5 pointer-events-none"></div>
+      <div class="absolute -bottom-[30px] -left-[30px] w-[80px] h-[80px] rounded-full bg-primary/5 pointer-events-none"></div>
+      <div class="relative px-[24px] py-[10px] flex items-center gap-[10px]">
+        <div class="w-[4px] h-[14px] rounded-full bg-gradient-to-b from-primary to-primary/50" />
         <span class="text-[14px] font-semibold text-text-primary">三级差异化审核流程</span>
-        <span class="text-[12px] text-text-tertiary">按风险等级执行差异化审核</span>
+        <span class="text-[12px] text-text-tertiary ml-[8px]">按风险等级执行差异化审核</span>
       </div>
-      <div class="flex items-stretch">
-        <template v-for="(level, idx) in accessReviewLevels" :key="level.level">
-          <div class="flex-1 rounded-[8px] border border-border-soft bg-white p-[14px] flex items-center gap-[10px] hover:border-primary/30 hover:shadow-sm transition-all">
-            <div class="w-[28px] h-[28px] rounded-[6px] bg-primary text-white grid place-items-center text-[13px] font-bold shrink-0">{{ idx + 1 }}</div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-[6px]">
-                <span class="text-[13px] font-semibold text-text-primary truncate">{{ level.title }}</span>
-                <a-tag :color="levelTagColor(level.level)" class="!m-0 !text-[10px]">{{ level.level }}</a-tag>
-              </div>
-              <div class="mt-[4px] flex items-center gap-[4px] flex-wrap">
-                <template v-for="(step, sIdx) in level.process" :key="step">
-                  <span class="text-[11px] text-text-tertiary">{{ step }}</span>
-                  <ArrowRightOutlined v-if="sIdx < level.process.length - 1" class="text-[9px] text-text-tertiary" />
-                </template>
+      <div class="relative px-[24px] pt-[20px] pb-[20px]">
+        <div class="flex items-stretch">
+          <template v-for="(level, idx) in accessReviewLevels" :key="level.level">
+            <div class="flex-1 rounded-[8px] p-[14px] flex items-center gap-[10px] bg-white/40 hover:bg-white/60 transition-all">
+              <div class="w-[28px] h-[28px] rounded-[6px] bg-primary text-white grid place-items-center text-[13px] font-bold shrink-0">{{ idx + 1 }}</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-[6px]">
+                  <span class="text-[13px] font-semibold text-text-primary truncate">{{ level.title }}</span>
+                  <a-tag :color="levelTagColor(level.level)" class="!m-0 !text-[10px]">{{ level.level }}</a-tag>
+                </div>
+                <div class="mt-[4px] flex items-center gap-[4px] flex-wrap">
+                  <template v-for="(step, sIdx) in level.process" :key="step">
+                    <span class="text-[11px] text-text-tertiary">{{ step }}</span>
+                    <ArrowRightOutlined v-if="sIdx < level.process.length - 1" class="text-[9px] text-text-tertiary" />
+                  </template>
+                </div>
               </div>
             </div>
-          </div>
-          <div v-if="idx < accessReviewLevels.length - 1" class="flex items-center px-[8px]">
-            <svg width="16" height="16" viewBox="0 0 16 16" class="text-text-tertiary">
-              <path d="M6 4 L10 8 L6 12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </template>
+            <div v-if="idx < accessReviewLevels.length - 1" class="flex items-center px-[8px]">
+              <svg width="16" height="16" viewBox="0 0 16 16" class="text-text-tertiary">
+                <path d="M6 4 L10 8 L6 12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </template>
+        </div>
       </div>
     </section>
 

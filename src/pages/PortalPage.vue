@@ -156,7 +156,7 @@
         <div class="mb-[40px]">
           <div class="text-[12px] font-semibold text-primary tracking-[2px] mb-[12px] uppercase">USE CASES</div>
           <h2 class="text-[36px] font-bold text-text-primary tracking-[-0.4px] leading-[1.2]">典型应用场景</h2>
-          <p class="text-[14px] text-text-secondary mt-[10px]">覆盖医保监管、临床辅助、疾病筛查等核心业务场景</p>
+          <p class="text-[14px] text-text-secondary mt-[10px]">覆盖医保监管、辅助诊断、疾病筛查等核心业务场景</p>
         </div>
         <div class="grid grid-cols-3 gap-[20px]">
           <div v-for="uc in useCases" :key="uc.title" class="group relative bg-white border border-border-soft rounded-[12px] p-[24px] transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
@@ -257,7 +257,7 @@ const featuredServices = computed(() => {
 
 const useCases = [
   { title: '医保监管', desc: '高值耗材比对、检查检验比对、电子处方合规审查，识别违规风险。', icon: AimOutlined, tags: ['高值耗材', '检查检验', '处方审查'], iconBg: '#F1E7FE', iconColor: '#7C3AED' },
-  { title: '临床辅助', desc: '影像辅助诊断、心电分析、医嘱辅助判断，提升临床决策效率。', icon: MedicineBoxOutlined, tags: ['影像', '心电', '医嘱'], iconBg: '#E8F3FF', iconColor: '#165DFF' },
+  { title: '辅助诊断', desc: '影像辅助诊断、心电分析、医嘱辅助判断，提升临床决策效率。', icon: MedicineBoxOutlined, tags: ['影像', '心电', '医嘱'], iconBg: '#E8F3FF', iconColor: '#165DFF' },
   { title: '疾病筛查', desc: '肺结节、眼底、肝癌等专科疾病早期筛查，支持大规模人群随访。', icon: ScanOutlined, tags: ['肺结节', '眼底', '肝癌'], iconBg: '#E0F7FA', iconColor: '#06B6D4' },
   { title: '电子病历', desc: '病历辅助生成、规范稽核、全结构化录入，减轻医师文书负担。', icon: FileTextOutlined, tags: ['生成', '稽核', '结构化'], iconBg: '#E7F7EE', iconColor: '#16A34A' },
   { title: '智能导诊', desc: '基于症状的智能导诊与健康助手，引导患者合理就医。', icon: BulbOutlined, tags: ['导诊', '健康助手'], iconBg: '#FEF3E7', iconColor: '#F59E0B' },

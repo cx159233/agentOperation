@@ -60,7 +60,9 @@ const router = createRouter({
       children: [
         { path: '', redirect: '/admin/workbench' },
         { path: 'workbench', name: 'OperationsWorkbench', component: () => import('../pages/admin/OperationsWorkbenchPage.vue'), meta: { title: '运营工作台' } },
-        { path: 'model-catalog', name: 'ModelCatalog', component: () => import('../pages/ModelCatalogPage.vue'), meta: { title: '模型资源' } },
+        { path: 'model-catalog', name: 'ModelCatalog', component: () => import('../pages/ModelCatalogPage.vue'), meta: { title: '模型/智能体' } },
+        { path: 'model-catalog-v2', name: 'ModelCatalogV2', component: () => import('../pages/ModelCatalogPageV2.vue'), meta: { title: '模型/智能体' } },
+        { path: 'model-catalog-v2/edit', name: 'ModelCatalogEditV2', component: () => import('../pages/admin/ModelCatalogEditPageV2.vue'), meta: { title: '模型编目编辑' } },
         { path: 'model-catalog/edit', name: 'ModelCatalogEdit', component: () => import('../pages/admin/ModelCatalogEditPage.vue'), meta: { title: '模型编目编辑' } },
         { path: 'resource/data', name: 'DataResource', component: () => import('../pages/DataResourcePage.vue'), meta: { title: '数据资源' } },
         { path: 'resource/knowledge', name: 'KnowledgeSystem', component: () => import('../pages/KnowledgeSystemPage.vue'), meta: { title: '知识体系' } },
@@ -76,7 +78,8 @@ const router = createRouter({
         { path: 'operations/service-access', name: 'OperationsServiceAccess', component: () => import('../pages/admin/operations/ServiceAccessPage.vue'), meta: { title: '服务上架审核' } },
         { path: 'operations/org-access', name: 'OperationsOrgAccess', component: () => import('../pages/admin/operations/OrgAccessPage.vue'), meta: { title: '机构入驻审核' } },
         { path: 'operations/subscription-audit', name: 'OperationsSubscriptionAudit', component: () => import('../pages/admin/operations/SubscriptionAuditPage.vue'), meta: { title: '服务订阅审核' } },
-        { path: 'operations/service-provisioning', name: 'OperationsServiceProvisioning', component: () => import('../pages/admin/operations/ServiceProvisioningPage.vue'), meta: { title: '服务开通管理' } },
+        { path: 'operations/service-provisioning', name: 'OperationsServiceProvisioning', component: () => import('../pages/admin/operations/ServiceProvisioningPage.vue'), meta: { title: '服务开通列表' } },
+        { path: 'operations/service-provisioning-v2', name: 'OperationsServiceProvisioningV2', component: () => import('../pages/admin/operations/ServiceProvisioningPageV2.vue'), meta: { title: '服务开通列表' } },
         { path: 'operations/monitoring', name: 'OperationsMonitoring', component: () => import('../pages/admin/operations/MonitoringPage.vue'), meta: { title: '调用日志' } },
         { path: 'operations/quality', name: 'OperationsQuality', component: () => import('../pages/admin/operations/QualityPage.vue'), meta: { title: '质量评价管理' } },
         { path: 'operations/audit', redirect: '/admin/operations/audit/operation' },
@@ -95,6 +98,9 @@ const router = createRouter({
         { path: 'org-users', name: 'OrgUsers', component: () => import('../pages/admin/OrgMgmt/OrgUserListPage.vue'), meta: { title: '用户列表' } },
       ],
     },
+
+    // ========== 终端用户 HIS 界面（公开页面，新标签页打开） ==========
+    { path: '/terminal-user', name: 'TerminalUser', component: () => import('../pages/TerminalUserHisPage.vue'), meta: { title: 'HIS门诊医生站' } },
 
     { path: '/:pathMatch(.*)*', redirect: '/portal' },
   ],

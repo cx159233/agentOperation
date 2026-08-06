@@ -1,6 +1,6 @@
 <template>
   <div class="p-[20px]">
-    <PageHeader title="计费管理" description="词元计费规则、额度管控配置、词元包管理" />
+    <PageHeader title="词元计费配置" description="词元计费规则、额度管控配置、词元包管理" />
 
     <!-- 衔接提示（计费与对账前后衔接） -->
     <a-alert type="info" show-icon class="!mb-[14px] !rounded-[8px]">

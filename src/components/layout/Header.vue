@@ -83,13 +83,20 @@ const demoUsers = [
   { role: 'org' as const, orgName: '常州市人民医院', roleLabel: '机构' },
   { role: 'developer' as const, orgName: '智联AI科技', roleLabel: '开发者' },
   { role: 'admin' as const, orgName: '江苏省医保局', roleLabel: '管理员' },
+  { role: 'endUser' as const, orgName: '常州市人民医院', roleLabel: '终端用户' },
 ];
 
 function goPortal() {
   router.push('/portal');
 }
 
-function switchUser(user: { role: 'org' | 'developer' | 'admin', orgName: string, roleLabel: string }) {
+function switchUser(user: { role: 'org' | 'developer' | 'admin' | 'endUser', orgName: string, roleLabel: string }) {
+  // 终端用户在新标签页中打开 HIS 界面，当前标签页角色不变
+  if (user.role === 'endUser') {
+    const href = router.resolve('/terminal-user').href;
+    window.open(href, '_blank');
+    return;
+  }
   auth.switchRole(user.role);
   // 切换后默认跳转到对应角色的工作台
   const defaultRoutes: Record<string, string> = {

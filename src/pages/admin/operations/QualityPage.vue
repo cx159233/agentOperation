@@ -1,6 +1,6 @@
 <template>
   <div class="p-[20px]">
-    <PageHeader title="服务质量评估" description="基于准确性、稳定性、响应时效、用户反馈和合规记录综合评价服务质量" />
+    <PageHeader title="质量评价管理" description="基于准确性、稳定性、响应时效、用户反馈和合规记录综合评价服务质量" />
 
     <!-- KPI -->
     <section class="grid grid-cols-4 gap-[14px] mb-[14px]">
@@ -84,18 +84,24 @@
     </a-modal>
 
     <!-- 查看评价明细抽屉 -->
-    <a-drawer v-model:open="evalDrawer.visible" :title="`服务评价明细 - ${evalDrawer.serviceName ?? ''}`" :width="640" placement="right">
+    <a-drawer v-model:open="evalDrawer.visible" :title="`服务评价明细 - ${evalDrawer.serviceName ?? ''}`" :width="860" placement="right">
       <template v-if="evalDrawer.record">
-        <div class="rounded-[8px] bg-bg p-[12px] mb-[14px]">
-          <div class="flex items-center justify-between">
-            <div class="text-[14px] font-semibold text-text-primary">{{ evalDrawer.record.name }}</div>
-            <div class="flex items-center gap-[6px]">
-              <span class="text-[11px] text-text-tertiary">综合评分</span>
-              <span class="font-num text-[18px] font-semibold" :class="scoreClass(evalDrawer.record.score)">{{ evalDrawer.record.score }}</span>
+        <div class="drawer-header-row">
+          <div class="drawer-header-icon">
+            <img v-if="evalDrawer.record.logo" :src="evalDrawer.record.logo" class="w-full h-full object-cover rounded-[10px]" alt="" />
+            <RobotOutlined v-else class="text-[28px] text-white" />
+          </div>
+          <div class="drawer-header-info">
+            <div class="drawer-header-title-row">
+              <span class="drawer-header-title">{{ evalDrawer.serviceName || evalDrawer.record.name }}</span>
+              <span class="font-num text-[16px] font-semibold" :class="scoreClass(evalDrawer.record.score)">{{ evalDrawer.record.score }} 分</span>
+            </div>
+            <div class="drawer-header-sub">
+              累计评价 {{ evalEvaluations.length }} 条 · 已回复 {{ evalEvaluations.filter((e: any) => e.status === '已回复').length }} 条 · 待处理 {{ evalEvaluations.filter((e: any) => e.status === '待处理').length }} 条
             </div>
           </div>
-          <div class="text-[11px] text-text-secondary mt-[4px]">累计评价 {{ evalEvaluations.length }} 条 · 已回复 {{ evalEvaluations.filter((e) => e.status === '已回复').length }} 条 · 待处理 {{ evalEvaluations.filter((e) => e.status === '待处理').length }} 条</div>
         </div>
+        <div class="border-b border-[#f0f0f0] mb-[16px]"></div>
 
         <a-empty v-if="evalEvaluations.length === 0" description="该服务暂无评价" class="py-[40px]" />
         <div v-else class="space-y-[10px]">
@@ -130,7 +136,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { message } from 'ant-design-vue';
-import { DownloadOutlined } from '@ant-design/icons-vue';
+import { DownloadOutlined, RobotOutlined } from '@ant-design/icons-vue';
 import { qualityServices, qualityEvaluations } from '../../../data/operations';
 import type { QualityService, QualityEvaluation } from '../../../data/operations';
 import PageHeader from '../../../components/common/PageHeader.vue';
@@ -260,3 +266,46 @@ function onExport() {
   message.success('服务质量评分报告导出请求已提交');
 }
 </script>
+
+<style scoped>
+/* 抽屉头部样式 */
+.drawer-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0 8px;
+  margin-bottom: 8px;
+}
+.drawer-header-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #165DFF 0%, #4096ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.drawer-header-info {
+  flex: 1;
+  min-width: 0;
+}
+.drawer-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.drawer-header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+.drawer-header-sub {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+</style>

@@ -177,7 +177,7 @@
         <!-- 4. 提交确认 -->
         <section id="sec-confirm" class="cloud-card p-[20px] mb-[14px] scroll-mt-[80px]">
           <div class="flex items-center gap-[8px] mb-[16px]">
-            <div class="w-[4px] h-[16px] bg-text-tertiary rounded-full" />
+            <div class="w-[4px] h-[16px] bg-primary rounded-full" />
             <span class="text-[14px] font-semibold text-text-primary">提交确认</span>
           </div>
           <a-checkbox v-model:checked="form.agree">
@@ -203,7 +203,7 @@ import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { ArrowLeftOutlined, PictureOutlined, PlusOutlined, CloseOutlined } from '@ant-design/icons-vue';
-import { capabilityGroups } from '../../data';
+import { modelCatalogMvpData } from '../../data';
 import type { CapabilityCardData, RiskLevel } from '../../types';
 
 const route = useRoute();
@@ -250,8 +250,11 @@ const categoryOptions = [
   { label: '市场化合规生态AI产品', value: '市场化合规生态AI产品' },
 ];
 const unitOptions = computed(() => {
-  const allModels = capabilityGroups.flatMap((g) => g.columns.flatMap((c) => c.items));
-  return Array.from(new Set(allModels.map((m) => m.unit).filter(Boolean))).map((u) => ({ label: u, value: u }));
+  const allUnits = [
+    '推想医疗科技股份有限公司',
+    '科亚医疗科技股份有限公司',
+  ];
+  return Array.from(new Set(allUnits)).map((u) => ({ label: u, value: u }));
 });
 function filterUnit(input: string, option: any) {
   return (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
@@ -310,8 +313,7 @@ function onScroll() {
 onMounted(() => {
   window.addEventListener('scroll', onScroll, { passive: true });
   if (route.query.id) {
-    const allModels = capabilityGroups.flatMap((g) => g.columns.flatMap((c) => c.items));
-    const m = allModels.find((x) => x.id === route.query.id);
+    const m = modelCatalogMvpData.find((x) => x.id === route.query.id);
     if (m) {
       form.value.title = m.title;
       form.value.code = m.id.toUpperCase();

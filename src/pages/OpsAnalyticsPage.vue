@@ -147,7 +147,7 @@ const qualityData = [
 
 const scenarioShare = [
   { name: '医保监管', value: 28.6, color: '#165DFF' },
-  { name: '临床辅助', value: 24.5, color: '#3B82C7' },
+  { name: '辅助诊断', value: 24.5, color: '#3B82C7' },
   { name: '疾病筛查', value: 18.7, color: '#13B8C6' },
   { name: '电子病历', value: 14.3, color: '#10B981' },
   { name: '健康筛查', value: 8.6, color: '#F59E0B' },

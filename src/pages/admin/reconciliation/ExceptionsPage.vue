@@ -1,6 +1,6 @@
 <template>
   <div class="p-[20px]">
-    <PageHeader title="异常对账处置" description="识别异常调用并完成核验、处置、归档闭环，处置动作同步至机构与开发者" />
+    <PageHeader title="异常对账管理" description="识别异常调用并完成核验、处置、归档闭环，处置动作同步至机构与开发者" />
 
     <!-- KPI -->
     <section class="grid grid-cols-4 gap-[14px] mb-[14px]">
