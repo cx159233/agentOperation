@@ -37,6 +37,7 @@ export type CapabilityCardData = {
   internalId?: string;
   /** 支持的检查模态 */
   modalities?: string[];
+  logo?: string;
   iconType: 'brain' | 'document' | 'lungs' | 'eye' | 'robot' | 'stethoscope' | 'cloud' | 'scan' | 'file' | 'assistant' | 'bar-chart' | 'shield-check';
   iconTone: 'blue' | 'cyan' | 'green' | 'orange' | 'purple' | 'rose';
   status?: '已上线使用' | '对接测试中' | '对接上线中' | '已下架';

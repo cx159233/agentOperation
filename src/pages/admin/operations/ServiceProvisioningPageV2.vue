@@ -672,7 +672,7 @@ async function confirmProvision() {
       accessKey: `AK_JSYB_2026_${baseTs.toString(36).toUpperCase()}_${idx}`,
       secretKey: `SK_${Math.random().toString(16).slice(2, 34)}`,
       subAccounts: [],
-      provisionedAt: m.startDate || now.format('YYYY-MM-DD HH:mm:ss'),
+      provisionedAt: m.startDate?.format('YYYY-MM-DD HH:mm:ss') || now.format('YYYY-MM-DD HH:mm:ss'),
       packageName: '-',
       discountPrice: '-',
       contactName: m.contactName || orgContactMap[m.orgName]?.name || '-',

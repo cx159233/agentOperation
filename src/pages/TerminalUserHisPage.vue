@@ -607,8 +607,8 @@ onMounted(() => {
   // 复用 his1 视图中的 logo base64 到所有 .logo-img
   const sourceLogo = document.querySelector('#view-his1 .top-nav-header img');
   if (sourceLogo) {
-    const src = sourceLogo.getAttribute('src');
-    document.querySelectorAll('.logo-img').forEach(img => {
+    const src = sourceLogo.getAttribute('src') || '';
+    document.querySelectorAll<HTMLImageElement>('.logo-img').forEach(img => {
       if (!img.getAttribute('src')) img.setAttribute('src', src);
     });
   }
@@ -629,7 +629,7 @@ onMounted(() => {
 });
 
 // ========== 视图切换(全局函数,供 onclick 调用) ==========
-    function goToView(viewName) {
+    function goToView(viewName: string) {
       // 直接操作 style.display,不依赖 CSS class
       ['his', 'his1', 'his2', 'his3', 'unified-entry', 'model-detail', 'ai-diagnosis'].forEach(name => {
         const el = document.getElementById('view-' + name);
