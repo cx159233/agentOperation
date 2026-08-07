@@ -565,6 +565,19 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
+declare global {
+  interface Window {
+    goToView: (viewName: string) => void
+    switchTab: (prefix: string, tabId: string) => void
+    selectPatient: (id: number) => void
+    switchMedicalTab: (tabName: string) => void
+    filterByScenario: (key: string) => void
+    onModelSearch: () => void
+    showAiPreview: () => void
+    closeAiPreview: () => void
+  }
+}
+
 onMounted(() => {
   // 加载 Font Awesome CSS
   if (!document.getElementById('fa-css')) {
@@ -646,13 +659,13 @@ onMounted(() => {
     window.goToView = goToView;
 
     // ========== his1/his2/his3 顶部 Tab 切换(全局函数) ==========
-    function switchTab(prefix, tabId) {
+    function switchTab(prefix: string, tabId: string) {
       if (tabId === 'overview') {
         goToView('his');
         return;
       }
-      const tabs = document.querySelectorAll('[data-' + prefix + '-tab]');
-      const bodies = document.querySelectorAll('[data-' + prefix + '-body]');
+      const tabs = document.querySelectorAll<HTMLElement>('[data-' + prefix + '-tab]');
+      const bodies = document.querySelectorAll<HTMLElement>('[data-' + prefix + '-body]');
       tabs.forEach(t => t.classList.toggle('ant-menu-item-selected', t.dataset[prefix + 'Tab'] === tabId));
       bodies.forEach(b => {
         b.style.display = b.dataset[prefix + 'Body'] === tabId ? 'flex' : 'none';
@@ -764,16 +777,16 @@ onMounted(() => {
       }
     };
 
-    function selectPatient(id) {
+    function selectPatient(id: number) {
       // 切换患者列表高亮
-      document.querySelectorAll('.patient-item').forEach(el => {
+      document.querySelectorAll<HTMLElement>('.patient-item').forEach(el => {
         el.classList.toggle('patient-active', el.dataset.patientId === String(id));
       });
-      const p = patientData[id];
+      const p = patientData[id as keyof typeof patientData];
       if (!p) return;
       // 患者信息栏
-      const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-      const setHtml = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+      const setText = (id: string, val: string) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      const setHtml = (id: string, val: string) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
       setText('info-name', p.name);
       setText('info-meta', p.meta);
       setText('info-diag', p.diagTag);
@@ -792,20 +805,20 @@ onMounted(() => {
       setText('exam-general', p.examGeneral);
       setText('exam-specialty', p.examSpecialty);
       // 诊断列表
-      if (p.diagList) setHtml('diag-list', p.diagList.map((d, i) =>
+      if (p.diagList) setHtml('diag-list', p.diagList.map((d: string, i: number) =>
         '<div class="text-sm p-2 bg-blue-50 border border-blue-200 rounded flex items-center">' +
         '<span class="text-blue-800 font-bold mr-2">' + (i + 1) + '.</span>' +
         '<span>' + d + '</span></div>'
       ).join(''));
       // 处置列表
-      if (p.treatList) setHtml('treat-list', p.treatList.map((d, i) =>
+      if (p.treatList) setHtml('treat-list', p.treatList.map((d: string, i: number) =>
         '<div class="text-sm p-2 bg-gray-50 border border-gray-200 rounded flex items-start">' +
         '<span class="text-blue-800 font-bold mr-2">' + (i + 1) + '.</span>' +
         '<span>' + d + '</span></div>'
       ).join(''));
       // 处方表格
-      if (p.prescription) setHtml('prescription-tbody', p.prescription.map(row =>
-        '<tr class="border-b border-gray-100">' + row.map(c =>
+      if (p.prescription) setHtml('prescription-tbody', p.prescription.map((row: string[]) =>
+        '<tr class="border-b border-gray-100">' + row.map((c: string) =>
           '<td class="py-1 px-2">' + c + '</td>'
         ).join('') + '</tr>'
       ).join(''));
@@ -813,11 +826,11 @@ onMounted(() => {
     window.selectPatient = selectPatient;
 
     // ========== HIS 门诊医生站:Tab 切换 ==========
-    function switchMedicalTab(tabName) {
-      document.querySelectorAll('.medical-tab').forEach(el => {
+    function switchMedicalTab(tabName: string) {
+      document.querySelectorAll<HTMLElement>('.medical-tab').forEach(el => {
         el.classList.toggle('medical-tab-active', el.dataset.tab === tabName);
       });
-      document.querySelectorAll('.medical-pane').forEach(el => {
+      document.querySelectorAll<HTMLElement>('.medical-pane').forEach(el => {
         el.style.display = el.dataset.pane === tabName ? 'block' : 'none';
       });
     }
@@ -853,14 +866,14 @@ onMounted(() => {
 
     let activeScenarioTag = 'all';
 
-    function getModelIconClass(icon) {
+    function getModelIconClass(icon: string) {
       return 'fa-solid ' + icon;
     }
 
     function renderScenarioTags() {
       const container = document.getElementById('scenario-tags');
       if (!container) return;
-      container.innerHTML = scenarioTags.map(t => {
+      container.innerHTML = scenarioTags.map((t: { key: string; name: string; count: number }) => {
         const isActive = t.key === activeScenarioTag;
         const activeClass = isActive ? ' scenario-tag-active' : '';
         return '<button onclick="filterByScenario(\'' + t.key + '\')" class="scenario-tag' + activeClass + '">' +
@@ -870,7 +883,7 @@ onMounted(() => {
       }).join('');
     }
 
-    function filterByScenario(key) {
+    function filterByScenario(key: string) {
       activeScenarioTag = key;
       renderScenarioTags();
       renderModelGrid();
@@ -880,14 +893,14 @@ onMounted(() => {
     let modelSearchKeyword = '';
 
     function onModelSearch() {
-      const input = document.getElementById('model-search-input');
+      const input = document.getElementById('model-search-input') as HTMLInputElement | null;
       modelSearchKeyword = input ? input.value : '';
       renderModelGrid();
     }
     window.onModelSearch = onModelSearch;
 
-    function getStatusBadge(status) {
-      const map = {
+    function getStatusBadge(status: string) {
+      const map: Record<string, string> = {
         '已开通': 'status-badge status-badge-open',
         '已暂停': 'status-badge status-badge-paused',
         '已过期': 'status-badge status-badge-expired',
@@ -1001,8 +1014,8 @@ onMounted(() => {
         { no: 7, status: '已完成', type: '检验结果智能解读', time: '2026-06-13 09:20:18', name: '孙晓芬', id: '3210**********7294', gender: '女', age: 51, visit: '门诊', dept: '检验科', score: '95.8', scoreIcon: 'pass', taskStatus: '已完成' },
         { no: 8, status: '待审核', type: '手术风险评估', time: '2026-06-13 15:42:05', name: '周国强', id: '3211**********5083', gender: '男', age: 68, visit: '住院', dept: '普外科', score: '73.6', scoreIcon: 'warn', taskStatus: '待审核' },
       ];
-      const statusClass = s => s === '已完成' ? 'bg-green-100 text-green-700' : (s === '诊断中' || s === '进行中' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700');
-      const scoreHtml = r => {
+      const statusClass = (s: string) => s === '已完成' ? 'bg-green-100 text-green-700' : (s === '诊断中' || s === '进行中' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700');
+      const scoreHtml = (r: { score: string; scoreIcon: string }) => {
         if (r.scoreIcon === 'pass') return '<div class="flex items-center gap-2"><span class="text-xs font-bold text-purple-600">' + r.score + '</span><i class="fas fa-check text-green-500 text-xs"></i></div>';
         if (r.scoreIcon === 'warn') return '<div class="flex items-center gap-2"><span class="text-xs font-bold text-purple-600">' + r.score + '</span><span style="font-size: 10px; color: #f59e0b;">⚠</span></div>';
         return '<div class="flex items-center gap-2"><span class="text-xs font-bold text-purple-600">' + r.score + '</span><span style="font-size: 10px; color: #94a3b8;">-</span></div>';
