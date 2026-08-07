@@ -275,7 +275,7 @@ const statusOptions = [
   { label: '对接测试中', value: '对接测试中' },
   { label: '停止使用', value: '停止使用' },
 ];
-const modalityOptions = ['CT', 'MRI', 'X光', '超声', 'PET', '病理', '心电图', '眼底影像'].map((m) => ({ label: m, value: m }));
+const modalityOptions = ['CT', 'DR', 'DX'].map((m) => ({ label: m, value: m }));
 const methodOptions = ['POST', 'GET', 'PUT'].map((m) => ({ label: m, value: m }));
 const authOptions = ['Bearer Token (AK/SK)', 'API Key', 'OAuth 2.0'].map((a) => ({ label: a, value: a }));
 

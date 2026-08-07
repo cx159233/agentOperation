@@ -237,7 +237,7 @@ const unitCreditCodeMap: Record<string, string> = {
   '慧影医疗科技（北京）股份有限公司': '91110108335563403F',
 };
 const unitCreditCode = computed(() => unitCreditCodeMap[form.value.unit] || '');
-const modalityOptions = ['CT', 'MRI', 'X光', '超声', 'PET', '病理', '心电图', '眼底影像'].map((m) => ({ label: m, value: m }));
+const modalityOptions = ['CT', 'DR', 'DX'].map((m) => ({ label: m, value: m }));
 const scenarioOptions = [{ label: '辅助诊断', value: '辅助诊断' }, { label: '三维建模', value: '三维建模' }];
 const configCategoryOptions = [
   { label: '影像 (IMG)', value: 'img' },

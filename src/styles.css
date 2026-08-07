@@ -463,6 +463,13 @@ button { font: inherit; cursor: pointer; }
 .ant-modal-close:hover {
   color: #1D2129;
 }
+/* 把 Drawer 关闭按钮推到 header 右上角（4.x 默认在标题左侧） */
+.ant-drawer-header-title {
+  flex-direction: row-reverse;
+}
+.ant-drawer-title {
+  flex: 1;
+}
 
 /* Menu */
 .ant-menu-item {

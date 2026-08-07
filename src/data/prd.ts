@@ -11,6 +11,12 @@ export const prdChapters: PrdChapter[] = [
     content: `<h1>产品需求文档</h1>
 <h2>3. 功能详述</h2>
 
+<h3 id="prd-3.1">3.1 登录</h3>
+<p><strong>功能描述：</strong>用户登录系统，接入统一用户中心进行身份认证与权限管理。</p>
+<p><strong>优先级：</strong>P1</p>
+<p><strong>详细设计：</strong></p>
+<p>系统接入统一用户中心，用户通过统一用户中心进行身份认证与授权，无需重复注册与登录。统一用户中心负责用户身份管理、角色权限分配与安全认证，平台通过接口获取用户信息与权限数据。</p>
+
 <h3 id="prd-3.2">3.2 模型/智能体编目</h3>
 <p><strong>入口页面：</strong>运营管理 / 模型/智能体</p>
 <p><strong>页面描述：</strong>将各类模型、智能体纳入统一目录体系，按能力分类与风险等级差异化纳管，管理员可进行新增、编辑、查看详情、上架/下架操作，普通用户可查看详情与申请使用。</p>
@@ -93,7 +99,7 @@ export const prdChapters: PrdChapter[] = [
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>配置类别</td><td></td><td>非必填，下拉选择；枚举：影像(IMG)</td></tr>
-<tr><td>支持的检查模态</td><td></td><td>非必填，标签输入模式，支持输入逗号分隔多个标签；枚举：CT、MRI、X光、超声、PET、病理、心电图、眼底影像</td></tr>
+<tr><td>支持的检查模态</td><td></td><td>非必填，标签输入模式，支持输入逗号分隔多个标签；枚举：CT、DR、DX</td></tr>
 <tr><td>符合要求的数据说明</td><td></td><td>非必填，限制500汉字，超出不可输入，显示计数器；占位提示"注明哪些数据符合模型输入要求"</td></tr>
 </table>
 <p>5、操作-提交审核</p>
@@ -164,13 +170,14 @@ export const prdChapters: PrdChapter[] = [
 
 <h3 id="prd-3.2.4">3.2.4 模型编目详情</h3>
 <p><strong>模块描述：</strong>模型/智能体 / 模型编目详情抽屉</p>
-<p><strong>功能描述：</strong>查看模型编目的详细信息，包含概览（基础信息、服务描述、调用说明、数据要求）和审核信息两个Tab。</p>
+<p><strong>功能描述：</strong>查看模型编目的详细信息，包含概览（基础信息、服务描述、调用说明、数据要求）。</p>
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>点击列表行【查看-按钮】或【查看详情-按钮】打开右侧抽屉</p>
 <p><strong>详细设计：</strong></p>
 <p>1、顶部概要</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
+<tr><td>LOGO</td><td></td><td>展示模型LOGO，由模型/智能体页面维护</td></tr>
 <tr><td>模型名称</td><td></td><td>完整展示，字体加粗</td></tr>
 <tr><td>资产标识</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
 <tr><td>状态</td><td></td><td>已上线使用（绿色徽标）/ 已下架（红色徽标）</td></tr>
@@ -204,17 +211,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>支持的检查模态</td><td></td><td>以标签形式展示，为空时显示"--"</td></tr>
 <tr><td>符合要求的数据说明</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 </table>
-<p>6、Tab-审核信息</p>
-<table>
-<tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>提交审核时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
-<tr><td>提交人</td><td></td><td>完整展示</td></tr>
-<tr><td>审核状态</td><td></td><td>枚举：已通过（绿色标签）、已驳回（红色标签）、审核中（蓝色标签）</td></tr>
-<tr><td>审核意见</td><td></td><td>完整展示，为空时显示"--"</td></tr>
-<tr><td>审核时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
-<tr><td>操作人</td><td></td><td>完整展示</td></tr>
-</table>
-<p>7、操作-关闭</p>
+<p>6、操作-关闭</td>
 <p>点击抽屉右上角【关闭按钮】或点击遮罩层，关闭抽屉，停留当前页面。</p>
 
 <h3 id="prd-3.2.5">3.2.5 模型启停用</h3>
@@ -372,13 +369,14 @@ export const prdChapters: PrdChapter[] = [
 
 <h3 id="prd-3.3.4">3.3.4 服务开通详情</h3>
 <p><strong>模块描述：</strong>服务开通管理 / 服务开通详情抽屉</p>
-<p><strong>功能描述：</strong>查看服务开通记录的详细信息，包含概览（基础信息、服务信息）和审核信息两个Tab。</p>
+<p><strong>功能描述：</strong>查看服务开通记录的详细信息，包含概览（基础信息、服务信息）。</p>
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>点击列表行【查看-按钮】打开右侧抽屉</p>
 <p><strong>详细设计：</strong></p>
 <p>1、顶部概要</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
+<tr><td>LOGO</td><td></td><td>展示服务LOGO，由模型/智能体页面维护</td></tr>
 <tr><td>服务名称</td><td></td><td>完整展示，字体加粗</td></tr>
 <tr><td>资产标识</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
 <tr><td>状态</td><td></td><td>未开始（默认灰色徽标）、已开通（绿色徽标）、已过期（红色徽标）、已停用（红色徽标）</td></tr>
@@ -394,7 +392,6 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 <tr><td>截止时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss，为空时显示"--"</td></tr>
 <tr><td>用途说明</td><td></td><td>完整展示，为空时显示"--"</td></tr>
-<tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 </table>
 <p>3、Tab-概览 / 服务信息</p>
 <table>
@@ -404,17 +401,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>研发单位</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>统一社会信用代码</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 </table>
-<p>4、Tab-审核信息</p>
-<table>
-<tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>提交审核时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
-<tr><td>提交人</td><td></td><td>完整展示</td></tr>
-<tr><td>审核状态</td><td></td><td>枚举：已通过（绿色标签）、已驳回（红色标签）、审核中（蓝色标签）</td></tr>
-<tr><td>审核意见</td><td></td><td>完整展示，为空时显示"--"</td></tr>
-<tr><td>审核时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
-<tr><td>操作人</td><td></td><td>完整展示</td></tr>
-</table>
-<p>5、操作-关闭</p>
+<p>4、操作-关闭</p>
 <p>点击抽屉右上角【关闭按钮】或点击遮罩层，关闭抽屉，停留当前页面。</p>
 
 <h3 id="prd-3.3.5">3.3.5 服务启停用</h3>
@@ -444,59 +431,6 @@ export const prdChapters: PrdChapter[] = [
 <p>b.若满足条件，服务状态变更为已开通，进行消息提示，刷新列表</p>
 <p style="font-style:italic; color:#999">Tip：XXX 已启用</p>
 
-<h3 id="prd-3.5">3.5 模型工作台</h3>
-<p><strong>入口页面：</strong>院内HIS系统点击【AI辅助诊断】→ Chrome浏览器打开Portal页面</p>
-<p><strong>页面描述：</strong>为临床医生提供AI模型服务门户，用户可浏览已开通的AI辅助诊断与三维建模模型，按场景筛选、关键词搜索，进入模型查看详情与调用统计。</p>
-
-<h3 id="prd-3.5.1">3.5.1 获取Portal-URL</h3>
-<p><strong>模块描述：</strong>模型工作台 / 获取Portal-URL</p>
-<p><strong>功能描述：</strong>在HIS、PACS等业务系统内增加【AI辅助诊断】按钮，点击后获取Portal-URL并跳转至Portal页面。</p>
-<p><strong>优先级：</strong>P1</p>
-<p><strong>输入/前置条件：</strong>用户已登录院内HIS系统，当前上下文包含患者与就诊信息。</p>
-<p><strong>详细设计：</strong></p>
-<p>1、HIS、PACS等业务系统获取Portal-URL入参</p>
-<table>
-<tr><th style="white-space:nowrap">参数名称</th><th style="white-space:nowrap">参数代码</th><th>参数逻辑</th></tr>
-<tr><td>机构标识</td><td></td><td>当前登录机构的唯一标识，用于校验服务开通状态</td></tr>
-<tr><td>用户标识</td><td></td><td>当前操作用户的唯一标识，用于权限校验与会话绑定</td></tr>
-<tr><td>患者标识</td><td></td><td>HIS系统当前患者的唯一标识，用于关联就诊上下文</td></tr>
-<tr><td>就诊ID</td><td></td><td>当前就诊记录的唯一标识，用于关联检查与诊断信息</td></tr>
-<tr><td>检查类型</td><td></td><td>枚举：CT、MRI、X光、超声等，用于自动匹配对应AI模型</td></tr>
-</table>
-
-<h3 id="prd-3.5.2">3.5.2 模型工作台首页</h3>
-<p><strong>模块描述：</strong>模型工作台 / 首页</p>
-<p><strong>功能描述：</strong>展示机构已开通的AI模型服务，包含Banner介绍区、场景分类筛选、关键词搜索及按场景分组的模型卡片列表。</p>
-<p><strong>优先级：</strong>P1</p>
-<p><strong>输入/前置条件：</strong>通过浏览器打开获取的Portal-URL，平台自动校验会话Token并加载当前机构已开通的模型服务</p>
-<p><strong>详细设计：</strong></p>
-<p>1、Banner区域</p>
-<p>页面顶部展示深色渐变背景卡片，左侧为标题与描述文案，右侧为三步操作流程图。文案写死。</p>
-<p>2、筛选与搜索</p>
-<table>
-<tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>场景分类标签</td><td></td><td>横向排列的标签按钮，枚举：辅助诊断、三维建模；默认选中第一个标签；选中标签高亮为蓝色填充样式，右侧显示该场景下模型数量；点击切换筛选下方卡片列表</td></tr>
-<tr><td>搜索框</td><td></td><td>文本输入，占位提示"搜索模型名称关键词"；输入时实时过滤下方卡片，匹配模型名称</td></tr>
-</table>
-<p>3、模型卡片列表</p>
-        <p>1）数据范围为当前机构状态为已开通的模型服务，按场景分类分组展示，无匹配结果时显示空状态。</p>
-<table>
-<tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>模型LOGO</td><td></td><td>展示模型LOGO，由模型/智能体页面维护</td></tr>
-<tr><td>服务名称</td><td></td><td>完整展示，字体加粗</td></tr>
-<tr><td>一句话简介</td><td></td><td>展示一句话简介，灰色文字，最多两行超出省略</td></tr>
-<tr><td>服务状态</td><td></td><td>枚举：已开通（绿色徽标）</td></tr>
-<tr><td>操作入口</td><td></td><td>"进入"文字链接，蓝色，点击跳转模型详情页</td></tr>
-</table>
-
-<h3 id="prd-3.5.3">3.5.3 模型跳转</h3>
-<p><strong>模块描述：</strong>模型工作台 / 跳转至医疗资源调度系统</p>
-<p><strong>功能描述：</strong>点击模型卡片"进入"链接，跳转至医疗资源调度系统，参数加密传输并自动代入。</p>
-<p><strong>优先级：</strong>P1</p>
-<p><strong>输入/前置条件：</strong>在模型工作台首页点击模型卡片或"进入"链接</p>
-<p><strong>详细设计：</strong></p>
-<p>系统自动收集当前上下文参数（模型类型、患者姓名等）加密后跳转至医疗资源调度系统，经单点登录进入AI辅助诊断页面，模型类型与患者姓名自动代入。</p>
-
 `
   },
 ]
@@ -506,7 +440,6 @@ const routePrdMap: Record<string, { anchor: string; pageName: string }> = {
   '/admin/model-catalog-v2': { anchor: 'prd-3.2', pageName: '模型/智能体' },
   '/admin/model-catalog-v2/edit': { anchor: 'prd-3.2.2', pageName: '模型编目新增' },
   '/admin/operations/service-provisioning-v2': { anchor: 'prd-3.3', pageName: '服务开通列表' },
-  '/terminal-user': { anchor: 'prd-3.5', pageName: '模型工作台' },
 }
 
 export function getAllPrdHtml(): string {

@@ -56,7 +56,7 @@ const route = useRoute();
 // ════════════════════════════════════════════════════════════
 // PRD 功能开关：true=启用分屏，false=隐藏PRD入口与面板
 // ════════════════════════════════════════════════════════════
-const PRD_ENABLED = false;
+const PRD_ENABLED = true;
 
 const prdVisible = ref(false);
 const currentPath = computed(() => route.path);

@@ -323,7 +323,7 @@ const statusOptions = [
   { label: '对接测试中', value: '对接测试中' },
   { label: '停止使用', value: '停止使用' },
 ];
-const modalityOptions = ['CT', 'MRI', 'X光', '超声', 'PET', '病理', '心电图', '眼底影像'].map((m) => ({ label: m, value: m }));
+const modalityOptions = ['CT', 'DR', 'DX'].map((m) => ({ label: m, value: m }));
 const unitOptions = computed(() => {
   const allModels = capabilityGroups.flatMap((g) => g.columns.flatMap((c) => c.items));
   return Array.from(new Set(allModels.map((m) => m.unit).filter(Boolean))).map((u) => ({ label: u, value: u }));
