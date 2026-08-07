@@ -159,6 +159,9 @@ export const roleSidebarMenus: Record<AuthRole, RoleSidebarMenu[]> = {
       ],
     },
   ],
+  endUser: [
+    { label: '概览', path: '/portal', icon: 'portal' },
+  ],
 };
 
 // 兼容旧引用（已废弃，新代码请使用 roleSidebarMenus）
