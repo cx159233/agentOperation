@@ -417,6 +417,7 @@ export const hotServices: HotService[] = [
 export type QualityService = {
   id: string;
   name: string;
+  logo?: string;
   accuracy: number;
   latency: number;
   successRate: number;
@@ -598,6 +599,7 @@ export type ProvisionedService = {
   id: string;
   orgName: string;
   name: string;
+  logo?: string;
   code: string;
   internalId?: string;
   unit: string;
@@ -608,7 +610,7 @@ export type ProvisionedService = {
   billingMethod: string;
   validUntil: string;
   scope: string;
-  status: '已开通' | '已停用' | '未开始' | '已过期';
+  status: '已开通' | '已停用' | '未开始' | '已过期' | '即将到期' | '已到期' | '正常';
   quota: string;
   used: string;
   ratio: number;

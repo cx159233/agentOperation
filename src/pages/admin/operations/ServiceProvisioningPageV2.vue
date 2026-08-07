@@ -532,8 +532,8 @@ const provisionModal = ref<{
   purpose: string;
   contactName: string;
   contactPhone: string;
-  startDate: string;
-  endDate: string;
+  startDate: Dayjs | undefined;
+  endDate: Dayjs | undefined;
   workbenchMode: 'entry' | 'direct';
   overrideUrl: string;
 }>({
@@ -544,8 +544,8 @@ const provisionModal = ref<{
   purpose: '',
   contactName: '',
   contactPhone: '',
-  startDate: undefined as Dayjs | undefined,
-  endDate: undefined as Dayjs | undefined,
+  startDate: undefined,
+  endDate: undefined,
   workbenchMode: 'entry',
   overrideUrl: '',
 });
