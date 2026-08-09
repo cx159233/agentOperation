@@ -44,14 +44,14 @@
             </template>
             <template v-else-if="column.dataIndex === 'action'">
               <a-space v-if="isAdmin" size="small">
-                <a-button type="link" size="small" class="!p-0" @click="onView(record)">查看</a-button>
+                <a-button type="link" size="small" class="!p-0" @click="onView(record)">详情</a-button>
                 <a-divider type="vertical" class="!mx-[2px]" />
                 <a-button type="link" size="small" class="!p-0" @click="onEdit(record)">编辑</a-button>
                 <a-divider type="vertical" class="!mx-[2px]" />
                 <a-button type="link" size="small" class="!p-0" :class="record.status === '已上线使用' ? '!text-danger' : ''" @click="onToggleClick(record)">{{ record.status === '已下架' ? '上架' : '下架' }}</a-button>
               </a-space>
               <a-space v-else size="small">
-                <a-button type="link" size="small" class="!p-0" @click="onView(record)">查看详情</a-button>
+                <a-button type="link" size="small" class="!p-0" @click="onView(record)">详情</a-button>
                 <a-divider type="vertical" class="!mx-[2px]" />
                 <a-button type="link" size="small" class="!p-0" @click="onApplyAccess(record)">申请使用</a-button>
               </a-space>

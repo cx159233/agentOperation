@@ -52,7 +52,7 @@
             </template>
             <template v-else-if="column.dataIndex === 'action'">
               <a-space size="small">
-                <a-button type="link" size="small" class="!p-0" @click="onViewDetail(record)">查看</a-button>
+                <a-button type="link" size="small" class="!p-0" @click="onViewDetail(record)">详情</a-button>
                 <a-divider type="vertical" class="!mx-[2px]" />
                 <a-button type="link" size="small" class="!p-0" @click="onEdit(record)">编辑</a-button>
                 <a-divider type="vertical" class="!mx-[2px]" />
@@ -67,10 +67,10 @@
 
     <!-- 代开通弹窗 -->
     <a-modal v-model:open="provisionModal.visible" title="服务开通" :width="1200" :footer="null" :mask-closable="false" :body-style="{ padding: '20px' }" :get-container="getDemoPanel">
-        <!-- 基础信息 -->
+        <!-- 基本信息 -->
         <div class="flex items-center gap-[8px] mb-[16px]">
           <div class="w-[4px] h-[16px] bg-primary rounded-full" />
-          <span class="text-[14px] font-semibold text-text-primary">基础信息</span>
+          <span class="text-[14px] font-semibold text-text-primary">基本信息</span>
         </div>
         <a-form ref="provisionFormRef" :model="provisionModal" layout="vertical">
           <div class="grid grid-cols-2 gap-x-[16px]">
@@ -179,10 +179,10 @@
 
     <!-- 编辑弹窗 -->
     <a-modal v-model:open="editModal.visible" title="服务开通编辑" :width="800" :footer="null" :mask-closable="false" :get-container="getDemoPanel">
-      <!-- 基础信息 -->
+      <!-- 基本信息 -->
       <div class="flex items-center gap-[8px] mb-[16px]">
         <div class="w-[4px] h-[16px] bg-primary rounded-full" />
-        <span class="text-[14px] font-semibold text-text-primary">基础信息</span>
+        <span class="text-[14px] font-semibold text-text-primary">基本信息</span>
       </div>
       <a-form ref="editFormRef" :model="editModal" layout="vertical">
         <div class="grid grid-cols-2 gap-x-[16px]">
@@ -253,7 +253,7 @@
         <a-tabs v-model:activeKey="drawer.activeTab" class="mvp-detail-tabs">
           <!-- Tab1 概览 -->
           <a-tab-pane key="org" tab="概览">
-            <div class="text-[14px] font-semibold text-text-primary mb-[10px]">基础信息</div>
+            <div class="text-[14px] font-semibold text-text-primary mb-[10px]">基本信息</div>
             <a-descriptions :column="2" bordered size="small" class="mb-[16px]">
               <a-descriptions-item label="申请机构">{{ drawer.record.orgName }}</a-descriptions-item>
               <a-descriptions-item label="统一社会信用代码">{{ drawer.record.orgCreditCode }}</a-descriptions-item>

@@ -29,7 +29,7 @@
     </section>
     <section class="cloud-card p-[16px] mt-[14px]">
       <a-tabs>
-        <a-tab-pane key="basic" tab="基础信息">
+        <a-tab-pane key="basic" tab="基本信息">
           <a-descriptions bordered :column="3" size="small">
             <a-descriptions-item label="服务ID">{{ service.id }}</a-descriptions-item>
             <a-descriptions-item label="服务归属">{{ detail.basic.服务归属 }}</a-descriptions-item>

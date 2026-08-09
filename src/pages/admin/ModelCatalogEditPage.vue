@@ -34,11 +34,11 @@
 
       <!-- 主表单 -->
       <main class="flex-1 p-[20px] pl-0 max-w-[920px]">
-        <!-- 1. 基础信息 -->
+        <!-- 1. 基本信息 -->
         <section id="sec-basic" class="cloud-card p-[20px] mb-[14px] scroll-mt-[80px]">
           <div class="flex items-center gap-[8px] mb-[16px]">
             <div class="w-[4px] h-[16px] bg-primary rounded-full" />
-            <span class="text-[14px] font-semibold text-text-primary">基础信息</span>
+            <span class="text-[14px] font-semibold text-text-primary">基本信息</span>
             <span class="text-[11px] text-text-tertiary">用于平台纳管与目录展示</span>
           </div>
           <a-form layout="vertical">
@@ -212,7 +212,7 @@ const router = useRouter();
 const isEdit = computed(() => !!route.query.id);
 
 const sections = [
-  { id: 'sec-basic', label: '基础信息' },
+  { id: 'sec-basic', label: '基本信息' },
   { id: 'sec-desc', label: '服务描述' },
   { id: 'sec-api', label: '接入信息' },
   { id: 'sec-confirm', label: '提交确认' },

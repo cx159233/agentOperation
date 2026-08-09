@@ -62,17 +62,17 @@ export const prdChapters: PrdChapter[] = [
 </pre>
 <table>
 <tr><th style="white-space:nowrap">状态名称</th><th style="white-space:nowrap">状态代码</th><th>状态对应操作</th></tr>
-<tr><td>已上线使用</td><td></td><td>查看、编辑、下架</td></tr>
-<tr><td>已下架</td><td></td><td>查看、编辑、上架</td></tr>
+<tr><td>已上线使用</td><td></td><td>详情、编辑、下架</td></tr>
+<tr><td>已下架</td><td></td><td>详情、编辑、上架</td></tr>
 </table>
 
 <h3 id="prd-3.2.2">3.2.2 模型编目新增</h3>
 <p><strong>模块描述：</strong>模型/智能体 / 模型编目新增页面</p>
-<p><strong>功能描述：</strong>新增模型编目，可设置基础信息、服务描述、调用说明、数据要求等信息，提交后进入审核流程。</p>
+<p><strong>功能描述：</strong>新增模型编目，可设置基本信息、服务描述、调用说明、数据要求等信息，提交后进入审核流程。</p>
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>管理员点击列表页【新增编目-按钮】跳转至独立新增页面</p>
 <p><strong>详细设计：</strong></p>
-<p>1、基础信息</p>
+<p>1、基本信息</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>模型名称</td><td></td><td>1.必填，限制40汉字，超出不可输入，显示计数器；<br>2.占位提示"如：肺结节CT图像辅助检测"</td></tr>
@@ -121,11 +121,11 @@ export const prdChapters: PrdChapter[] = [
 
 <h3 id="prd-3.2.3">3.2.3 模型编目编辑</h3>
 <p><strong>模块描述：</strong>模型/智能体 / 模型编目编辑页面</p>
-<p><strong>功能描述：</strong>编辑已有模型编目，可修改基础信息、服务描述、调用说明、数据要求等信息。</p>
+<p><strong>功能描述：</strong>编辑已有模型编目，可修改基本信息、服务描述、调用说明、数据要求等信息。</p>
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>管理员点击列表页【编辑-按钮】，跳转至编辑页面，预填当前数据</p>
 <p><strong>详细设计：</strong></p>
-<p>1、基础信息</p>
+<p>1、基本信息</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>模型名称</td><td></td><td>1.必填，限制40汉字，超出不可输入，显示计数器；<br>2.回显原模型名称，可修改</td></tr>
@@ -170,9 +170,9 @@ export const prdChapters: PrdChapter[] = [
 
 <h3 id="prd-3.2.4">3.2.4 模型编目详情</h3>
 <p><strong>模块描述：</strong>模型/智能体 / 模型编目详情抽屉</p>
-<p><strong>功能描述：</strong>查看模型编目的详细信息，包含概览（基础信息、服务描述、调用说明、数据要求）。</p>
+<p><strong>功能描述：</strong>查看模型编目的详细信息，包含概览（基本信息、服务描述、调用说明、数据要求）。</p>
 <p><strong>优先级：</strong>P1</p>
-<p><strong>输入/前置条件：</strong>点击列表行【查看-按钮】或【查看详情-按钮】打开右侧抽屉</p>
+<p><strong>输入/前置条件：</strong>点击列表行【详情-按钮】打开右侧抽屉</p>
 <p><strong>详细设计：</strong></p>
 <p>1、顶部概要</p>
 <table>
@@ -182,7 +182,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>资产标识</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
 <tr><td>状态</td><td></td><td>已上线使用（绿色徽标）/ 已下架（红色徽标）</td></tr>
 </table>
-<p>2、Tab-概览 / 基础信息</p>
+<p>2、Tab-概览 / 基本信息</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>研发单位</td><td></td><td>完整展示，为空时显示"--"</td></tr>
@@ -288,10 +288,10 @@ export const prdChapters: PrdChapter[] = [
 </pre>
 <table>
 <tr><th style="white-space:nowrap">状态名称</th><th style="white-space:nowrap">状态代码</th><th>状态对应操作</th></tr>
-<tr><td>未开始</td><td></td><td>查看、编辑</td></tr>
-<tr><td>已开通</td><td></td><td>查看、编辑、停用</td></tr>
-<tr><td>已过期</td><td></td><td>查看、编辑</td></tr>
-<tr><td>已停用</td><td></td><td>查看、编辑、启用</td></tr>
+<tr><td>未开始</td><td></td><td>详情、编辑</td></tr>
+<tr><td>已开通</td><td></td><td>详情、编辑、停用</td></tr>
+<tr><td>已过期</td><td></td><td>详情、编辑</td></tr>
+<tr><td>已停用</td><td></td><td>详情、编辑、启用</td></tr>
 </table>
 
 <h3 id="prd-3.3.2">3.3.2 服务开通</h3>
@@ -300,7 +300,7 @@ export const prdChapters: PrdChapter[] = [
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>管理员点击列表页【服务开通-按钮】打开弹窗</p>
 <p><strong>详细设计：</strong></p>
-<p>1、基础信息</p>
+<p>1、基本信息</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>申请机构</td><td></td><td>1.必填，下拉选择，支持搜索过滤；<br>2.选择后自动填入统一社会信用代码<br><span style="color:#EF4444;font-size:11px">注：直接调用用户中心API获取启用的所有机构列表</span></td></tr>
@@ -369,9 +369,9 @@ export const prdChapters: PrdChapter[] = [
 
 <h3 id="prd-3.3.4">3.3.4 服务开通详情</h3>
 <p><strong>模块描述：</strong>服务开通管理 / 服务开通详情抽屉</p>
-<p><strong>功能描述：</strong>查看服务开通记录的详细信息，包含概览（基础信息、服务信息）。</p>
+<p><strong>功能描述：</strong>查看服务开通记录的详细信息，包含概览（基本信息、服务信息）。</p>
 <p><strong>优先级：</strong>P1</p>
-<p><strong>输入/前置条件：</strong>点击列表行【查看-按钮】打开右侧抽屉</p>
+<p><strong>输入/前置条件：</strong>点击列表行【详情-按钮】打开右侧抽屉</p>
 <p><strong>详细设计：</strong></p>
 <p>1、顶部概要</p>
 <table>
@@ -381,8 +381,8 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>资产标识</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
 <tr><td>状态</td><td></td><td>未开始（默认灰色徽标）、已开通（绿色徽标）、已过期（红色徽标）、已停用（红色徽标）</td></tr>
 </table>
-<p>2、Tab-概览 / 基础信息</p>
-<p>基础信息区域每行独占一列。</p>
+<p>2、Tab-概览 / 基本信息</p>
+<p>基本信息区域每行独占一列。</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>申请机构</td><td></td><td>完整展示，为空时显示"--"</td></tr>

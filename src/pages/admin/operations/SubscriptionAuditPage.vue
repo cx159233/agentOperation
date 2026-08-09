@@ -80,10 +80,10 @@
     <!-- 审核详情抽屉 -->
     <a-drawer v-model:open="drawer.visible" title="服务订阅审核详情" :width="720" placement="right">
       <template v-if="drawer.record">
-        <!-- 基础信息 -->
+        <!-- 基本信息 -->
         <div class="flex items-center gap-[8px] mb-[12px]">
           <div class="w-[3px] h-[14px] bg-primary rounded-full" />
-          <span class="text-[14px] font-semibold text-text-primary">基础信息</span>
+          <span class="text-[14px] font-semibold text-text-primary">基本信息</span>
         </div>
         <a-descriptions :column="2" bordered size="small" class="mb-[16px]">
           <a-descriptions-item label="机构名称" :span="2">{{ drawer.record.orgName }}</a-descriptions-item>

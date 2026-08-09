@@ -15,27 +15,32 @@
         <span class="text-[12px] text-text-tertiary ml-[8px]">按风险等级执行差异化审核</span>
       </div>
       <div class="relative px-[24px] pt-[20px] pb-[20px]">
-        <div class="flex items-stretch">
+        <div class="space-y-[16px]">
           <template v-for="(level, idx) in accessReviewLevels" :key="level.level">
-            <div class="flex-1 rounded-[8px] p-[14px] flex items-center gap-[10px] bg-white/40 hover:bg-white/60 transition-all">
-              <div class="w-[28px] h-[28px] rounded-[6px] bg-primary text-white grid place-items-center text-[13px] font-bold shrink-0">{{ idx + 1 }}</div>
+            <div class="flex items-center gap-[12px] group">
+              <div class="relative shrink-0">
+                <div class="w-[34px] h-[34px] rounded-full bg-white border-[2px] border-primary/30 grid place-items-center transition-all duration-300 group-hover:border-primary group-hover:shadow-md group-hover:shadow-primary/15">
+                  <CheckCircleOutlined class="text-[15px] text-primary" />
+                </div>
+                <div class="absolute -top-[3px] -right-[3px] w-[15px] h-[15px] rounded-full bg-primary text-white text-[9px] font-bold grid place-items-center">{{ idx + 1 }}</div>
+              </div>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-[6px]">
-                  <span class="text-[13px] font-semibold text-text-primary truncate">{{ level.title }}</span>
+                <div class="flex items-center gap-[8px] mb-[6px]">
+                  <span class="text-[13px] font-semibold text-text-primary">{{ level.title }}</span>
                   <a-tag :color="levelTagColor(level.level)" class="!m-0 !text-[10px]">{{ level.level }}</a-tag>
                 </div>
-                <div class="mt-[4px] flex items-center gap-[4px] flex-wrap">
+                <div class="flex items-center flex-wrap">
                   <template v-for="(step, sIdx) in level.process" :key="step">
-                    <span class="text-[11px] text-text-tertiary">{{ step }}</span>
-                    <ArrowRightOutlined v-if="sIdx < level.process.length - 1" class="text-[9px] text-text-tertiary" />
+                    <div class="flex items-center gap-[6px]">
+                      <span class="text-[12px] text-text-secondary px-[8px] py-[2px] rounded-[4px] bg-white/60 border border-border-soft/60">{{ step }}</span>
+                      <svg v-if="sIdx < level.process.length - 1" width="12" height="12" viewBox="0 0 16 16" class="text-primary/40 mx-[4px] shrink-0">
+                        <path d="M6 4 L10 8 L6 12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
                   </template>
                 </div>
+                <p class="text-[11px] text-text-tertiary leading-[16px] mt-[6px]">{{ level.description }}</p>
               </div>
-            </div>
-            <div v-if="idx < accessReviewLevels.length - 1" class="flex items-center px-[8px]">
-              <svg width="16" height="16" viewBox="0 0 16 16" class="text-text-tertiary">
-                <path d="M6 4 L10 8 L6 12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
             </div>
           </template>
         </div>
@@ -94,10 +99,10 @@
     <!-- 审核详情抽屉 -->
     <a-drawer v-model:open="drawer.visible" title="服务上架审核详情" :width="760" placement="right">
       <template v-if="drawer.record">
-        <!-- 基础信息 -->
+        <!-- 基本信息 -->
         <div class="flex items-center gap-[8px] mb-[12px]">
           <div class="w-[3px] h-[14px] bg-primary rounded-full" />
-          <span class="text-[14px] font-semibold text-text-primary">基础信息</span>
+          <span class="text-[14px] font-semibold text-text-primary">基本信息</span>
         </div>
         <a-descriptions :column="2" bordered size="small" class="mb-[16px]">
           <a-descriptions-item label="服务名称" :span="2">{{ drawer.record.serviceName }}</a-descriptions-item>
