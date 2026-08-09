@@ -278,7 +278,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>研发单位</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>申请机构</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>状态</td><td></td><td>根据时间自动计算：当前时间 &lt; 开始时间为未开始（默认灰色徽标）；当前时间 &gt; 截止时间为已过期（红色徽标，优先级最高，覆盖已停用）；管理员手动停用为已停用（红色徽标）；其余为已开通（绿色徽标）</td></tr>
-<tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
+<tr><td>创建时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 </table>
 <p>3、状态流转与按钮</p>
 <pre style="background:#f5f7fa;padding:12px;border-radius:4px;font-size:13px;line-height:1.8;overflow-x:auto">

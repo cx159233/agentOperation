@@ -262,7 +262,7 @@
               <a-descriptions-item label="开始时间">{{ drawer.record.provisionedAt }}</a-descriptions-item>
               <a-descriptions-item label="截止时间">{{ drawer.record.validUntil }}</a-descriptions-item>
               <a-descriptions-item label="用途说明" :span="2">{{ drawer.record.purpose }}</a-descriptions-item>
-              <a-descriptions-item label="开始时间" :span="2">{{ drawer.record.submittedAt }}</a-descriptions-item>
+              <a-descriptions-item label="创建时间" :span="2">{{ drawer.record.submittedAt }}</a-descriptions-item>
             </a-descriptions>
 
             <div class="text-[14px] font-semibold text-text-primary mb-[10px]">服务信息</div>
@@ -317,7 +317,7 @@ const columns = [
   { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 220 },
   { title: '申请机构', dataIndex: 'orgName', key: 'orgName', width: 180 },
   { title: '状态', dataIndex: 'status', key: 'status', width: 110 },
-  { title: '开始时间', dataIndex: 'submittedAt', key: 'submittedAt', width: 170 },
+  { title: '创建时间', dataIndex: 'submittedAt', key: 'submittedAt', width: 170 },
   { title: '操作', dataIndex: 'action', key: 'action', width: 180 },
 ];
 
