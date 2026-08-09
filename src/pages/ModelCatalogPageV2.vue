@@ -40,7 +40,7 @@
               <span class="font-num whitespace-nowrap">{{ record.createdAt }}</span>
             </template>
             <template v-else-if="column.dataIndex === 'status'">
-              <a-badge :status="statusBadge(record.status)" :text="record.status" />
+              <a-badge :status="statusBadge(record.status)" :text="record.status" class="mvp-status-badge" />
             </template>
             <template v-else-if="column.dataIndex === 'action'">
               <a-space v-if="isAdmin" size="small">
@@ -80,7 +80,7 @@
           </div>
         </div>
 
-        <a-tabs v-model:activeKey="viewDrawer.activeTab">
+        <a-tabs v-model:activeKey="viewDrawer.activeTab" class="mvp-detail-tabs">
           <!-- Tab1 概览 -->
           <a-tab-pane key="info" tab="概览">
             <div class="text-[14px] font-semibold text-text-primary mb-[10px]">基础信息</div>
@@ -302,6 +302,24 @@ function onToggleClick(record: CapabilityCardData) {
 }
 .ant-drawer .ant-descriptions-item-content {
   width: auto;
+}
+/* MVP 详情抽屉描述列表：表头/表体与 a-table 规范统一 */
+.mvp-detail-tabs .ant-descriptions-item-label {
+  background: #FAFBFC !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+  font-feature-settings: "tnum" !important;
+}
+.mvp-detail-tabs .ant-descriptions-item-content {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: rgba(0, 0, 0, 0.65) !important;
+  font-feature-settings: "tnum" !important;
+}
+/* MVP 列表状态列文字颜色统一 0.65（色点不变） */
+.mvp-status-badge .ant-badge-status-text {
+  color: rgba(0, 0, 0, 0.65) !important;
 }
 
 /* 抽屉头部样式 */
