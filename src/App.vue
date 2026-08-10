@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { theme as antdTheme } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
@@ -116,6 +116,13 @@ watch(dialogAnchor, (anchor) => {
 // 展开PRD面板时滚动
 watch(prdVisible, (v) => {
   if (v) {
+    setTimeout(() => scrollToAnchor(), 350);
+  }
+});
+
+// 首次加载时若 PRD 面板已展开，执行锚点滚动
+onMounted(() => {
+  if (prdVisible.value) {
     setTimeout(() => scrollToAnchor(), 350);
   }
 });
