@@ -427,7 +427,7 @@ export const prdChapters: PrdChapter[] = [
 
 // 路由与PRD章节映射
 const routePrdMap: Record<string, { anchor: string; pageName: string }> = {
-  '/admin/model-catalog-v2': { anchor: 'prd-3.2', pageName: '模型/智能体' },
+  '/admin/model-catalog-v2': { anchor: 'prd-3.1', pageName: '登录' },
   '/admin/model-catalog-v2/edit': { anchor: 'prd-3.2.2', pageName: '模型编目新增' },
   '/admin/operations/service-provisioning-v2': { anchor: 'prd-3.3', pageName: '服务开通列表' },
 }
