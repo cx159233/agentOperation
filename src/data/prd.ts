@@ -32,7 +32,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>创建时间范围</td><td></td><td>日期范围选择器，支持选择起止日期，按模型开始时间过滤</td></tr>
 <tr><td>模型名称</td><td></td><td>文本输入，支持模糊搜索</td></tr>
-<tr><td>资产标识</td><td></td><td>文本输入，支持模糊搜索</td></tr>
+<tr><td>模型ID</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>模型代码</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>服务商名称</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>接入状态</td><td></td><td>枚举：已上线使用、已下架，默认不选中</td></tr>
@@ -47,9 +47,9 @@ export const prdChapters: PrdChapter[] = [
 <p>4）当前列表数据为空时，显示"暂无数据"。</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>模型名称</td><td></td><td>完整展示，为空时显示"--"</td></tr>
-<tr><td>资产标识</td><td></td><td>模型名称下方灰色小字展示，<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>；为空时显示"--"</td></tr>
-<tr><td>模型代码</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
+<tr><td>模型名称/ID</td><td></td><td>完整展示，为空时显示"--"</td></tr>
+<tr><td>ID</td><td></td><td>模型名称下方灰色小字展示，<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>；为空时显示"--"</td></tr>
+<tr><td>模型代码</td><td></td><td>完整展示，超出换行，列为空时显示"--"；列标题旁感叹号图标提示"厂商自身模型代码"</td></tr>
 <tr><td>服务商名称</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 <tr><td>状态</td><td></td><td>枚举：已上线使用（绿色徽标）、已下架（红色徽标）</td></tr>
@@ -110,7 +110,7 @@ export const prdChapters: PrdChapter[] = [
 <p>3）若满足条件：</p>
 <p>a.管理员提交即视为审核通过，即时生效，初始状态为已上线使用，进行消息提示，返回列表页</p>
 <p style="font-style:italic; color:#999">Tip：新增成功</p>
-<p>b.系统自动生成资产标识（<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>）</p>
+<p>b.系统自动生成ID（<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>）</p>
 <p>c.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员代开通，即时生效"、审核时间取创建时间、操作人取当前管理员</p>
 <p>5、操作-返回</p>
 <p>点击【返回-按钮】，返回列表页，不保存任何修改。</p>
@@ -171,7 +171,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>LOGO</td><td></td><td>展示模型LOGO，由模型/智能体页面维护</td></tr>
 <tr><td>模型名称</td><td></td><td>完整展示，字体加粗</td></tr>
-<tr><td>资产标识</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
+<tr><td>ID</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
 <tr><td>状态</td><td></td><td>已上线使用（绿色徽标）/ 已下架（红色徽标）</td></tr>
 </table>
 <p>2、Tab-概览 / 基本信息</p>
@@ -244,7 +244,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>开始时间范围</td><td></td><td>日期范围选择器，支持选择起止日期，按开始时间过滤</td></tr>
 <tr><td>服务名称</td><td></td><td>文本输入，支持模糊搜索</td></tr>
-<tr><td>资产标识</td><td></td><td>文本输入，支持模糊搜索</td></tr>
+<tr><td>服务ID</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>服务商名称</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>申请机构</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>状态</td><td></td><td>枚举：未开始、已开通、已过期、已停用，默认不选中</td></tr>
@@ -262,8 +262,8 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>服务单号</td><td></td><td>系统自动生成，格式：YYYYMMDD+4位序号（如 202608100001），唯一标识</td></tr>
 <tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 <tr><td>截止时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss，为空时显示"--"</td></tr>
-<tr><td>服务名称</td><td></td><td>完整展示，为空时显示"--"</td></tr>
-<tr><td>资产标识</td><td></td><td>服务名称下方灰色小字展示，<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>；为空时显示"--"</td></tr>
+<tr><td>服务名称/ID</td><td></td><td>完整展示，为空时显示"--"</td></tr>
+<tr><td>ID</td><td></td><td>服务名称下方灰色小字展示，<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>；为空时显示"--"</td></tr>
 <tr><td>服务商名称</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>申请机构</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>状态</td><td></td><td>根据时间自动计算：当前时间 &lt; 开始时间为未开始（默认灰色徽标）；当前时间 &gt; 截止时间为已过期（红色徽标，优先级最高，覆盖已停用）；管理员手动停用为已停用（红色徽标）；其余为已开通（绿色徽标）</td></tr>
@@ -302,14 +302,15 @@ export const prdChapters: PrdChapter[] = [
 </table>
 <p>2、选择服务</p>
 <p>1）以表格形式展示所有状态为"已上线使用"的模型编目，支持多选（复选框）。</p>
-<p>2）支持按服务名称、服务代码、服务商名称筛选可用服务。</p>
+<p>2）支持按模型名称、模型ID、服务商名称筛选可用服务。</p>
 <p>3）必须至少选择一个服务方可提交。</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>复选框</td><td></td><td>支持多选，点击行也可切换选中状态</td></tr>
-<tr><td>服务名称</td><td></td><td>展示模型名称，左侧有图标</td></tr>
-<tr><td>服务代码</td><td></td><td>完整展示</td></tr>
+<tr><td>模型名称</td><td></td><td>完整展示，左侧有图标</td></tr>
+<tr><td>ID</td><td></td><td>模型名称下方灰色小字展示，为空时显示"--"</td></tr>
 <tr><td>服务商名称</td><td></td><td>完整展示</td></tr>
+<tr><td>创建时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 <tr><td>查询按钮</td><td></td><td>点击后以筛选条件为入参，刷新可选服务列表</td></tr>
 <tr><td>重置按钮</td><td></td><td>点击后清空筛选条件，重置为全部</td></tr>
 </table>
@@ -368,7 +369,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>LOGO</td><td></td><td>展示服务LOGO，由模型/智能体页面维护</td></tr>
 <tr><td>服务名称</td><td></td><td>完整展示，字体加粗</td></tr>
-<tr><td>资产标识</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
+<tr><td>ID</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
 <tr><td>状态</td><td></td><td>未开始（默认灰色徽标）、已开通（绿色徽标）、已过期（红色徽标）、已停用（红色徽标）</td></tr>
 </table>
 <p>2、Tab-概览 / 基本信息</p>

@@ -13,7 +13,7 @@
         </template>
         <a-range-picker v-model:value="filter.range" style="width: 240px" :placeholder="['开始时间', '截止时间']" />
         <a-input v-model:value="filter.serviceName" style="width: 180px" placeholder="服务名称" allow-clear />
-        <a-input v-model:value="filter.internalId" style="width: 180px" placeholder="资产标识" allow-clear />
+        <a-input v-model:value="filter.internalId" style="width: 180px" placeholder="服务ID" allow-clear />
         <a-input v-model:value="filter.unit" style="width: 180px" placeholder="服务商名称" allow-clear />
         <a-input v-model:value="filter.orgName" style="width: 180px" placeholder="申请机构" allow-clear />
         <a-select v-model:value="filter.status" style="width: 120px" placeholder="状态" allow-clear>
@@ -134,10 +134,8 @@
             <span v-else class="text-[11px] text-text-tertiary">请至少选择一个服务</span>
             <div class="flex-1"></div>
             <a-input v-model:value="provisionFilter.name" placeholder="模型名称" allow-clear style="width: 160px" />
-            <a-input v-model:value="provisionFilter.code" placeholder="模型代码" allow-clear style="width: 160px" />
-            <a-select v-model:value="provisionFilter.unit" placeholder="服务商名称" allow-clear show-search style="width: 200px">
-              <a-select-option v-for="u in unitOptions" :key="u" :value="u" :label="u">{{ u }}</a-select-option>
-            </a-select>
+            <a-input v-model:value="provisionFilter.internalId" placeholder="模型ID" allow-clear style="width: 180px" />
+            <a-input v-model:value="provisionFilter.unit" placeholder="服务商名称" allow-clear style="width: 200px" />
             <a-button @click="onProvisionReset">重置</a-button>
             <a-button type="primary" @click="onProvisionSearch">查询</a-button>
           </div>
@@ -155,9 +153,6 @@
                 <template v-if="column.dataIndex === 'title'">
                   <span class="font-semibold text-text-primary">{{ record.title }}</span>
                   <div class="text-[12px] text-text-tertiary mt-[2px] font-num">{{ record.internalId || '--' }}</div>
-                </template>
-                <template v-else-if="column.dataIndex === 'code'">
-                  <span class="font-num">{{ record.code || record.id?.toUpperCase() }}</span>
                 </template>
                 <template v-else-if="column.dataIndex === 'createdAt'">
                   <span class="font-num whitespace-nowrap">{{ record.createdAt }}</span>
@@ -319,7 +314,7 @@ const columns = [
   { title: '服务单号', dataIndex: 'id', key: 'id', width: 180 },
   { title: '开始时间', dataIndex: 'provisionedAt', key: 'provisionedAt', width: 170 },
   { title: '截止时间', dataIndex: 'validUntil', key: 'validUntil', width: 170 },
-  { title: '服务名称', dataIndex: 'name', key: 'name', width: 200 },
+  { title: '服务名称/ID', dataIndex: 'name', key: 'name', width: 200 },
   { title: '服务商名称', dataIndex: 'unit', key: 'unit', width: 220 },
   { title: '申请机构', dataIndex: 'orgName', key: 'orgName', width: 180 },
   { title: '状态', dataIndex: 'status', key: 'status', width: 110 },
@@ -508,12 +503,10 @@ function onToggleClick(record: any) {
 
 // ===================== 代开通弹窗 =====================
 const allModels = computed(() => modelCatalogMvpData);
-const unitOptions = computed(() => Array.from(new Set(allModels.value.map((m) => m.unit).filter(Boolean))) as string[]);
 const modelColumns = [
-  { title: '模型名称', dataIndex: 'title', key: 'title' },
-  { title: '模型代码', dataIndex: 'code', key: 'code', width: 160 },
+  { title: '模型名称/ID', dataIndex: 'title', key: 'title' },
   { title: '服务商名称', dataIndex: 'unit', key: 'unit', width: 220 },
-  { title: '开始时间', dataIndex: 'createdAt', key: 'createdAt', width: 170 },
+  { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', width: 170 },
   { title: '状态', dataIndex: 'status', key: 'status', width: 120 },
 ];
 function onModelSelect(selectedKeys: string[]) {
@@ -579,36 +572,32 @@ const editModal = ref<{
 });
 const editFormRef = ref();
 
-const provisionFilter = ref<{ name: string; code: string; unit: string | undefined }>({
+const provisionFilter = ref<{ name: string; internalId: string; unit: string | undefined }>({
   name: '',
-  code: '',
+  internalId: '',
   unit: undefined,
 });
-const provisionApplied = ref<{ name: string; code: string; unit: string | undefined }>({
+const provisionApplied = ref<{ name: string; internalId: string; unit: string | undefined }>({
   name: '',
-  code: '',
+  internalId: '',
   unit: undefined,
 });
 function onProvisionSearch() {
   provisionApplied.value = { ...provisionFilter.value };
 }
 function onProvisionReset() {
-  provisionFilter.value = { name: '', code: '', unit: undefined };
-  provisionApplied.value = { name: '', code: '', unit: undefined };
+  provisionFilter.value = { name: '', internalId: '', unit: undefined };
+  provisionApplied.value = { name: '', internalId: '', unit: undefined };
 }
 
 const filteredModels = computed(() => {
   const f = provisionApplied.value;
   const nameKw = f.name.trim().toLowerCase();
-  const codeKw = f.code.trim().toLowerCase();
   return allModels.value.filter((m) => {
     if (m.status !== '已上线使用') return false;
-    if (f.unit && m.unit !== f.unit) return false;
+    if (f.unit && !m.unit.includes(f.unit)) return false;
+    if (f.internalId && !(m.internalId || '').toLowerCase().includes(f.internalId.toLowerCase())) return false;
     if (nameKw && !m.title.toLowerCase().includes(nameKw)) return false;
-    if (codeKw) {
-      const c = (m.code || m.id).toLowerCase();
-      if (!c.includes(codeKw)) return false;
-    }
     return true;
   });
 });
@@ -633,8 +622,8 @@ function onOpenProvision() {
     workbenchMode: 'entry',
     overrideUrl: '',
   };
-  provisionFilter.value = { name: '', code: '', unit: undefined };
-  provisionApplied.value = { name: '', code: '', unit: undefined };
+  provisionFilter.value = { name: '', internalId: '', unit: undefined };
+  provisionApplied.value = { name: '', internalId: '', unit: undefined };
   setPrdAnchor('prd-3.3.2');
 }
 

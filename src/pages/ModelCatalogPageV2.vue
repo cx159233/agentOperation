@@ -13,7 +13,7 @@
         </template>
         <a-range-picker v-model:value="filter.createdAt" style="width: 240px" :placeholder="['创建开始', '创建结束']" />
         <a-input v-model:value="filter.name" style="width: 160px" placeholder="模型名称" allow-clear />
-        <a-input v-model:value="filter.internalId" style="width: 180px" placeholder="资产标识" allow-clear />
+        <a-input v-model:value="filter.internalId" style="width: 180px" placeholder="模型ID" allow-clear />
         <a-input v-model:value="filter.code" style="width: 160px" placeholder="模型代码" allow-clear />
         <a-input v-model:value="filter.unit" style="width: 180px" placeholder="服务商名称" allow-clear />
         <a-select v-model:value="filter.status" style="width: 140px" placeholder="接入状态" allow-clear>
@@ -28,6 +28,14 @@
 
       <div class="px-[16px] py-[16px]">
         <a-table :columns="visibleColumns" :data-source="filteredModels" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 项` }" size="middle" :row-key="(r: any) => r.id">
+          <template #headerCell="{ column }">
+            <template v-if="column.key === 'code'">
+              模型代码
+              <a-tooltip title="厂商自身模型代码">
+                <ExclamationCircleOutlined class="text-[#8c8c8c] ml-[4px] cursor-help text-[13px]" />
+              </a-tooltip>
+            </template>
+          </template>
           <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'title'">
               <span class="font-semibold text-text-primary">{{ record.title }}</span>
@@ -75,7 +83,7 @@
               <a-badge :status="statusBadge(viewDrawer.record.status)" :text="viewDrawer.record.status" />
             </div>
             <div class="drawer-header-sub">
-              <span>资产标识：{{ viewDrawer.record.internalId || '--' }}</span>
+              <span>ID：{{ viewDrawer.record.internalId || '--' }}</span>
             </div>
           </div>
         </div>
@@ -154,7 +162,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { message, Modal } from 'ant-design-vue';
 import dayjs, { type Dayjs } from 'dayjs';
-import { PlusOutlined, PictureOutlined, RobotOutlined } from '@ant-design/icons-vue';
+import { PlusOutlined, PictureOutlined, RobotOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { modelCatalogMvpData } from '../data';
 import type { CapabilityCardData } from '../types';
 import PageHeader from '../components/common/PageHeader.vue';
@@ -204,7 +212,7 @@ const filteredModels = computed(() => {
 });
 
 const columns = [
-  { title: '模型名称', dataIndex: 'title', key: 'title' },
+  { title: '模型名称/ID', dataIndex: 'title', key: 'title' },
   { title: '模型代码', dataIndex: 'code', key: 'code', width: 160 },
   { title: '服务商名称', dataIndex: 'unit', key: 'unit', width: 220 },
   { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', width: 170 },
