@@ -638,7 +638,7 @@ export type ProvisionedService = {
 
 export const provisionedServices: ProvisionedService[] = [
   {
-    id: 'KH-20260320-001',
+    id: '202603200001',
     orgName: '常州市第一人民医院',
     name: '肺结节',
     code: 'LUNG_NODULE',
@@ -683,7 +683,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260110-001',
+    id: '202601100001',
     orgName: '常州市第一人民医院',
     name: '四肢骨折',
     code: 'BONE_FRACTURE',
@@ -728,7 +728,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260215-001',
+    id: '202602150001',
     orgName: '常州市第一人民医院',
     name: '冠脉钙化积分',
     code: 'CT_CACS',
@@ -770,7 +770,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260301-001',
+    id: '202603010001',
     orgName: '常州市第一人民医院',
     name: '肋骨骨折',
     code: 'CT_RIB_FRACTURE',
@@ -812,7 +812,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260320-002',
+    id: '202603200002',
     orgName: '常州市第一人民医院',
     name: '骨密度',
     code: 'CT_SPINE_BONE',
@@ -854,7 +854,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260520-001',
+    id: '202605200001',
     orgName: '常州市第一人民医院',
     name: '肺结核',
     code: 'TB',
@@ -896,7 +896,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260601-001',
+    id: '202606010001',
     orgName: '常州市第一人民医院',
     name: '三维建模',
     code: 'threed',
@@ -938,7 +938,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260412-001',
+    id: '202604120001',
     orgName: '南京市鼓楼医院',
     name: '肺结节',
     code: 'LUNG_NODULE',
@@ -980,7 +980,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260701-001',
+    id: '202607010001',
     orgName: '常州市第一人民医院',
     name: '肺炎',
     code: 'PNEUMONIA',
@@ -1024,7 +1024,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260818-001',
+    id: '202608180001',
     orgName: '南京市鼓楼医院',
     name: '冠脉钙化积分',
     code: 'CT_CACS',
@@ -1066,7 +1066,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20260922-001',
+    id: '202609220001',
     orgName: '苏州市立医院',
     name: '肋骨骨折',
     code: 'CT_RIB_FRACTURE',
@@ -1110,7 +1110,7 @@ export const provisionedServices: ProvisionedService[] = [
     ],
   },
   {
-    id: 'KH-20261102-001',
+    id: '202611020001',
     orgName: '苏州市立医院',
     name: '三维建模',
     code: 'threed',

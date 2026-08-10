@@ -30,11 +30,11 @@ export const prdChapters: PrdChapter[] = [
 <p>1、筛选区域</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>开始时间范围</td><td></td><td>日期范围选择器，支持选择起止日期，按模型开始时间过滤</td></tr>
+<tr><td>创建时间范围</td><td></td><td>日期范围选择器，支持选择起止日期，按模型开始时间过滤</td></tr>
 <tr><td>模型名称</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>资产标识</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>模型代码</td><td></td><td>文本输入，支持模糊搜索</td></tr>
-<tr><td>研发单位</td><td></td><td>文本输入，支持模糊搜索</td></tr>
+<tr><td>服务商名称</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>接入状态</td><td></td><td>枚举：已上线使用、已下架，默认不选中</td></tr>
 <tr><td>查询按钮</td><td></td><td>点击后以筛选条件为入参，刷新列表，响应对应内容</td></tr>
 <tr><td>重置按钮</td><td></td><td>点击后清空筛选条件，重置列表为全部数据</td></tr>
@@ -50,7 +50,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>模型名称</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>资产标识</td><td></td><td>模型名称下方灰色小字展示，<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>；为空时显示"--"</td></tr>
 <tr><td>模型代码</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
-<tr><td>研发单位</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
+<tr><td>服务商名称</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 <tr><td>状态</td><td></td><td>枚举：已上线使用（绿色徽标）、已下架（红色徽标）</td></tr>
 </table>
@@ -68,7 +68,7 @@ export const prdChapters: PrdChapter[] = [
 
 <h3 id="prd-3.2.2">3.2.2 模型编目新增</h3>
 <p><strong>模块描述：</strong>模型/智能体 / 模型编目新增页面</p>
-<p><strong>功能描述：</strong>新增模型编目，可设置基本信息、服务描述、调用说明、数据要求等信息，提交后进入审核流程。</p>
+<p><strong>功能描述：</strong>新增模型编目，可设置基本信息、调用说明、数据要求等信息，提交后进入审核流程。</p>
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>管理员点击列表页【新增编目-按钮】跳转至独立新增页面</p>
 <p><strong>详细设计：</strong></p>
@@ -77,38 +77,34 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>模型名称</td><td></td><td>1.必填，限制40汉字，超出不可输入，显示计数器；<br>2.占位提示"如：肺结节CT图像辅助检测"</td></tr>
 <tr><td>模型代码</td><td></td><td>1.必填，限制30字符，超出不可输入，显示计数器；<br>2.占位提示"如：LUNG-NUD-CT-001"</td></tr>
-<tr><td>研发单位</td><td></td><td>1.必填，下拉选择，支持搜索过滤；<br>2.枚举：平台入驻的所有厂商<br><span style="color:#EF4444;font-size:11px">注：目前厂商数据为前端写死——推想医疗科技股份有限公司（91110108MA002XL790）、深圳市旭东数字医学影像技术有限公司（914403005700203962）、慧影医疗科技（北京）股份有限公司（91110108335563403F）</span></td></tr>
-<tr><td>统一社会信用代码</td><td></td><td>系统根据所选研发单位自动填入，不可编辑</td></tr>
-</table>
-<p>2、服务描述</p>
-<table>
-<tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>LOGO</td><td></td><td>1.非必填，支持 JPG、PNG、JPEG、SVG、WebP 格式，大小限制 2MB 以内；<br>2.上传图片超过 2MB 时，Toast 提示"图片大小已超过2M，建议压缩图片后重新上传"；<br>3.重复上传覆盖之前图片，自动删除前一个图片；<br>4.删除已上传图片时，Toast 提示"你确定要删除这个图片吗？"</td></tr>
+<tr><td>服务商名称</td><td></td><td>1.必填，下拉选择，支持搜索过滤；<br>2.枚举：平台入驻的所有厂商<br><span style="color:#EF4444;font-size:11px">注：目前厂商数据为前端写死——推想医疗科技股份有限公司（91110108MA002XL790）、深圳市旭东数字医学影像技术有限公司（914403005700203962）、慧影医疗科技（北京）股份有限公司（91110108335563403F）</span></td></tr>
+<tr><td>统一社会信用代码</td><td></td><td>系统根据所选服务商名称自动填入，不可编辑</td></tr>
+<tr><td>LOGO</td><td></td><td>1.非必填，支持 JPG、PNG、JPEG、SVG 格式，大小限制 2MB 以内；<br>2.上传图片超过 2MB 时，Toast 提示"图片大小已超过2M，建议压缩图片后重新上传"；<br>3.重复上传覆盖之前图片，自动删除前一个图片；<br>4.删除已上传图片时，Toast 提示"你确定要删除这个图片吗？"</td></tr>
 <tr><td>一句话简介</td><td></td><td>非必填，限制30汉字，超出不可输入，显示计数器；占位提示"30 字以内，简明描述模型核心能力"</td></tr>
 <tr><td>适用场景</td><td></td><td>非必填，标签输入模式，支持输入逗号分隔多个标签，枚举：辅助诊断</td></tr>
 <tr><td>产品介绍</td><td></td><td>非必填，限制1000汉字，超出不可输入，显示计数器；占位提示"详细介绍模型能力、技术原理、临床价值等"</td></tr>
 </table>
-<p>3、调用说明</p>
+<p>2、调用说明</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>前端入口地址</td><td></td><td>非必填，机构工作台点击"进入服务"后跳转的页面，选填</td></tr>
 <tr><td>推送地址</td><td></td><td>非必填，平台调用该模型推理服务的接口地址</td></tr>
 <tr><td>推送查询地址</td><td></td><td>非必填，推送结果查询地址</td></tr>
 </table>
-<p>4、数据要求</p>
+<p>3、数据要求</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>配置类别</td><td></td><td>非必填，下拉选择；枚举：影像(IMG)</td></tr>
 <tr><td>支持的检查模态</td><td></td><td>非必填，标签输入模式，支持输入逗号分隔多个标签；枚举：CT、DR、DX</td></tr>
 <tr><td>符合要求的数据说明</td><td></td><td>非必填，限制500汉字，超出不可输入，显示计数器；占位提示"注明哪些数据符合模型输入要求"</td></tr>
 </table>
-<p>5、操作-提交审核</p>
+<p>4、操作-提交审核</p>
 <p>点击【提交审核-按钮】，判断逻辑如下：</p>
 <p>1）若不满足必填、字符限制等要求，进行表单校验提示</p>
 <p style="font-style:italic; color:#999">Tip：</p>
 <p style="font-style:italic; color:#999">模型名称为空：请输入模型名称</p>
 <p style="font-style:italic; color:#999">模型代码为空：请输入模型代码</p>
-<p style="font-style:italic; color:#999">研发单位为空：请选择研发单位</p>
+<p style="font-style:italic; color:#999">服务商名称为空：请选择服务商名称</p>
 <p>2）若网络异常/超时/宕机，进行消息提示，停留当前页面</p>
 <p style="font-style:italic; color:#999">Tip：异常处理提示文案开发人员自行定义</p>
 <p>3）若满足条件：</p>
@@ -116,12 +112,12 @@ export const prdChapters: PrdChapter[] = [
 <p style="font-style:italic; color:#999">Tip：新增成功</p>
 <p>b.系统自动生成资产标识（<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>）</p>
 <p>c.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员代开通，即时生效"、审核时间取创建时间、操作人取当前管理员</p>
-<p>6、操作-返回</p>
+<p>5、操作-返回</p>
 <p>点击【返回-按钮】，返回列表页，不保存任何修改。</p>
 
 <h3 id="prd-3.2.3">3.2.3 模型编目编辑</h3>
 <p><strong>模块描述：</strong>模型/智能体 / 模型编目编辑页面</p>
-<p><strong>功能描述：</strong>编辑已有模型编目，可修改基本信息、服务描述、调用说明、数据要求等信息。</p>
+<p><strong>功能描述：</strong>编辑已有模型编目，可修改基本信息、调用说明、数据要求等信息。</p>
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>管理员点击列表页【编辑-按钮】，跳转至编辑页面，预填当前数据</p>
 <p><strong>详细设计：</strong></p>
@@ -130,32 +126,28 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>模型名称</td><td></td><td>1.必填，限制40汉字，超出不可输入，显示计数器；<br>2.回显原模型名称，可修改</td></tr>
 <tr><td>模型代码</td><td></td><td>1.必填，限制30字符，超出不可输入，显示计数器；<br>2.回显原模型代码，可修改</td></tr>
-<tr><td>研发单位</td><td></td><td>1.必填，下拉选择，支持搜索过滤；<br>2.回显原研发单位，可修改</td></tr>
-<tr><td>统一社会信用代码</td><td></td><td>系统根据所选研发单位自动填入，不可编辑；回显原信用代码</td></tr>
-</table>
-<p>2、服务描述</p>
-<table>
-<tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>LOGO</td><td></td><td>1.非必填，支持 JPG、PNG、JPEG、SVG、WebP 格式，大小限制 2MB 以内；<br>2.回显原LOGO，可修改；<br>3.重复上传覆盖之前图片，自动删除前一个图片</td></tr>
+<tr><td>服务商名称</td><td></td><td>1.必填，下拉选择，支持搜索过滤；<br>2.回显原服务商名称，可修改</td></tr>
+<tr><td>统一社会信用代码</td><td></td><td>系统根据所选服务商名称自动填入，不可编辑；回显原信用代码</td></tr>
+<tr><td>LOGO</td><td></td><td>1.非必填，支持 JPG、PNG、JPEG、SVG 格式，大小限制 2MB 以内；<br>2.回显原LOGO，可修改；<br>3.重复上传覆盖之前图片，自动删除前一个图片</td></tr>
 <tr><td>一句话简介</td><td></td><td>非必填，限制30汉字，超出不可输入，显示计数器；回显原简介，可修改</td></tr>
 <tr><td>适用场景</td><td></td><td>非必填，标签输入模式，回显原标签，可修改</td></tr>
 <tr><td>产品介绍</td><td></td><td>非必填，限制1000汉字，超出不可输入，显示计数器；回显原介绍，可修改</td></tr>
 </table>
-<p>3、调用说明</p>
+<p>2、调用说明</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>前端入口地址</td><td></td><td>非必填，回显原地址，可修改</td></tr>
 <tr><td>推送地址</td><td></td><td>非必填，回显原地址，可修改</td></tr>
 <tr><td>推送查询地址</td><td></td><td>非必填，回显原地址，可修改</td></tr>
 </table>
-<p>4、数据要求</p>
+<p>3、数据要求</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>配置类别</td><td></td><td>非必填，下拉选择；回显原类别，可修改</td></tr>
 <tr><td>支持的检查模态</td><td></td><td>非必填，标签输入模式；回显原模态，可修改</td></tr>
 <tr><td>符合要求的数据说明</td><td></td><td>非必填，限制500汉字，超出不可输入，显示计数器；回显原说明，可修改</td></tr>
 </table>
-<p>5、操作-提交审核</p>
+<p>4、操作-提交审核</p>
 <p>点击【提交审核-按钮】，判断逻辑如下：</p>
 <p>1）若不满足必填、字符限制等要求，进行表单校验提示</p>
 <p style="font-style:italic; color:#999">Tip：具体提示文案同新增页面</p>
@@ -165,12 +157,12 @@ export const prdChapters: PrdChapter[] = [
 <p>a.管理员提交即视为审核通过，即时生效，进行消息提示，返回列表页</p>
 <p style="font-style:italic; color:#999">Tip：保存成功</p>
 <p>b.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员编辑后重新提交，即时生效"、审核时间取创建时间、操作人取当前管理员</p>
-<p>6、操作-返回</p>
+<p>5、操作-返回</p>
 <p>点击【返回-按钮】，返回列表页，不保存任何修改。</p>
 
 <h3 id="prd-3.2.4">3.2.4 模型编目详情</h3>
 <p><strong>模块描述：</strong>模型/智能体 / 模型编目详情抽屉</p>
-<p><strong>功能描述：</strong>查看模型编目的详细信息，包含概览（基本信息、服务描述、调用说明、数据要求）。</p>
+<p><strong>功能描述：</strong>查看模型编目的详细信息，包含概览（基本信息、调用说明、数据要求）。</p>
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>点击列表行【详情-按钮】打开右侧抽屉</p>
 <p><strong>详细设计：</strong></p>
@@ -185,37 +177,33 @@ export const prdChapters: PrdChapter[] = [
 <p>2、Tab-概览 / 基本信息</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
-<tr><td>研发单位</td><td></td><td>完整展示，为空时显示"--"</td></tr>
+<tr><td>服务商名称</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>模型代码</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>统一社会信用代码</td><td></td><td>系统填入，完整展示</td></tr>
 <tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
-</table>
-<p>3、Tab-概览 / 服务描述</p>
-<table>
-<tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>一句话简介</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>适用场景</td><td></td><td>以标签形式展示，为空时显示"--"</td></tr>
 <tr><td>产品介绍</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 </table>
-<p>4、Tab-概览 / 调用说明</p>
+<p>3、Tab-概览 / 调用说明</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>前端入口</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>推送地址</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>推送查询地址</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 </table>
-<p>5、Tab-概览 / 数据要求</p>
+<p>4、Tab-概览 / 数据要求</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>配置类别</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>支持的检查模态</td><td></td><td>以标签形式展示，为空时显示"--"</td></tr>
 <tr><td>符合要求的数据说明</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 </table>
-<p>6、操作-关闭</td>
+<p>5、操作-关闭</p>
 <p>点击抽屉右上角【关闭按钮】或点击遮罩层，关闭抽屉，停留当前页面。</p>
 
-<h3 id="prd-3.2.5">3.2.5 模型启停用</h3>
-<p><strong>模块描述：</strong>模型/智能体 / 启停用操作</p>
+<h3 id="prd-3.2.5">3.2.5 模型上下架</h3>
+<p><strong>模块描述：</strong>模型/智能体 / 上下架操作</p>
 <p><strong>功能描述：</strong>管理员在列表中对模型执行上架/下架操作，切换模型的接入状态。</p>
 <p><strong>优先级：</strong>P1</p>
 <p><strong>输入/前置条件：</strong>管理员在列表操作列点击【下架】或【上架-按钮】</p>
@@ -257,7 +245,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>开始时间范围</td><td></td><td>日期范围选择器，支持选择起止日期，按开始时间过滤</td></tr>
 <tr><td>服务名称</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>资产标识</td><td></td><td>文本输入，支持模糊搜索</td></tr>
-<tr><td>研发单位</td><td></td><td>文本输入，支持模糊搜索</td></tr>
+<tr><td>服务商名称</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>申请机构</td><td></td><td>文本输入，支持模糊搜索</td></tr>
 <tr><td>状态</td><td></td><td>枚举：未开始、已开通、已过期、已停用，默认不选中</td></tr>
 <tr><td>查询按钮</td><td></td><td>点击后以筛选条件为入参，刷新列表，响应对应内容</td></tr>
@@ -271,11 +259,12 @@ export const prdChapters: PrdChapter[] = [
 <p>4）当前列表数据为空时，显示"暂无数据"。</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
+<tr><td>服务单号</td><td></td><td>系统自动生成，格式：YYYYMMDD+4位序号（如 202608100001），唯一标识</td></tr>
 <tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 <tr><td>截止时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss，为空时显示"--"</td></tr>
 <tr><td>服务名称</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>资产标识</td><td></td><td>服务名称下方灰色小字展示，<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>；为空时显示"--"</td></tr>
-<tr><td>研发单位</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
+<tr><td>服务商名称</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>申请机构</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>状态</td><td></td><td>根据时间自动计算：当前时间 &lt; 开始时间为未开始（默认灰色徽标）；当前时间 &gt; 截止时间为已过期（红色徽标，优先级最高，覆盖已停用）；管理员手动停用为已停用（红色徽标）；其余为已开通（绿色徽标）</td></tr>
 <tr><td>创建时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
@@ -313,14 +302,14 @@ export const prdChapters: PrdChapter[] = [
 </table>
 <p>2、选择服务</p>
 <p>1）以表格形式展示所有状态为"已上线使用"的模型编目，支持多选（复选框）。</p>
-<p>2）支持按服务名称、服务代码、研发单位筛选可用服务。</p>
+<p>2）支持按服务名称、服务代码、服务商名称筛选可用服务。</p>
 <p>3）必须至少选择一个服务方可提交。</p>
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>复选框</td><td></td><td>支持多选，点击行也可切换选中状态</td></tr>
 <tr><td>服务名称</td><td></td><td>展示模型名称，左侧有图标</td></tr>
 <tr><td>服务代码</td><td></td><td>完整展示</td></tr>
-<tr><td>研发单位</td><td></td><td>完整展示</td></tr>
+<tr><td>服务商名称</td><td></td><td>完整展示</td></tr>
 <tr><td>查询按钮</td><td></td><td>点击后以筛选条件为入参，刷新可选服务列表</td></tr>
 <tr><td>重置按钮</td><td></td><td>点击后清空筛选条件，重置为全部</td></tr>
 </table>
@@ -338,6 +327,7 @@ export const prdChapters: PrdChapter[] = [
 <p style="font-style:italic; color:#999">Tip：服务开通成功</p>
 <p>b.开始时间如未填写则以创建时间为准，截止时间如未填写则设为不限期限</p>
 <p>c.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员代开通，即时生效"、审核时间取创建时间、操作人取当前管理员</p>
+<p>d.系统自动生成服务单号，格式：YYYYMMDD+4位序号（如 202608100001），唯一标识</p>
 <p>4、操作-取消</p>
 <p>点击【取消-按钮】，关闭弹窗，停留当前页面，不保存任何修改。</p>
 
@@ -398,7 +388,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>服务名称</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>服务代码</td><td></td><td>完整展示，为空时显示"--"</td></tr>
-<tr><td>研发单位</td><td></td><td>完整展示，为空时显示"--"</td></tr>
+<tr><td>服务商名称</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 <tr><td>统一社会信用代码</td><td></td><td>完整展示，为空时显示"--"</td></tr>
 </table>
 <p>4、操作-关闭</p>

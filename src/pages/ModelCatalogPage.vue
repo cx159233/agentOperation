@@ -127,7 +127,7 @@
         <div class="border-b border-[#f0f0f0] mb-[16px]"></div>
 
         <a-descriptions :column="2" bordered size="small">
-          <a-descriptions-item label="研发单位">{{ viewDrawer.record.unit }}</a-descriptions-item>
+          <a-descriptions-item label="服务商名称">{{ viewDrawer.record.unit }}</a-descriptions-item>
           <a-descriptions-item label="能力分类">{{ viewDrawer.record.category || '-' }}</a-descriptions-item>
           <a-descriptions-item label="风险等级">{{ viewDrawer.record.riskLevel || '-' }}</a-descriptions-item>
           <a-descriptions-item label="计费方式">{{ viewDrawer.record.billingMethod || '-' }}</a-descriptions-item>
@@ -211,7 +211,7 @@ const catalogStats = computed(() => {
 const columns = [
   { title: '模型名称', dataIndex: 'title', key: 'title' },
   { title: '模型代码', dataIndex: 'code', key: 'code', width: 160 },
-  { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 220 },
+  { title: '服务商名称', dataIndex: 'unit', key: 'unit', width: 220 },
   { title: '能力分类', dataIndex: 'category', key: 'category', width: 180 },
   { title: '风险等级', dataIndex: 'riskLevel', key: 'riskLevel', width: 100 },
   { title: '计费方式', dataIndex: 'billingMethod', key: 'billingMethod', width: 120 },

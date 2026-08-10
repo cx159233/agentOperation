@@ -34,29 +34,20 @@
             <a-form-item label="模型代码" name="code" :rules="[{ required: true, message: '请输入模型代码' }]">
               <a-input v-model:value="form.code" placeholder="如：LUNG-NUD-CT-001" :maxlength="30" show-count />
             </a-form-item>
-            <a-form-item label="研发单位" name="unit" :rules="[{ required: true, message: '请选择研发单位' }]">
+            <a-form-item label="服务商名称" name="unit" :rules="[{ required: true, message: '请选择服务商名称' }]">
               <a-select
                 v-model:value="form.unit"
                 :options="unitOptions"
                 :field-names="{ label: 'label', value: 'value' }"
                 show-search
                 :filter-option="filterUnit"
-                placeholder="请选择研发单位"
+                placeholder="请选择服务商名称"
                 allow-clear
               />
             </a-form-item>
             <a-form-item label="统一社会信用代码">
-              <a-input :value="unitCreditCode" disabled placeholder="选择研发单位后自动填入" />
+              <a-input :value="unitCreditCode" disabled placeholder="选择服务商名称后自动填入" />
             </a-form-item>
-          </div>
-        </section>
-
-        <!-- 2. 服务描述 -->
-        <section id="sec-desc" class="cloud-card p-[20px] mb-[14px] scroll-mt-[80px]">
-          <div class="flex items-center gap-[8px] mb-[16px]">
-            <div class="w-[4px] h-[16px] bg-primary rounded-full" />
-            <span class="text-[14px] font-semibold text-text-primary">服务描述</span>
-            <span class="text-[11px] text-text-tertiary">向订阅方与审核方说明模型能力</span>
           </div>
             <a-form-item label="LOGO">
               <div class="flex items-center gap-[14px]">
@@ -87,7 +78,7 @@
                     <CloseOutlined />
                   </a>
                 </div>
-                <div class="text-[11px] text-text-tertiary">支持 PNG / JPG / JPEG / SVG / WebP，建议 256×256，≤ 2MB</div>
+                <div class="text-[11px] text-text-tertiary">支持 PNG / JPG / JPEG / SVG，建议 256×256，≤ 2MB</div>
               </div>
             </a-form-item>
             <a-form-item label="一句话简介">
@@ -238,7 +229,7 @@ const unitCreditCodeMap: Record<string, string> = {
 };
 const unitCreditCode = computed(() => unitCreditCodeMap[form.value.unit] || '');
 const modalityOptions = ['CT', 'DR', 'DX'].map((m) => ({ label: m, value: m }));
-const scenarioOptions = [{ label: '辅助诊断', value: '辅助诊断' }, { label: '三维建模', value: '三维建模' }];
+const scenarioOptions = [{ label: '辅助诊断', value: '辅助诊断' }];
 const configCategoryOptions = [
   { label: '影像 (IMG)', value: 'img' },
 ];

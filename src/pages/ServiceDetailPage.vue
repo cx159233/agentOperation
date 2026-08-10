@@ -19,7 +19,7 @@
           </div>
           <h1 class="text-[22px] font-semibold text-text-primary">{{ service.title }}</h1>
           <p class="mt-[8px] text-[13px] text-text-secondary">
-            研发单位：{{ service.unit }}｜接入状态：{{ service.status }}｜计费方式：{{ service.billingMethod }}
+            服务商名称：{{ service.unit }}｜接入状态：{{ service.status }}｜计费方式：{{ service.billingMethod }}
           </p>
         </div>
         <div class="flex gap-[10px] shrink-0">

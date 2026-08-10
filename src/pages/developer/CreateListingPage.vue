@@ -57,14 +57,14 @@
               <a-form-item label="版本号" required>
                 <a-input v-model:value="form.version" placeholder="如：v2.4.0" />
               </a-form-item>
-              <a-form-item label="研发单位" required>
+              <a-form-item label="服务商名称" required>
                 <a-select
                   v-model:value="form.unit"
                   :options="unitOptions"
                   :field-names="{ label: 'label', value: 'value' }"
                   show-search
                   :filter-option="filterUnit"
-                  placeholder="请选择研发单位"
+                  placeholder="请选择服务商名称"
                   allow-clear
                 />
               </a-form-item>
@@ -466,7 +466,7 @@ function validate(): string | null {
   if (!form.value.name) return '请填写产品名称';
   if (!form.value.modelCode) return '请填写模型代码';
   if (!form.value.version) return '请填写版本号';
-  if (!form.value.unit) return '请选择研发单位';
+  if (!form.value.unit) return '请选择服务商名称';
   if (!form.value.accessStatus) return '请选择接入状态';
   if (!form.value.summary) return '请填写一句话简介';
   if (!form.value.scenarios) return '请填写适用场景';

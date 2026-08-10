@@ -14,7 +14,7 @@
         <a-range-picker v-model:value="filter.range" style="width: 240px" :placeholder="['开始时间', '截止时间']" />
         <a-input v-model:value="filter.serviceName" style="width: 180px" placeholder="服务名称" allow-clear />
         <a-input v-model:value="filter.internalId" style="width: 180px" placeholder="资产标识" allow-clear />
-        <a-input v-model:value="filter.unit" style="width: 180px" placeholder="研发单位" allow-clear />
+        <a-input v-model:value="filter.unit" style="width: 180px" placeholder="服务商名称" allow-clear />
         <a-input v-model:value="filter.orgName" style="width: 180px" placeholder="申请机构" allow-clear />
         <a-select v-model:value="filter.status" style="width: 120px" placeholder="状态" allow-clear>
           <a-select-option value="未开始">未开始</a-select-option>
@@ -31,7 +31,10 @@
       <div class="px-[16px] py-[16px]">
         <a-table :columns="visibleColumns" :data-source="filteredData" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 条` }" size="middle">
           <template #bodyCell="{ column, record }">
-            <template v-if="column.dataIndex === 'name'">
+            <template v-if="column.dataIndex === 'id'">
+              <span class="font-num text-[13px]">{{ record.id }}</span>
+            </template>
+            <template v-else-if="column.dataIndex === 'name'">
               <span class="font-semibold text-text-primary">{{ record.name }}</span>
               <div class="text-[12px] text-text-tertiary mt-[2px] font-num">{{ record.internalId || '--' }}</div>
             </template>
@@ -132,7 +135,7 @@
             <div class="flex-1"></div>
             <a-input v-model:value="provisionFilter.name" placeholder="模型名称" allow-clear style="width: 160px" />
             <a-input v-model:value="provisionFilter.code" placeholder="模型代码" allow-clear style="width: 160px" />
-            <a-select v-model:value="provisionFilter.unit" placeholder="研发单位" allow-clear show-search style="width: 200px">
+            <a-select v-model:value="provisionFilter.unit" placeholder="服务商名称" allow-clear show-search style="width: 200px">
               <a-select-option v-for="u in unitOptions" :key="u" :value="u" :label="u">{{ u }}</a-select-option>
             </a-select>
             <a-button @click="onProvisionReset">重置</a-button>
@@ -269,12 +272,13 @@
             <a-descriptions :column="2" bordered size="small">
               <a-descriptions-item label="服务名称">{{ drawer.record.name }}</a-descriptions-item>
               <a-descriptions-item label="服务代码">{{ drawer.record.code }}</a-descriptions-item>
-              <a-descriptions-item label="研发单位">{{ drawer.record.unit }}</a-descriptions-item>
+              <a-descriptions-item label="服务商名称">{{ drawer.record.unit }}</a-descriptions-item>
               <a-descriptions-item label="统一社会信用代码">{{ drawer.record.unitCreditCode }}</a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
 
           <!-- Tab2 审核信息 -->
+          <!--
           <a-tab-pane key="audit" tab="审核信息">
             <div class="text-[14px] font-semibold text-text-primary mb-[10px]">审核记录</div>
             <a-table :columns="auditColumns" :data-source="drawer.record.auditLogs.map((l, i) => ({ key: i, ...l }))" :pagination="{ pageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '20'], showTotal: (t: number) => `共 ${t} 条` }" size="small">
@@ -288,6 +292,7 @@
               </template>
             </a-table>
           </a-tab-pane>
+          -->
         </a-tabs>
       </template>
     </a-drawer>
@@ -311,10 +316,11 @@ import { setPrdAnchor } from '../../../composables/usePrdAnchor';
 const services = reactive(provisionedServices);
 
 const columns = [
+  { title: '服务单号', dataIndex: 'id', key: 'id', width: 180 },
   { title: '开始时间', dataIndex: 'provisionedAt', key: 'provisionedAt', width: 170 },
   { title: '截止时间', dataIndex: 'validUntil', key: 'validUntil', width: 170 },
   { title: '服务名称', dataIndex: 'name', key: 'name', width: 200 },
-  { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 220 },
+  { title: '服务商名称', dataIndex: 'unit', key: 'unit', width: 220 },
   { title: '申请机构', dataIndex: 'orgName', key: 'orgName', width: 180 },
   { title: '状态', dataIndex: 'status', key: 'status', width: 110 },
   { title: '创建时间', dataIndex: 'submittedAt', key: 'submittedAt', width: 170 },
@@ -506,7 +512,7 @@ const unitOptions = computed(() => Array.from(new Set(allModels.value.map((m) =>
 const modelColumns = [
   { title: '模型名称', dataIndex: 'title', key: 'title' },
   { title: '模型代码', dataIndex: 'code', key: 'code', width: 160 },
-  { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 220 },
+  { title: '服务商名称', dataIndex: 'unit', key: 'unit', width: 220 },
   { title: '开始时间', dataIndex: 'createdAt', key: 'createdAt', width: 170 },
   { title: '状态', dataIndex: 'status', key: 'status', width: 120 },
 ];
@@ -650,7 +656,7 @@ async function confirmProvision() {
   const baseTs = Date.now();
   models.forEach((model, idx) => {
     const newRecord: ProvisionedService = {
-      id: `ps-${baseTs}-${idx}`,
+      id: `${now.format('YYYYMMDD')}${String(idx + 1).padStart(4, '0')}`,
       orgName: m.orgName,
       name: model.title,
       code: model.code || model.id?.toUpperCase(),

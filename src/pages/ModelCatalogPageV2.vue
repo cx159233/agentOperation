@@ -15,7 +15,7 @@
         <a-input v-model:value="filter.name" style="width: 160px" placeholder="模型名称" allow-clear />
         <a-input v-model:value="filter.internalId" style="width: 180px" placeholder="资产标识" allow-clear />
         <a-input v-model:value="filter.code" style="width: 160px" placeholder="模型代码" allow-clear />
-        <a-input v-model:value="filter.unit" style="width: 180px" placeholder="研发单位" allow-clear />
+        <a-input v-model:value="filter.unit" style="width: 180px" placeholder="服务商名称" allow-clear />
         <a-select v-model:value="filter.status" style="width: 140px" placeholder="接入状态" allow-clear>
           <a-select-option value="已上线使用">已上线使用</a-select-option>
           <a-select-option value="已下架">已下架</a-select-option>
@@ -83,24 +83,20 @@
         <a-tabs v-model:activeKey="viewDrawer.activeTab" class="mvp-detail-tabs">
           <!-- Tab1 概览 -->
           <a-tab-pane key="info" tab="概览">
-            <div class="text-[14px] font-semibold text-text-primary mb-[10px]">基础信息</div>
+            <div class="text-[14px] font-semibold text-text-primary mb-[10px]">基本信息</div>
             <a-descriptions :column="2" bordered size="small" class="mb-[16px]">
-              <a-descriptions-item label="研发单位">{{ viewDrawer.record.unit }}</a-descriptions-item>
+              <a-descriptions-item label="服务商名称">{{ viewDrawer.record.unit }}</a-descriptions-item>
               <a-descriptions-item label="模型代码">{{ viewDrawer.record.code || viewDrawer.record.id?.toUpperCase() }}</a-descriptions-item>
               <a-descriptions-item label="统一社会信用代码">91110108MA0012XY3A</a-descriptions-item>
-              <a-descriptions-item label="创建时间" :span="2">{{ viewDrawer.record.createdAt || '--' }}</a-descriptions-item>
-            </a-descriptions>
-
-            <div class="text-[14px] font-semibold text-text-primary mb-[10px]">服务描述</div>
-            <a-descriptions :column="1" bordered size="small" class="mb-[16px]">
-              <a-descriptions-item label="一句话简介">{{ viewDrawer.record.description || '--' }}</a-descriptions-item>
-              <a-descriptions-item label="适用场景">
+              <a-descriptions-item label="创建时间">{{ viewDrawer.record.createdAt || '--' }}</a-descriptions-item>
+              <a-descriptions-item label="一句话简介" :span="2">{{ viewDrawer.record.description || '--' }}</a-descriptions-item>
+              <a-descriptions-item label="适用场景" :span="2">
                 <template v-if="(viewDrawer.record.tags ?? []).length">
                   <a-tag v-for="t in viewDrawer.record.tags" :key="t" class="!mb-[4px] !text-[14px]" style="background: #f0f0f0; border: 1px solid #d9d9d9;">{{ t }}</a-tag>
                 </template>
                 <span v-else>--</span>
               </a-descriptions-item>
-              <a-descriptions-item label="产品介绍">{{ viewDrawer.record.description || '--' }}</a-descriptions-item>
+              <a-descriptions-item label="产品介绍" :span="2">{{ viewDrawer.record.description || '--' }}</a-descriptions-item>
             </a-descriptions>
 
             <div class="text-[14px] font-semibold text-text-primary mb-[10px]">调用说明</div>
@@ -130,6 +126,7 @@
           </a-tab-pane>
 
           <!-- Tab2 审核信息 -->
+          <!--
           <a-tab-pane key="audit" tab="审核信息">
             <div class="text-[14px] font-semibold text-text-primary mb-[10px]">审核记录</div>
             <a-table :columns="auditColumns" :data-source="viewDrawer.auditLogs" :pagination="{ pageSize: 5, showSizeChanger: true, pageSizeOptions: ['5', '10', '20'], showTotal: (t: number) => `共 ${t} 条` }" size="small">
@@ -143,6 +140,7 @@
               </template>
             </a-table>
           </a-tab-pane>
+          -->
         </a-tabs>
       </template>
     </a-drawer>
@@ -208,7 +206,7 @@ const filteredModels = computed(() => {
 const columns = [
   { title: '模型名称', dataIndex: 'title', key: 'title' },
   { title: '模型代码', dataIndex: 'code', key: 'code', width: 160 },
-  { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 220 },
+  { title: '服务商名称', dataIndex: 'unit', key: 'unit', width: 220 },
   { title: '创建时间', dataIndex: 'createdAt', key: 'createdAt', width: 170 },
   { title: '状态', dataIndex: 'status', key: 'status', width: 120 },
   { title: '操作', dataIndex: 'action', key: 'action', width: 200 },

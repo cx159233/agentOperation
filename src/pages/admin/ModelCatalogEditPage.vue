@@ -49,14 +49,14 @@
               <a-form-item label="模型代码" required>
                 <a-input v-model:value="form.code" placeholder="如：LUNG-NUD-CT-001" :maxlength="30" show-count />
               </a-form-item>
-              <a-form-item label="研发单位" required>
+              <a-form-item label="服务商名称" required>
                 <a-select
                   v-model:value="form.unit"
                   :options="unitOptions"
                   :field-names="{ label: 'label', value: 'value' }"
                   show-search
                   :filter-option="filterUnit"
-                  placeholder="请选择研发单位"
+                  placeholder="请选择服务商名称"
                   allow-clear
                 />
               </a-form-item>
@@ -361,7 +361,7 @@ function onBack() {
 function validate(): string | null {
   if (!form.value.title) return '请填写模型名称';
   if (!form.value.code) return '请填写模型代码';
-  if (!form.value.unit) return '请填写研发单位';
+  if (!form.value.unit) return '请填写服务商名称';
   if (!form.value.status) return '请选择接入状态';
   if (!form.value.apiEndpoint) return '请填写后端回调地址';
   if (!form.value.agree) return '请勾选并同意纳管协议';
