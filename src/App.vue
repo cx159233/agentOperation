@@ -58,7 +58,8 @@ const route = useRoute();
 // ════════════════════════════════════════════════════════════
 const PRD_ENABLED = true;
 
-const prdVisible = ref(false);
+const mvpV2Paths = ['/admin/model-catalog-v2', '/admin/operations/service-provisioning-v2'];
+const prdVisible = ref(mvpV2Paths.includes(route.path));
 const currentPath = computed(() => route.path);
 const isEdit = computed(() => !!route.query.id);
 const prdContent = computed(() => getAllPrdHtml());
