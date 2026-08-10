@@ -59,6 +59,7 @@ const route = useRoute();
 const PRD_ENABLED = true;
 
 const mvpV2Paths = ['/admin/model-catalog-v2', '/admin/operations/service-provisioning-v2'];
+const currentPath = computed(() => route.path);
 const prdVisible = ref(mvpV2Paths.includes(route.path));
 
 // MVP V2 页面进入时默认展开 PRD 面板
@@ -67,7 +68,6 @@ watch(currentPath, (path) => {
     prdVisible.value = true;
   }
 });
-const currentPath = computed(() => route.path);
 const isEdit = computed(() => !!route.query.id);
 const prdContent = computed(() => getAllPrdHtml());
 
