@@ -86,9 +86,8 @@ function scrollToAnchor() {
   nextTick(() => {
     requestAnimationFrame(() => {
       const el = document.getElementById(anchor);
-      const container = document.querySelector('.prd-content') as HTMLElement | null;
-      if (el && container) {
-        container.scrollTop = el.offsetTop - container.offsetTop;
+      if (el) {
+        el.scrollIntoView({ block: 'start', behavior: 'instant' });
       }
     });
   });
