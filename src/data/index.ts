@@ -182,9 +182,9 @@ export const subCategories: string[] = ['全部', ...serviceCategories.map((c) =
 export const filters: FilterOption[] = [
   { label: '能力分类', defaultValue: '全部', options: subCategories },
   { label: '产品品类', defaultValue: '全部', options: ['全部', '大模型接口', '单病种筛查', '多病种一扫多查', '智能体应用'] },
-  { label: '应用场景', defaultValue: '全部', options: ['全部', '医保监管', '基金管理', '辅助诊断', '疾病筛查', '电子病历', '检查检验', '高值耗材', '智能导诊', '病历质控'] },
+  { label: '应用场景', defaultValue: '全部', options: ['全部', '医保监管', '辅助诊断', '电子病历', '检查检验', '高值耗材', '自动导入', '智能生成', '智能导诊', 'AI分析', '病历质控', '慢病管理', '手术辅助', '数字孪生'] },
   { label: '风险等级', defaultValue: '全部', options: ['全部', '高风险', '中风险', '低风险'] },
-  { label: '资源类别', defaultValue: '全部', options: ['全部', '医疗器械证', '网信备案', '科研专用'] },
+  { label: '资源类别', defaultValue: '全部', options: ['全部', '医疗器械证', '网信备案', '科研专用', '多模态融合'] },
 ];
 
 // ============================ AI服务市场 - 能力卡片（按能力分类） ============================
@@ -198,10 +198,13 @@ export const capabilityGroups: CapabilityGroup[] = [
       {
         title: '',
         items: [
+          { id: 'shanzhiyi-5.0', title: '山海知医5.0大模型', unit: '云知声智能科技股份有限公司', description: '专为医保场景定制的大语言模型，具备电子病历理解和多模态融合能力', tags: ['电子病历', '多模态融合'], category: '通用基础大模型', riskLevel: '中风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'cyan', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/shanzhiyi-5' },
           { id: 'deepseek-v4', title: 'Deepseek标准对话模型（V4）', unit: '深度求索（北京）科技有限公司', description: '基于Deepseek自研的新一代大语言模型，支持多轮对话和复杂推理任务', tags: ['大模型接口'], category: '通用基础大模型', riskLevel: '低风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'blue', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/deepseek-v4' },
           { id: 'qwen-multimodal', title: 'Qwen全模态融合模型', unit: '阿里巴巴通义实验室', description: '支持文本、图像、音频等多模态输入，具备强大的跨模态理解能力', tags: ['大模型接口'], category: '通用基础大模型', riskLevel: '低风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'blue', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/qwen-multimodal' },
           { id: 'bge-rerank', title: 'BGE检索重排序模型', unit: '北京智源人工智能研究院BAAI', description: '用于提升检索结果的排序质量，显著增强信息检索的准确性', tags: ['大模型接口'], category: '通用基础大模型', riskLevel: '低风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'blue', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/bge-rerank' },
           { id: 'bge-embedding', title: 'BGE语义嵌入模型', unit: '北京智源人工智能研究院BAAI', description: '将文本转化为高维向量表示，支持语义相似度计算和文本检索', tags: ['大模型接口'], category: '通用基础大模型', riskLevel: '低风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'blue', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/bge-embedding' },
+          { id: 'zhongzheng-medical-model', title: '重症医擎大模型', unit: '东南大学附属中大医院', description: '面向重症医学场景的AI辅助诊断模型，支持多模态数据融合分析', tags: ['辅助诊断', '多模态融合'], category: '通用基础大模型', riskLevel: '中风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'cyan', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/zhongzheng-icu' },
+          { id: 'radiology-report-model', title: '影像报告辅助生成大模型', unit: '南京鼓楼医院', description: '基于医学影像数据训练的报告自动生成模型，提升影像诊断效率', tags: ['多模态融合'], category: '通用基础大模型', riskLevel: '中风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'cyan', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/radiology-report' },
         ],
       },
     ],
@@ -214,11 +217,7 @@ export const capabilityGroups: CapabilityGroup[] = [
     columns: [
       {
         title: '',
-        items: [
-          { id: 'shanzhiyi-5.0', title: '山海知医5.0大模型', unit: '云知声智能科技股份有限公司', description: '专为医保场景定制的大语言模型，具备电子病历理解和多模态融合能力', tags: ['电子病历', '多模态融合'], category: '医保自研专属大模型', riskLevel: '中风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'cyan', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/shanzhiyi-5' },
-          { id: 'zhongzheng-medical-model', title: '重症医擎大模型', unit: '东南大学附属中大医院', description: '面向重症医学场景的AI辅助诊断模型，支持多模态数据融合分析', tags: ['辅助诊断', '多模态融合'], category: '医保自研专属大模型', riskLevel: '中风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'cyan', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/zhongzheng-icu' },
-          { id: 'radiology-report-model', title: '影像报告辅助生成大模型', unit: '南京鼓楼医院', description: '基于医学影像数据训练的报告自动生成模型，提升影像诊断效率', tags: ['多模态融合'], category: '医保自研专属大模型', riskLevel: '中风险', billingMethod: '按Token', iconType: 'brain', iconTone: 'cyan', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/radiology-report' },
-        ],
+        items: [],
       },
     ],
   },
@@ -230,11 +229,7 @@ export const capabilityGroups: CapabilityGroup[] = [
     columns: [
       {
         title: '',
-        items: [
-          { id: 'consumable-compare-agent', title: '高值耗材智能比对智能体', unit: '常州健康医疗大数据运营有限公司', description: '用于高值耗材使用的智能比对分析，识别异常使用模式，辅助医保基金监管', tags: ['医保监管', '高值耗材'], category: '医保基金监管共建模型', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'purple', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/consumable-compare' },
-          { id: 'exam-compare-agent', title: '检查检验智能比对智能体', unit: '常州健康医疗大数据运营有限公司', description: '对检查检验项目进行智能比对，发现不合理检查行为，提升医保基金使用效率', tags: ['医保监管', '检查检验'], category: '医保基金监管共建模型', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'purple', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/exam-compare' },
-          { id: 'prescription-review', title: '电子处方智能合规审查', unit: '云知声智能科技股份有限公司', description: '自动审查电子处方的合规性，识别不合理用药和超范围诊疗行为', tags: ['病例质控', '医保合规'], category: '医保基金监管共建模型', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'purple', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/prescription-review' },
-        ],
+        items: [],
       },
     ],
   },
@@ -248,7 +243,7 @@ export const capabilityGroups: CapabilityGroup[] = [
         title: '',
         items: [
           { id: 'neonatal-retina-screening', title: '多示例学习的新生儿眼底病变智能筛查', unit: '江苏省人民医院，南京理工大学', description: '基于多示例学习的新生儿眼底病变智能筛查系统，提高早期筛查准确率', tags: ['单病种筛查', '多模态融合'], category: '省头部医疗机构共建垂直模型', riskLevel: '高风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '对接上线中', entryUrl: 'https://app.jsyb-ai.cn/neonatal-retina' },
-          { id: 'dayi-zhuying', title: '达医智影', unit: '阿里巴巴达摩院', description: '支持多病种同时筛查的AI影像分析系统，具备多模态数据融合能力', tags: ['多病种一扫多查', '多模态'], category: '省头部医疗机构共建垂直模型', riskLevel: '高风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/dayi-zhuying' },
+          { id: 'dayi-zhuying', title: '达医智影', unit: '阿里巴巴达摩院', description: '支持多病种同时筛查的AI影像分析系统，具备多模态数据融合能力', tags: ['多病种一扫多查', '多模态融合'], category: '省头部医疗机构共建垂直模型', riskLevel: '高风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/dayi-zhuying' },
           { id: 'lungcancer-screening', title: '肺癌AI筛查', unit: '零氪科技（北京）有限公司', description: '基于CT影像的肺癌早期筛查模型，辅助医生进行精准诊断', tags: ['单病种筛查', '医疗器械证'], category: '省头部医疗机构共建垂直模型', riskLevel: '高风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/lungcancer-screening' },
           { id: 'ecg-diagnosis', title: '远程心电AI诊断', unit: '南京数维康医疗科技有限公司', description: '支持远程心电诊断的AI辅助系统，提升基层医疗机构心电诊断能力', tags: ['辅助诊断', '医疗器械证'], category: '省头部医疗机构共建垂直模型', riskLevel: '中风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/ecg-diagnosis' },
           { id: 'lungnodule-ct', title: '肺结节CT图像辅助检测', unit: '北京汇医慧影医疗科技有限公司', description: '自动检测CT图像中的肺结节，辅助医生进行早期诊断', tags: ['辅助诊断', '医疗器械证'], category: '省头部医疗机构共建垂直模型', riskLevel: '高风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/lungnodule-ct' },
@@ -256,8 +251,6 @@ export const capabilityGroups: CapabilityGroup[] = [
           { id: 'xiaoganren-liver', title: '小肝人肝癌模型', unit: '东南大学附属中大医院', description: '面向肝癌早期筛查的AI辅助诊断模型，支持临床科研应用', tags: ['辅助诊断', '科研专用'], category: '省头部医疗机构共建垂直模型', riskLevel: '高风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/xiaoganren-liver' },
           { id: 'pancreas-puncture', title: '胰腺穿刺现场病理模型', unit: '南京鼓楼医院', description: '胰腺穿刺术中病理诊断辅助模型，支持实时病理分析', tags: ['辅助诊断'], category: '省头部医疗机构共建垂直模型', riskLevel: '高风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/pancreas-puncture' },
           { id: 'scoliosis-screening', title: '脊柱侧凸的无辐射筛查模型', unit: '南京鼓楼医院', description: '采用无辐射成像技术的脊柱侧凸筛查模型，适用于青少年群体', tags: ['辅助诊断', '单病种筛查'], category: '省头部医疗机构共建垂直模型', riskLevel: '中风险', billingMethod: '按检查例次', iconType: 'scan', iconTone: 'green', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/scoliosis-screening' },
-          { id: 'renal-tumor-surgery-nav', title: '肾肿瘤微创手术人工智能实时导航预警', unit: '江苏省人民医院，东南大学', description: '肾肿瘤微创手术中的AI实时导航系统，支持数字孪生可视化', tags: ['手术辅助', '数字孪生'], category: '省头部医疗机构共建垂直模型', riskLevel: '高风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'green', status: '对接上线中', entryUrl: 'https://app.jsyb-ai.cn/renal-tumor-nav' },
-          { id: 'chronic-screening-agent', title: '慢病筛查防控智能体', unit: '江苏省人民医院，华为技术有限公司', description: '面向慢性疾病筛查和防控的智能体系统，支持多维度健康数据分析', tags: ['慢病管理', '辅助诊断'], category: '省头部医疗机构共建垂直模型', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'green', status: '对接上线中', entryUrl: 'https://app.jsyb-ai.cn/chronic-screening' },
         ],
       },
     ],
@@ -271,12 +264,17 @@ export const capabilityGroups: CapabilityGroup[] = [
       {
         title: '',
         items: [
+          { id: 'renal-tumor-surgery-nav', title: '肾肿瘤微创手术人工智能实时导航预警', unit: '江苏省人民医院，东南大学', description: '肾肿瘤微创手术中的AI实时导航系统，支持数字孪生可视化', tags: ['手术辅助', '数字孪生'], category: '市场化合规生态AI产品', riskLevel: '高风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'orange', status: '对接上线中', entryUrl: 'https://app.jsyb-ai.cn/renal-tumor-nav' },
+          { id: 'chronic-screening-agent', title: '慢病筛查防控智能体', unit: '江苏省人民医院，华为技术有限公司', description: '面向慢性疾病筛查和防控的智能体系统，支持多维度健康数据分析', tags: ['慢病管理', '辅助诊断'], category: '市场化合规生态AI产品', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'orange', status: '对接上线中', entryUrl: 'https://app.jsyb-ai.cn/chronic-screening' },
           { id: 'emr-assist-agent', title: '电子病历辅助生成智能体', unit: '云知声智能科技股份有限公司', description: '自动辅助生成电子病历内容，支持模板导入和智能补全功能', tags: ['自动导入', '智能生成'], category: '市场化合规生态AI产品', riskLevel: '低风险', billingMethod: '按Token', iconType: 'robot', iconTone: 'orange', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/emr-assist' },
           { id: 'medical-history-push', title: '病史追溯推送总结', unit: '云知声智能科技股份有限公司', description: '跨院病史数据追溯和智能总结，辅助临床诊疗决策', tags: ['跨院数据', 'AI分析'], category: '市场化合规生态AI产品', riskLevel: '低风险', billingMethod: '按Token', iconType: 'robot', iconTone: 'orange', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/medical-history' },
+          { id: 'prescription-review', title: '电子处方智能合规审查', unit: '云知声智能科技股份有限公司', description: '自动审查电子处方的合规性，识别不合理用药和超范围诊疗行为', tags: ['病历质控', '医保合规'], category: '市场化合规生态AI产品', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'orange', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/prescription-review' },
           { id: 'emr-qc-agent', title: '病历文书规范稽核智能体', unit: '常州市第二人民医院', description: '对病历文书进行规范稽核，确保医疗文书质量符合要求', tags: ['电子病历', '科研专用'], category: '市场化合规生态AI产品', riskLevel: '低风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'orange', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/emr-qc' },
           { id: 'ai-health-assistant', title: 'AI健康助手', unit: '常州市第二人民医院', description: '面向患者的AI健康咨询和导诊助手，提供智能健康服务', tags: ['智能生成', '智能导诊'], category: '市场化合规生态AI产品', riskLevel: '低风险', billingMethod: '按Token', iconType: 'robot', iconTone: 'orange', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/ai-health' },
           { id: 'fully-structured-emr', title: '全结构化电子病历', unit: '常州市第二人民医院', description: '将非结构化病历数据转化为全结构化格式，便于数据分析和利用', tags: ['智能生成', '病历生成'], category: '市场化合规生态AI产品', riskLevel: '低风险', billingMethod: '按Token', iconType: 'robot', iconTone: 'orange', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/structured-emr' },
           { id: 'emr-assist-agent-cz', title: '电子病历辅助生成智能体', unit: '常州市第二人民医院', description: '本地化部署的电子病历辅助生成系统，支持院内业务流程', tags: ['智能生成', '病历生成'], category: '市场化合规生态AI产品', riskLevel: '低风险', billingMethod: '按Token', iconType: 'robot', iconTone: 'orange', status: '已上线使用', entryUrl: 'https://app.jsyb-ai.cn/emr-assist-cz' },
+          { id: 'exam-compare-agent', title: '检查检验智能比对智能体', unit: '常州健康医疗大数据运营有限公司', description: '对检查检验项目进行智能比对，发现不合理检查行为，提升医保基金使用效率', tags: ['医保监管', '检查检验'], category: '市场化合规生态AI产品', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'orange', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/exam-compare' },
+          { id: 'consumable-compare-agent', title: '高值耗材智能比对智能体', unit: '常州健康医疗大数据运营有限公司', description: '用于高值耗材使用的智能比对分析，识别异常使用模式，辅助医保基金监管', tags: ['医保监管', '高值耗材'], category: '市场化合规生态AI产品', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'orange', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/consumable-compare' },
           { id: 'outpatient-order-agent', title: '门诊特殊病人医嘱辅助判断智能体', unit: '南京鼓楼医院', description: '针对门诊特殊病人的医嘱辅助判断系统，提高用药安全性', tags: ['辅助诊断'], category: '市场化合规生态AI产品', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'orange', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/outpatient-order' },
           { id: 'infection-assist-agent', title: '感染辅助判断智能体', unit: '南京鼓楼医院', description: '辅助医生进行感染性疾病的诊断和治疗方案选择', tags: ['辅助诊断'], category: '市场化合规生态AI产品', riskLevel: '中风险', billingMethod: '按调用次数', iconType: 'robot', iconTone: 'orange', status: '对接测试中', entryUrl: 'https://app.jsyb-ai.cn/infection-assist' },
         ],
