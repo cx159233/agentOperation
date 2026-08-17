@@ -115,7 +115,7 @@
             <a-select-option value="按检查例次">按检查例次</a-select-option>
             <a-select-option value="按调用次数">按调用次数</a-select-option>
           </a-select>
-          <a-select v-model:value="provisionModal.unit" placeholder="服务商名称" allow-clear show-search :filter-option="filterUnitOpt">
+          <a-select v-model:value="provisionModal.unit" placeholder="研发单位" allow-clear show-search :filter-option="filterUnitOpt">
             <a-select-option v-for="u in unitOptions" :key="u" :value="u">{{ u }}</a-select-option>
           </a-select>
           <a-select v-model:value="provisionModal.status" placeholder="接入状态" allow-clear>
@@ -558,7 +558,7 @@ const categoryOptions = computed(() => Array.from(new Set(allModels.value.map((m
 const unitOptions = computed(() => Array.from(new Set(allModels.value.map((m) => m.unit).filter(Boolean))));
 const modelColumns = [
   { title: '模型名称', dataIndex: 'title', key: 'title' },
-  { title: '服务商名称', dataIndex: 'unit', key: 'unit', width: 200 },
+  { title: '研发单位', dataIndex: 'unit', key: 'unit', width: 200 },
   { title: '能力分类', dataIndex: 'category', key: 'category', width: 160 },
   { title: '风险等级', dataIndex: 'riskLevel', key: 'riskLevel', width: 90 },
   { title: '计费方式', dataIndex: 'billingMethod', key: 'billingMethod', width: 110 },
