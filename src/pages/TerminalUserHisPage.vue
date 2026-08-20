@@ -106,26 +106,8 @@
             <button class="px-2 py-1 bg-gray-700 text-white rounded text-xs hover:bg-gray-600 border border-gray-600"><i class="fas fa-comment-medical mr-1"></i>标注</button>
           </div>
           <!-- 影像显示区 -->
-          <div class="flex-1 bg-black flex items-center justify-center p-4">
-            <div class="w-full max-w-3xl aspect-[4/3] bg-gray-800 rounded border border-gray-600 flex flex-col items-center justify-center">
-              <i class="fas fa-lungs text-6xl text-gray-600 mb-2"></i>
-              <div class="text-gray-500 text-sm">胸部CT影像</div>
-              <div class="text-gray-600 text-xs mt-1">层厚 5mm · 肺窗 · 纵隔窗</div>
-              <div class="flex space-x-8 mt-4">
-                <div class="text-center">
-                  <div class="text-xs text-gray-400">姓名</div>
-                  <div class="text-sm text-white font-medium">陈志明</div>
-                </div>
-                <div class="text-center">
-                  <div class="text-xs text-gray-400">检查号</div>
-                  <div class="text-sm text-white font-medium">CT20250807001</div>
-                </div>
-                <div class="text-center">
-                  <div class="text-xs text-gray-400">检查时间</div>
-                  <div class="text-sm text-white font-medium">2025-08-07 09:15</div>
-                </div>
-              </div>
-            </div>
+          <div class="flex-1 bg-black flex items-center justify-center p-4 relative overflow-hidden">
+            <img src="/ct.png" alt="胸部CT影像" class="max-w-full max-h-full object-contain" />
           </div>
           <!-- 序列导航 -->
           <div class="bg-gray-800 border-t border-gray-700 px-3 py-2 shrink-0">
