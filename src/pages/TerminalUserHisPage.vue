@@ -48,44 +48,44 @@
     <div class="flex flex-1 overflow-hidden">
       <!-- 左侧边栏:检查列表 -->
       <aside class="w-64 bg-gray-800 border-r border-gray-700 flex flex-col shrink-0">
-        <div class="p-2 border-b border-gray-700 flex justify-between items-center bg-gray-750">
-          <span class="text-xs font-bold text-blue-400">检查列表</span>
+        <div class="px-3 py-2.5 border-b border-gray-700 flex justify-between items-center bg-gray-750">
+          <span class="text-xs font-semibold text-blue-400">检查列表</span>
           <i class="fas fa-thumbtack text-gray-500 text-[10px]"></i>
         </div>
-        <div class="p-2 border-b border-gray-700 bg-gray-750">
-          <input class="w-full text-[11px] border border-gray-600 rounded px-2 py-1 bg-gray-700 text-white placeholder-gray-400" placeholder="患者姓名/检查号查询" />
+        <div class="px-3 py-2 border-b border-gray-700 bg-gray-750">
+          <input class="w-full text-xs border border-gray-600 rounded px-2.5 py-1.5 bg-gray-700 text-white placeholder-gray-400" placeholder="患者姓名/检查号查询" />
         </div>
-        <div class="flex text-[10px] border-b border-gray-700 bg-gray-750">
-          <div class="flex-1 text-center py-1 text-blue-400 font-bold border-b-2 border-blue-500">待报告(<span class="text-red-400">3</span>)</div>
-          <div class="flex-1 text-center py-1 text-gray-400">报告中(<span>2</span>)</div>
-          <div class="flex-1 text-center py-1 text-gray-400">已完成(<span>12</span>)</div>
+        <div class="flex text-xs border-b border-gray-700 bg-gray-750">
+          <div class="flex-1 text-center py-1.5 text-blue-400 font-semibold border-b-2 border-blue-500">待报告(<span class="text-red-400">3</span>)</div>
+          <div class="flex-1 text-center py-1.5 text-gray-400 hover:text-gray-200 cursor-pointer">报告中(<span>2</span>)</div>
+          <div class="flex-1 text-center py-1.5 text-gray-400 hover:text-gray-200 cursor-pointer">已完成(<span>12</span>)</div>
         </div>
         <!-- 检查列表项 -->
         <div class="flex-1 overflow-y-auto" id="patient-list">
-          <div class="px-2 py-2 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item patient-active" data-patient-id="1" onclick="selectPatient(1)">
-            <div class="flex justify-between items-center"><span class="text-xs font-bold text-white">陈志明</span><span class="text-[10px] text-gray-400">男 42岁</span></div>
-            <div class="text-[10px] text-gray-400 mt-0.5">胸部CT平扫 · 门诊</div>
-            <div class="text-[9px] text-gray-500 mt-0.5">检查号: CT20250807001</div>
+          <div class="px-3 py-2.5 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item patient-active" data-patient-id="1" onclick="selectPatient(1)">
+            <div class="flex justify-between items-center"><span class="text-xs font-semibold text-white">陈志明</span><span class="text-[11px] text-gray-400">男 42岁</span></div>
+            <div class="text-[11px] text-gray-300 mt-1">胸部CT平扫 · 门诊</div>
+            <div class="text-[10px] text-gray-500 mt-1">检查号: CT20250807001</div>
           </div>
-          <div class="px-2 py-2 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item" data-patient-id="2" onclick="selectPatient(2)">
-            <div class="flex justify-between items-center"><span class="text-xs font-bold text-white">王秀兰</span><span class="text-[10px] text-gray-400">女 65岁</span></div>
-            <div class="text-[10px] text-gray-400 mt-0.5">头颅MRI平扫+增强 · 住院</div>
-            <div class="text-[9px] text-gray-500 mt-0.5">检查号: MR20250807002</div>
+          <div class="px-3 py-2.5 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item" data-patient-id="2" onclick="selectPatient(2)">
+            <div class="flex justify-between items-center"><span class="text-xs font-semibold text-white">王秀兰</span><span class="text-[11px] text-gray-400">女 65岁</span></div>
+            <div class="text-[11px] text-gray-300 mt-1">头颅MRI平扫+增强 · 住院</div>
+            <div class="text-[10px] text-gray-500 mt-1">检查号: MR20250807002</div>
           </div>
-          <div class="px-2 py-2 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item" data-patient-id="3" onclick="selectPatient(3)">
-            <div class="flex justify-between items-center"><span class="text-xs font-bold text-white">张伟</span><span class="text-[10px] text-gray-400">男 55岁</span></div>
-            <div class="text-[10px] text-gray-400 mt-0.5">胸部X光正侧位 · 门诊</div>
-            <div class="text-[9px] text-gray-500 mt-0.5">检查号: XR20250807003</div>
+          <div class="px-3 py-2.5 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item" data-patient-id="3" onclick="selectPatient(3)">
+            <div class="flex justify-between items-center"><span class="text-xs font-semibold text-white">张伟</span><span class="text-[11px] text-gray-400">男 55岁</span></div>
+            <div class="text-[11px] text-gray-300 mt-1">胸部X光正侧位 · 门诊</div>
+            <div class="text-[10px] text-gray-500 mt-1">检查号: XR20250807003</div>
           </div>
-          <div class="px-2 py-2 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item" data-patient-id="4" onclick="selectPatient(4)">
-            <div class="flex justify-between items-center"><span class="text-xs font-bold text-white">李芳</span><span class="text-[10px] text-gray-400">女 38岁</span></div>
-            <div class="text-[10px] text-gray-400 mt-0.5">腹部超声 · 门诊</div>
-            <div class="text-[9px] text-gray-500 mt-0.5">检查号: US20250807004</div>
+          <div class="px-3 py-2.5 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item" data-patient-id="4" onclick="selectPatient(4)">
+            <div class="flex justify-between items-center"><span class="text-xs font-semibold text-white">李芳</span><span class="text-[11px] text-gray-400">女 38岁</span></div>
+            <div class="text-[11px] text-gray-300 mt-1">腹部超声 · 门诊</div>
+            <div class="text-[10px] text-gray-500 mt-1">检查号: US20250807004</div>
           </div>
-          <div class="px-2 py-2 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item" data-patient-id="5" onclick="selectPatient(5)">
-            <div class="flex justify-between items-center"><span class="text-xs font-bold text-white">刘建国</span><span class="text-[10px] text-gray-400">男 70岁</span></div>
-            <div class="text-[10px] text-gray-400 mt-0.5">腰椎CT平扫+三维重建 · 门诊</div>
-            <div class="text-[9px] text-gray-500 mt-0.5">检查号: CT20250807005</div>
+          <div class="px-3 py-2.5 border-b border-gray-700 cursor-pointer hover:bg-gray-700 patient-item" data-patient-id="5" onclick="selectPatient(5)">
+            <div class="flex justify-between items-center"><span class="text-xs font-semibold text-white">刘建国</span><span class="text-[11px] text-gray-400">男 70岁</span></div>
+            <div class="text-[11px] text-gray-300 mt-1">腰椎CT平扫+三维重建 · 门诊</div>
+            <div class="text-[10px] text-gray-500 mt-1">检查号: CT20250807005</div>
           </div>
         </div>
       </aside>
@@ -112,10 +112,7 @@
           <!-- 序列导航 -->
           <div class="bg-gray-800 border-t border-gray-700 px-3 py-2 shrink-0">
             <div class="flex space-x-2 overflow-x-auto">
-              <div class="px-3 py-1.5 bg-gray-700 rounded text-xs text-white whitespace-nowrap">定位像</div>
-              <div class="px-3 py-1.5 bg-blue-600 rounded text-xs text-white whitespace-nowrap font-medium">肺窗 (1-120层)</div>
-              <div class="px-3 py-1.5 bg-gray-700 rounded text-xs text-white whitespace-nowrap">纵隔窗 (1-120层)</div>
-              <div class="px-3 py-1.5 bg-gray-700 rounded text-xs text-white whitespace-nowrap">骨窗 (1-120层)</div>
+              <div class="px-3 py-1.5 bg-blue-600 rounded text-xs text-white whitespace-nowrap font-medium">定位像</div>
             </div>
           </div>
         </div>
@@ -123,21 +120,21 @@
         <!-- 右侧报告编辑区 -->
         <div class="w-96 bg-gray-800 flex flex-col overflow-hidden shrink-0">
           <!-- 患者信息栏 -->
-          <div class="bg-gray-750 border-b border-gray-700 px-4 py-2 shrink-0">
+          <div class="bg-gray-750 border-b border-gray-700 px-3 py-2.5 shrink-0">
             <div class="flex items-center justify-between">
               <div class="text-xs">
-                <span class="font-bold text-white" id="info-name">陈志明</span>
+                <span class="font-semibold text-white" id="info-name">陈志明</span>
                 <span class="text-gray-400 ml-2" id="info-meta">男 · 42岁</span>
               </div>
-              <div class="flex items-center space-x-2">
-                <button class="px-2 py-1 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700" onclick="goToView('unified-entry')">
+              <div class="flex items-center space-x-1.5">
+                <button class="px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700" onclick="goToView('unified-entry')">
                   <i class="fas fa-robot mr-1"></i>AI辅助诊断
                 </button>
-                <button class="px-2 py-1 bg-gray-600 text-white rounded text-xs hover:bg-gray-500">预览</button>
-                <button class="px-2 py-1 bg-green-600 text-white rounded text-xs font-medium hover:bg-green-700">提交</button>
+                <button class="px-2.5 py-1 bg-gray-600 text-white rounded text-xs hover:bg-gray-500">预览</button>
+                <button class="px-2.5 py-1 bg-green-600 text-white rounded text-xs font-medium hover:bg-green-700">提交</button>
               </div>
             </div>
-            <div class="mt-1 text-[10px] text-gray-400">
+            <div class="mt-1.5 text-[11px] text-gray-400">
               <span>检查号: CT20250807001</span>
               <span class="mx-2">·</span>
               <span>胸部CT平扫</span>
@@ -150,45 +147,45 @@
           <div class="flex-1 bg-gray-800 p-3 overflow-y-auto">
             <!-- 检查所见 -->
             <div class="mb-4">
-              <label class="text-xs font-bold text-gray-300 block mb-1.5">检查所见</label>
-              <textarea class="w-full text-xs p-2 bg-gray-700 border border-gray-600 rounded text-white resize-none" rows="8" placeholder="描述检查所见...">双肺野清晰，肺纹理走行自然，未见明确结节影及斑片影。纵隔结构清晰，未见明显肿大淋巴结。心影大小形态正常，大血管走行正常。双侧胸膜未见增厚，双侧胸腔未见积液。胸廓骨质未见异常。</textarea>
+              <label class="text-xs font-semibold text-gray-300 block mb-1.5">检查所见</label>
+              <textarea class="w-full text-xs p-2.5 bg-gray-700 border border-gray-600 rounded text-white resize-none leading-relaxed" rows="8" placeholder="描述检查所见...">双肺野清晰，肺纹理走行自然，未见明确结节影及斑片影。纵隔结构清晰，未见明显肿大淋巴结。心影大小形态正常，大血管走行正常。双侧胸膜未见增厚，双侧胸腔未见积液。胸廓骨质未见异常。</textarea>
             </div>
             <!-- 印象/诊断 -->
             <div class="mb-4">
-              <label class="text-xs font-bold text-gray-300 block mb-1.5">印象/诊断</label>
-              <textarea class="w-full text-xs p-2 bg-gray-700 border border-gray-600 rounded text-white resize-none" rows="5" placeholder="填写诊断意见...">胸部CT平扫未见明确异常。</textarea>
+              <label class="text-xs font-semibold text-gray-300 block mb-1.5">印象/诊断</label>
+              <textarea class="w-full text-xs p-2.5 bg-gray-700 border border-gray-600 rounded text-white resize-none leading-relaxed" rows="5" placeholder="填写诊断意见...">胸部CT平扫未见明确异常。</textarea>
             </div>
             <!-- 建议 -->
             <div class="mb-4">
-              <label class="text-xs font-bold text-gray-300 block mb-1.5">建议</label>
-              <textarea class="w-full text-xs p-2 bg-gray-700 border border-gray-600 rounded text-white resize-none" rows="3" placeholder="建议...">必要时复查或进一步检查。</textarea>
+              <label class="text-xs font-semibold text-gray-300 block mb-1.5">建议</label>
+              <textarea class="w-full text-xs p-2.5 bg-gray-700 border border-gray-600 rounded text-white resize-none leading-relaxed" rows="3" placeholder="建议...">必要时复查或进一步检查。</textarea>
             </div>
             <!-- 报告医生信息 -->
             <div class="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <label class="font-bold text-gray-300 block mb-1">报告医生</label>
-                <div class="p-1.5 bg-gray-700 border border-gray-600 rounded text-white">李医生</div>
+                <label class="font-semibold text-gray-300 block mb-1">报告医生</label>
+                <div class="p-2 bg-gray-700 border border-gray-600 rounded text-white">李医生</div>
               </div>
               <div>
-                <label class="font-bold text-gray-300 block mb-1">审核医生</label>
-                <div class="p-1.5 bg-gray-700 border border-gray-600 rounded text-gray-400">待审核</div>
+                <label class="font-semibold text-gray-300 block mb-1">审核医生</label>
+                <div class="p-2 bg-gray-700 border border-gray-600 rounded text-gray-400">待审核</div>
               </div>
             </div>
-            <div class="mt-3 text-[10px] text-gray-500">
+            <div class="mt-3 text-[11px] text-gray-500">
               <span>报告时间: ________________</span>
             </div>
           </div>
 
           <!-- 底部工具栏 -->
-          <div class="bg-gray-750 border-t border-gray-700 px-3 py-2 shrink-0">
+          <div class="bg-gray-750 border-t border-gray-700 px-3 py-2.5 shrink-0">
             <div class="flex items-center justify-between">
-              <div class="flex space-x-2">
-                <button class="px-2 py-1 bg-gray-600 text-white rounded text-xs hover:bg-gray-500"><i class="fas fa-file-import mr-1"></i>导入模板</button>
-                <button class="px-2 py-1 bg-gray-600 text-white rounded text-xs hover:bg-gray-500"><i class="fas fa-save mr-1"></i>保存草稿</button>
+              <div class="flex space-x-1.5">
+                <button class="px-2.5 py-1 bg-gray-600 text-white rounded text-xs hover:bg-gray-500"><i class="fas fa-file-import mr-1"></i>导入模板</button>
+                <button class="px-2.5 py-1 bg-gray-600 text-white rounded text-xs hover:bg-gray-500"><i class="fas fa-save mr-1"></i>保存草稿</button>
               </div>
-              <div class="flex space-x-2">
-                <button class="px-2 py-1 bg-gray-600 text-white rounded text-xs hover:bg-gray-500">打印</button>
-                <button class="px-2 py-1 bg-green-600 text-white rounded text-xs font-medium hover:bg-green-700"><i class="fas fa-check mr-1"></i>完成报告</button>
+              <div class="flex space-x-1.5">
+                <button class="px-2.5 py-1 bg-gray-600 text-white rounded text-xs hover:bg-gray-500">打印</button>
+                <button class="px-2.5 py-1 bg-green-600 text-white rounded text-xs font-medium hover:bg-green-700"><i class="fas fa-check mr-1"></i>完成报告</button>
               </div>
             </div>
           </div>
@@ -283,7 +280,7 @@
       </div>
       <div class="flex-1"></div>
       <div class="top-nav-user">
-        <span class="font-normal">陈**鑫</span>
+        <span class="font-normal">李医生</span>
         <span class="opacity-20">|</span>
         <span>常州市第一人民医院</span>
         <span class="text-[9px] opacity-60 select-none">▼</span>
@@ -367,7 +364,7 @@
       </div>
       <div class="flex-1"></div>
       <div class="top-nav-user">
-        <span class="font-normal">陈**鑫</span>
+        <span class="font-normal">李医生</span>
         <span class="opacity-20">|</span>
         <span>常州市第一人民医院</span>
         <span class="text-[9px] opacity-60 select-none">▼</span>
@@ -1087,7 +1084,7 @@ body { margin: 0; font-family: 'Microsoft YaHei', sans-serif; }
     .terminal-user-page { }
 
     /* HIS 患者列表选中态 */
-    .patient-active { background: #b9cceb !important; }
+    .patient-active { background: #374151 !important; }
 
     /* HIS Tab 选中态 */
     .medical-tab-active {
