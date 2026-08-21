@@ -48,7 +48,7 @@ export const prdChapters: PrdChapter[] = [
 <table>
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>模型名称/ID</td><td></td><td>完整展示，为空时显示"--"</td></tr>
-<tr><td>ID</td><td></td><td>模型名称下方灰色小字展示，<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>；为空时显示"--"</td></tr>
+<tr><td>ID</td><td></td><td>模型名称下方灰色小字展示，系统自动生成，<span style="color:#EF4444">格式：MDL-厂商模型代码，模型代码重复时追加序号（如 MDL-LUNG-NUD-CT-001_02）</span>；为空时显示"--"</td></tr>
 <tr><td>模型代码</td><td></td><td>完整展示，超出换行，列为空时显示"--"；列标题旁感叹号图标提示"厂商自身模型代码"</td></tr>
 <tr><td>服务商名称</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
@@ -110,8 +110,8 @@ export const prdChapters: PrdChapter[] = [
 <p>3）若满足条件：</p>
 <p>a.管理员提交即视为审核通过，即时生效，初始状态为已上线使用，进行消息提示，返回列表页</p>
 <p style="font-style:italic; color:#999">Tip：新增成功</p>
-<p>b.系统自动生成ID（<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>）</p>
-<p>c.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员代开通，即时生效"、审核时间取创建时间、操作人取当前管理员</p>
+<p>b.系统自动生成ID（<span style="color:#EF4444">格式：MDL-厂商模型代码；若模型代码与已有ID重复，追加序号，如 MDL-LUNG-NUD-CT-001_02</span>）</p>
+<p>c.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员代开通，即时生效"、审核时间取创建时间、操作人取当前管理员 <span style="color:#EF4444;font-size:11px">注：开发自行判断要不要预览该字段，不影响业务功能</span></p>
 <p>5、操作-返回</p>
 <p>点击【返回-按钮】，返回列表页，不保存任何修改。</p>
 
@@ -156,7 +156,7 @@ export const prdChapters: PrdChapter[] = [
 <p>3）若满足条件：</p>
 <p>a.管理员提交即视为审核通过，即时生效，进行消息提示，返回列表页</p>
 <p style="font-style:italic; color:#999">Tip：保存成功</p>
-<p>b.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员编辑后重新提交，即时生效"、审核时间取创建时间、操作人取当前管理员</p>
+<p>b.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员编辑后重新提交，即时生效"、审核时间取创建时间、操作人取当前管理员 <span style="color:#EF4444;font-size:11px">注：开发自行判断要不要预览该字段，不影响业务功能</span></p>
 <p>5、操作-返回</p>
 <p>点击【返回-按钮】，返回列表页，不保存任何修改。</p>
 
@@ -171,7 +171,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>LOGO</td><td></td><td>展示模型LOGO，由模型/智能体页面维护</td></tr>
 <tr><td>模型名称</td><td></td><td>完整展示，字体加粗</td></tr>
-<tr><td>ID</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
+<tr><td>ID</td><td></td><td>系统自动生成，<span style="color:#EF4444">格式：MDL-厂商模型代码，模型代码重复时追加序号（如 MDL-LUNG-NUD-CT-001_02）</span>，灰色小字显示</td></tr>
 <tr><td>状态</td><td></td><td>已上线使用（绿色徽标）/ 已下架（红色徽标）</td></tr>
 </table>
 <p>2、Tab-概览 / 基本信息</p>
@@ -263,7 +263,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><td>开始时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss</td></tr>
 <tr><td>截止时间</td><td></td><td>格式：yyyy-MM-dd hh:mm:ss，为空时显示"--"</td></tr>
 <tr><td>服务名称/ID</td><td></td><td>完整展示，为空时显示"--"</td></tr>
-<tr><td>ID</td><td></td><td>服务名称下方灰色小字展示，<span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>；为空时显示"--"</td></tr>
+<tr><td>ID</td><td></td><td>服务名称下方灰色小字展示，系统自动生成，<span style="color:#EF4444">格式：MDL-厂商模型代码，模型代码重复时追加序号（如 MDL-LUNG-NUD-CT-001_02）</span>；为空时显示"--"</td></tr>
 <tr><td>服务商名称</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>申请机构</td><td></td><td>完整展示，超出换行，为空时显示"--"</td></tr>
 <tr><td>状态</td><td></td><td>根据时间自动计算：当前时间 &lt; 开始时间为未开始（默认灰色徽标）；当前时间 &gt; 截止时间为已过期（红色徽标，优先级最高，覆盖已停用）；管理员手动停用为已停用（红色徽标）；其余为已开通（绿色徽标）</td></tr>
@@ -327,7 +327,7 @@ export const prdChapters: PrdChapter[] = [
 <p>a.管理员提交即视为审核通过，即时生效，状态为已开通，进行消息提示，关闭弹窗，刷新列表</p>
 <p style="font-style:italic; color:#999">Tip：服务开通成功</p>
 <p>b.开始时间如未填写则以创建时间为准，截止时间如未填写则设为不限期限</p>
-<p>c.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员代开通，即时生效"、审核时间取创建时间、操作人取当前管理员</p>
+<p>c.系统自动生成审核记录：提交审核时间取创建时间、提交人取当前管理员、审核状态为"已通过"、审核意见为"管理员代开通，即时生效"、审核时间取创建时间、操作人取当前管理员 <span style="color:#EF4444;font-size:11px">注：开发自行判断要不要预览该字段，不影响业务功能</span></p>
 <p>d.系统自动生成服务单号，格式：YYYYMMDD+4位序号（如 202608100001），唯一标识</p>
 <p>4、操作-取消</p>
 <p>点击【取消-按钮】，关闭弹窗，停留当前页面，不保存任何修改。</p>
@@ -369,7 +369,7 @@ export const prdChapters: PrdChapter[] = [
 <tr><th style="white-space:nowrap">字段名称</th><th style="white-space:nowrap">字段代码</th><th>字段逻辑</th></tr>
 <tr><td>LOGO</td><td></td><td>展示服务LOGO，由模型/智能体页面维护</td></tr>
 <tr><td>服务名称</td><td></td><td>完整展示，字体加粗</td></tr>
-<tr><td>ID</td><td></td><td><span style="color:#EF4444">格式：MDL-YYYYMMDD-序号（待定）</span>，灰色小字显示</td></tr>
+<tr><td>ID</td><td></td><td>系统自动生成，<span style="color:#EF4444">格式：MDL-厂商模型代码，模型代码重复时追加序号（如 MDL-LUNG-NUD-CT-001_02）</span>，灰色小字显示</td></tr>
 <tr><td>状态</td><td></td><td>未开始（默认灰色徽标）、已开通（绿色徽标）、已过期（红色徽标）、已停用（红色徽标）</td></tr>
 </table>
 <p>2、Tab-概览 / 基本信息</p>
@@ -453,4 +453,24 @@ export function getPrdPageName(path: string, isEdit?: boolean): string {
     return isEdit ? '模型编目编辑' : '模型编目新增'
   }
   return routePrdMap[path]?.pageName || ''
+}
+
+export interface TocItem {
+  id: string
+  title: string
+  level: number
+}
+
+export function getPrdToc(): TocItem[] {
+  const html = getAllPrdHtml()
+  const items: TocItem[] = []
+  const headingRegex = /<(h[23])\s+id="prd-([\d.]+)"[^>]*>([\s\S]*?)<\/\1>/g
+  let match: RegExpExecArray | null
+  while ((match = headingRegex.exec(html)) !== null) {
+    const num = match[2]
+    const level = num.split('.').length
+    const title = match[3].replace(/<[^>]+>/g, '').trim()
+    items.push({ id: `prd-${num}`, title, level })
+  }
+  return items
 }

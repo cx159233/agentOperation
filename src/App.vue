@@ -31,8 +31,22 @@
               </div>
             </div>
           </div>
-          <div class="prd-content">
-            <div class="prd-doc" v-html="prdContent"></div>
+          <div class="prd-body">
+            <div class="prd-toc">
+              <div class="prd-toc__title">目录</div>
+              <div class="prd-toc__list">
+                <div
+                  v-for="item in tocItems"
+                  :key="item.id"
+                  :class="['prd-toc__item', `prd-toc__item--level-${item.level}`, { 'prd-toc__item--active': activeTocId === item.id }]"
+                  :title="item.title"
+                  @click="scrollToToc(item.id)"
+                >{{ item.title }}</div>
+              </div>
+            </div>
+            <div class="prd-content" @scroll="handlePrdScroll">
+              <div class="prd-doc" v-html="prdContent"></div>
+            </div>
           </div>
         </div>
       </transition>
@@ -48,7 +62,8 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { theme as antdTheme } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
-import { getAllPrdHtml, shouldShowPrd, getPrdAnchor, getPrdPageName } from './data/prd';
+import { getAllPrdHtml, shouldShowPrd, getPrdAnchor, getPrdPageName, getPrdToc } from './data/prd';
+import type { TocItem } from './data/prd';
 import { dialogAnchor } from './composables/usePrdAnchor';
 
 const route = useRoute();
@@ -79,6 +94,42 @@ const prdPageName = computed(() => {
   return getPrdPageName(currentPath.value || '', isEdit.value);
 });
 
+// 目录导航（TOC）
+const tocItems: TocItem[] = getPrdToc();
+const activeTocId = ref('');
+
+function getPrdScrollContainer(): HTMLElement | null {
+  return document.querySelector('.prd-content') as HTMLElement | null;
+}
+
+// 点击 TOC 项 -> 滚动 PRD 内容到对应章节
+function scrollToToc(id: string) {
+  activeTocId.value = id;
+  nextTick(() => {
+    const container = getPrdScrollContainer();
+    const el = document.getElementById(id);
+    if (el && container) {
+      const offset = el.getBoundingClientRect().top - container.getBoundingClientRect().top;
+      container.scrollTop += offset;
+    }
+  });
+}
+
+// 滚动 PRD 内容 -> 高亮 TOC 中当前章节
+function handlePrdScroll() {
+  const container = getPrdScrollContainer();
+  if (!container) return;
+  const containerTop = container.getBoundingClientRect().top;
+  const headings = container.querySelectorAll('h3[id]');
+  let current = '';
+  headings.forEach((h) => {
+    if ((h as HTMLElement).getBoundingClientRect().top - containerTop <= 60) {
+      current = (h as HTMLElement).id;
+    }
+  });
+  if (current) activeTocId.value = current;
+}
+
 // 锚点滚动（弹窗锚点优先，其次路由锚点）
 function scrollToAnchor() {
   const anchor = dialogAnchor.value || getPrdAnchor(currentPath.value || '', isEdit.value);
@@ -87,6 +138,7 @@ function scrollToAnchor() {
     requestAnimationFrame(() => {
       const el = document.getElementById(anchor);
       if (el) {
+        activeTocId.value = anchor;
         el.scrollIntoView({ block: 'start', behavior: 'instant' });
       }
     });
@@ -287,12 +339,71 @@ const themeConfig = {
 
 /* ── PRD 面板 ── */
 .prd-panel {
-  width: 480px;
+  width: 680px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   background: white;
   box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
+}
+
+.prd-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* ── PRD 目录导航 ── */
+.prd-toc {
+  width: 180px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  border-right: 1px solid #e5e6eb;
+  background: #fafbfc;
+  padding: 12px 0;
+}
+
+.prd-toc__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  padding: 0 16px 8px;
+}
+
+.prd-toc__item {
+  padding: 5px 10px;
+  cursor: pointer;
+  color: #555;
+  line-height: 1.5;
+  border-left: 2px solid transparent;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.prd-toc__item:hover {
+  color: #035BFE;
+  background: #f0f5ff;
+}
+.prd-toc__item--level-2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  padding-left: 14px;
+}
+.prd-toc__item--level-3 {
+  font-size: 12px;
+  padding-left: 26px;
+}
+.prd-toc__item--level-4 {
+  font-size: 11px;
+  padding-left: 38px;
+  color: #777;
+}
+.prd-toc__item--active {
+  color: #035BFE;
+  background: rgba(3, 91, 254, 0.06);
+  border-left-color: #035BFE;
 }
 
 .prd-header {

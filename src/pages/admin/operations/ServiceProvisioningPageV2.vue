@@ -29,7 +29,7 @@
       <div class="border-t border-[#e8e8e8] mx-[16px]"></div>
 
       <div class="px-[16px] py-[16px]">
-        <a-table :columns="visibleColumns" :data-source="filteredData" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 条` }" size="middle">
+        <a-table :columns="visibleColumns" :data-source="filteredData" :scroll="{ x: 1580 }" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 条` }" size="middle">
           <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'id'">
               <span class="font-num text-[13px]">{{ record.id }}</span>
@@ -649,6 +649,7 @@ async function confirmProvision() {
       orgName: m.orgName,
       name: model.title,
       code: model.code || model.id?.toUpperCase(),
+      internalId: model.internalId,
       unit: model.unit,
       purpose: m.purpose,
       orgCreditCode: orgCreditCodeMap[m.orgName] || '--',

@@ -27,7 +27,7 @@
       <div class="border-t border-[#e8e8e8] mx-[16px]"></div>
 
       <div class="px-[16px] py-[16px]">
-        <a-table :columns="visibleColumns" :data-source="filteredModels" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 项` }" size="middle" :row-key="(r: any) => r.id">
+        <a-table :columns="visibleColumns" :data-source="filteredModels" :scroll="{ x: 1100 }" :pagination="{ pageSize: 10, showSizeChanger: true, showQuickJumper: true, pageSizeOptions: ['10', '20', '50', '100'], showTotal: (t: number) => `共 ${t} 项` }" size="middle" :row-key="(r: any) => r.id">
           <template #headerCell="{ column }">
             <template v-if="column.key === 'code'">
               模型代码
